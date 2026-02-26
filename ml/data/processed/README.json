@@ -1,0 +1,19 @@
+{
+  "source": "TelecomX (Alura LATAM Challenge)",
+  "filename": "TelecomX_Data.json",
+  "format": "JSON array of customer objects",
+  "records": 7267,
+  "size_bytes": 3807078,
+  "schema": {
+    "customerID": "string \u2014 unique customer identifier",
+    "Churn": "string \u2014 'Yes'|'No' \u2014 TARGET VARIABLE",
+    "customer": "object \u2014 gender \u00b7 SeniorCitizen \u00b7 Partner \u00b7 Dependents \u00b7 tenure",
+    "phone": "object \u2014 PhoneService \u00b7 MultipleLines",
+    "internet": "object \u2014 InternetService \u00b7 OnlineSecurity \u00b7 OnlineBackup \u00b7 DeviceProtection \u00b7 TechSupport \u00b7 StreamingTV \u00b7 StreamingMovies",
+    "account": "object \u2014 Contract \u00b7 PaperlessBilling \u00b7 PaymentMethod \u00b7 Charges{Monthly, Total}"
+  },
+  "churn_rate": 0.2572,
+  "ingested_at": "2025-01-15T08:00:00Z",
+  "pipeline": "LumindAd \u00b7 TelecomX Churn Intelligence v3.0",
+  "author": "Elizabeth D\u00edaz Familia \u00b7 Sustainable AI Scientist"
+}
