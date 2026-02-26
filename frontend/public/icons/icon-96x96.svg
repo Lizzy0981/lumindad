@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
+  <defs>
+    <radialGradient id="bg96" cx="35%" cy="30%" r="75%">
+      <stop offset="0%"   stop-color="#1a0f3a"/>
+      <stop offset="55%"  stop-color="#0d0820"/>
+      <stop offset="100%" stop-color="#060610"/>
+    </radialGradient>
+    <linearGradient id="sp96" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#c4b5fd"/>
+      <stop offset="45%"  stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <filter id="gl96" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="2.9" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <linearGradient id="tg96" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#c4b5fd"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+  </defs>
+  <rect width="96" height="96" rx="21.1" fill="url(#bg96)"/>
+  <rect width="96" height="96" rx="21.1" fill="none" stroke="#7c3aed" stroke-opacity="0.25" stroke-width="1.0"/>
+  <circle cx="48.0" cy="48.0" r="44.6" fill="none" stroke="#7c3aed" stroke-opacity="0.12" stroke-width="1.0"/>
+  <circle cx="48.0" cy="48.0" r="53.3" fill="none" stroke="#06b6d4" stroke-opacity="0.07" stroke-width="1.0"/>
+  <circle cx="48.0" cy="48.0" r="33.1" fill="#7c3aed" fill-opacity="0.18" filter="url(#gl96)"/>
+  <path d="M 48.00,19.20 L 50.65,45.35 L 76.80,48.00 L 50.65,50.65 L 48.00,76.80 L 45.35,50.65 L 19.20,48.00 L 45.35,45.35 Z" fill="url(#sp96)" filter="url(#gl96)"/>
+  <path d="M 48.00,36.48 L 49.63,46.37 L 59.52,48.00 L 49.63,49.63 L 48.00,59.52 L 46.37,49.63 L 36.48,48.00 L 46.37,46.37 Z" fill="#ffffff" fill-opacity="0.92"/>
+</svg>

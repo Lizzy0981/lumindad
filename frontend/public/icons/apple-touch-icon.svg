@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180">
+  <defs>
+    <radialGradient id="apbg" cx="35%" cy="30%" r="75%">
+      <stop offset="0%"   stop-color="#1a0f3a"/>
+      <stop offset="55%"  stop-color="#0d0820"/>
+      <stop offset="100%" stop-color="#060610"/>
+    </radialGradient>
+    <linearGradient id="apsp" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#c4b5fd"/>
+      <stop offset="45%"  stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <filter id="apgl" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <linearGradient id="aptxt" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#c4b5fd"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Fondo full (iOS aplica mask) -->
+  <rect width="180" height="180" fill="url(#apbg)"/>
+
+  <!-- Anillos -->
+  <circle cx="90" cy="82" r="80.6" fill="none" stroke="#7c3aed" stroke-opacity="0.12" stroke-width="1"/>
+  <circle cx="90" cy="82" r="96.2" fill="none" stroke="#06b6d4" stroke-opacity="0.07" stroke-width="1"/>
+
+  <!-- Glow -->
+  <circle cx="90" cy="82" r="57.2" fill="#7c3aed" fill-opacity="0.18" filter="url(#apgl)"/>
+
+  <!-- Sparkle principal -->
+  <path d="M 90.00,30.00 L 94.78,77.22 L 142.00,82.00 L 94.78,86.78 L 90.00,134.00 L 85.22,86.78 L 38.00,82.00 L 85.22,77.22 Z" fill="url(#apsp)" filter="url(#apgl)"/>
+
+  <!-- Sparkle central -->
+  <path d="M 90.00,62.24 L 93.07,78.93 L 109.76,82.00 L 93.07,85.07 L 90.00,101.76 L 86.93,85.07 L 70.24,82.00 L 86.93,78.93 Z" fill="#ffffff" fill-opacity="0.95"/>
+
+  <!-- Puntos decorativos -->
+  <circle cx="162.8" cy="35.2" r="3" fill="#c4b5fd" fill-opacity="0.7"/>
+  <circle cx="22.4" cy="118.4" r="2.5" fill="#06b6d4" fill-opacity="0.5"/>
+  <circle cx="131.6" cy="160.0" r="2" fill="#a78bfa" fill-opacity="0.4"/>
+  <circle cx="38.0" cy="14.4" r="2" fill="#7c3aed" fill-opacity="0.6"/>
+
+  <!-- Texto LumindAd -->
+  <text x="90" y="156"
+    font-family="Outfit, Inter, system-ui, sans-serif"
+    font-weight="800" font-size="20"
+    fill="url(#aptxt)" text-anchor="middle"
+    letter-spacing="0.5">LumindAd</text>
+  <text x="90" y="170"
+    font-family="Outfit, Inter, system-ui, sans-serif"
+    font-weight="500" font-size="9"
+    fill="#4c1d95" text-anchor="middle"
+    letter-spacing="1.8">ENTERPRISE</text>
+</svg>
