@@ -1,0 +1,251 @@
+{
+  "nav": {
+    "dashboard": "ダッシュボード",
+    "createAd": "広告作成",
+    "campaigns": "キャンペーン",
+    "budget": "予算",
+    "analytics": "分析",
+    "uploadData": "データアップロード",
+    "section": "ナビゲーション",
+    "newBadge": "新着"
+  },
+  "sidebar": {
+    "version": "v1.0.0 · エンタープライズ",
+    "aiEngine": "AIエンジン",
+    "aiOnline": "AIオンライン",
+    "aiStack": "TensorFlow · XGBoost",
+    "aiFeatures": "SHAP · 異常検知",
+    "greenAI": "グリーンAI",
+    "greenBadge": "0.003g CO₂ · GHG スコープ2",
+    "userName": "Elizabeth D.F.",
+    "userRole": "サステナブルAI"
+  },
+  "pages": {
+    "dashboard": {
+      "title": "パフォーマンスダッシュボード",
+      "subtitle": "広告パフォーマンスをリアルタイムで監視 — AIによるインサイト"
+    },
+    "campaigns": {
+      "title": "キャンペーン",
+      "subtitle": "すべての広告キャンペーンを管理・追跡"
+    },
+    "budget": {
+      "title": "予算管理",
+      "subtitle": "AIの提案で広告費を追跡・最適化"
+    },
+    "analytics": {
+      "title": "分析とレポート",
+      "subtitle": "広告パフォーマンスの深い洞察 — SHAP · 異常検知"
+    },
+    "upload": {
+      "title": "データアップロード",
+      "subtitle": "最大1000万行を処理 · 並列チャンク処理 · Web Workers"
+    },
+    "createAd": {
+      "title": "新規広告作成",
+      "subtitle": "AIによる広告作成と自動最適化"
+    }
+  },
+  "common": {
+    "status": {
+      "active": "アクティブ",
+      "paused": "一時停止",
+      "draft": "下書き",
+      "completed": "完了",
+      "training": "トレーニング中",
+      "ready": "準備完了",
+      "error": "エラー"
+    },
+    "buttons": {
+      "refresh": "⟳ 更新",
+      "createNewAd": "✦ 新規広告作成",
+      "newCampaign": "+ 新規キャンペーン",
+      "setBudget": "+ 予算設定",
+      "exportReport": "↓ レポート出力",
+      "exportResults": "↓ 結果出力",
+      "preview": "プレビュー",
+      "saveDraft": "✓ 下書き保存",
+      "applySuggestion": "提案を適用",
+      "edit": "編集",
+      "launchCampaign": "🚀 キャンペーン開始",
+      "aiGenerate": "🤖 AI生成",
+      "generating": "⟳ 生成中…",
+      "processData": "▶ データ処理",
+      "processing": "⟳ 処理中…",
+      "clearData": "🗑 データクリア",
+      "learnMore": "詳細はこちら →"
+    },
+    "table": {
+      "campaign": "キャンペーン",
+      "platform": "プラットフォーム",
+      "status": "ステータス",
+      "budget": "予算",
+      "spent": "消化額",
+      "impressions": "インプレッション",
+      "ctr": "CTR",
+      "roas": "ROAS",
+      "actions": "操作"
+    },
+    "filters": {
+      "allPlatforms": "全プラットフォーム",
+      "searchCampaigns": "キャンペーンを検索…"
+    },
+    "labels": {
+      "accuracy": "精度：",
+      "live": "ライブ",
+      "sponsored": "スポンサー",
+      "new": "新着"
+    }
+  },
+  "metrics": {
+    "totalSpend": "総支出",
+    "impressions": "インプレッション",
+    "clicks": "クリック数",
+    "conversions": "コンバージョン数",
+    "totalBudget": "総予算",
+    "totalSpent": "総支出額",
+    "remaining": "残額",
+    "budgetUsed": "予算消化率",
+    "clickThroughRate": "クリック率",
+    "conversionRate": "コンバージョン率",
+    "costPerClick": "クリック単価"
+  },
+  "dashboard": {
+    "weeklyPerformance": "週次パフォーマンス",
+    "weeklySubtitle": "7日間のインプレッションとクリック",
+    "platformSplit": "プラットフォーム別分布",
+    "platformSubtitle": "広告費分布",
+    "aiInsights": "AIが生成したインサイト",
+    "insights": {
+      "peakTitle": "ピークパフォーマンス",
+      "peakDesc": "金曜日の広告は34%高いコンバージョン率。来週金曜日に予算を$200増やしましょう。",
+      "anomalyTitle": "異常を検出",
+      "anomalyDesc": "TikTokキャンペーンのCTRが先週比18%低下。Isolation Forestがフラグを立てました。",
+      "growthTitle": "成長機会",
+      "growthDesc": "LinkedIn B2Bセグメントは5.1x ROASを示しています。予算を+40%拡大を推奨します。"
+    }
+  },
+  "budget": {
+    "dailySpend": "日次支出 vs 予算",
+    "dailySubtitle": "実際の支出と日次予算目標の比較",
+    "budgetTarget": "予算目標",
+    "actualSpend": "実際の支出",
+    "byPlatform": "プラットフォーム別",
+    "aiRecommendation": "🤖 AI推奨",
+    "aiRecText": "Metaから Google Adsへ$1,200を再配分。予測モデル（XGBoost）はROAS+23%の改善を見込んでいます。",
+    "period": "2025年11月"
+  },
+  "analytics": {
+    "performanceTrends": "パフォーマンストレンド",
+    "impressionsTime": "インプレッションの推移",
+    "conversionsClicks": "コンバージョン数とクリック数",
+    "mlPanel": "🧠 アクティブMLモデル — TensorFlow · XGBoost · SHAP説明可能性",
+    "models": {
+      "churnPredictor": "解約予測",
+      "anomalyDetector": "異常検出",
+      "clickPredictor": "クリック予測",
+      "roasOptimizer": "ROAS最適化"
+    },
+    "modelTypes": {
+      "xgboost": "XGBoost",
+      "isolationForest": "孤立森林",
+      "neuralNetwork": "ニューラルネットワーク",
+      "automl": "AutoML"
+    }
+  },
+  "upload": {
+    "dropzone": {
+      "idle": "ここにファイルをドラッグ＆ドロップ",
+      "active": "ここにファイルをドロップ！",
+      "browse": "ファイルを参照",
+      "limits": "最大10ファイル · 2GBまで対応 · 並列チャンク処理（50K行/チャンク）",
+      "capacity": "⚡ 10ファイル · 最大1000万行"
+    },
+    "fileList": {
+      "title": "アップロードされたファイル",
+      "countBadge": "{{done}}件処理済み · {{ready}}件準備中",
+      "processingChunk": "チャンクを処理中…",
+      "rowsProcessed": "{{count}}行処理済み",
+      "remove": "ファイルを削除"
+    },
+    "done": {
+      "title": "処理完了！",
+      "summary_one": "{{count}}件のファイルが正常に処理されました",
+      "summary_other": "{{count}}件のファイルが正常に処理されました",
+      "totalRows": "合計{{count}}行",
+      "mlReady": "MLパイプラインの準備完了"
+    },
+    "benchmarks": {
+      "title": "⚡ 処理エンジン — パフォーマンスベンチマーク",
+      "chunked": "🔄 チャンク処理（50K行/チャンク）",
+      "workers": "⚡ Web Workers（ノンブロッキングUI）",
+      "gzip": "🗜 Gzip圧縮",
+      "memory": "🧠 自動メモリ管理",
+      "telecomX": "📡 対応：Telecom X MLパイプライン"
+    }
+  },
+  "createAd": {
+    "sections": {
+      "campaignSettings": "キャンペーン設定",
+      "adCopy": "広告コピー",
+      "budgetSchedule": "予算とスケジュール"
+    },
+    "fields": {
+      "platform": "プラットフォーム",
+      "objective": "目的",
+      "headline": "見出し",
+      "bodyText": "本文",
+      "dailyBudget": "日次予算（$）",
+      "startDate": "開始日",
+      "endDate": "終了日"
+    },
+    "placeholders": {
+      "headline": "広告の見出しを入力…",
+      "body": "広告の本文を入力…",
+      "generating": "生成中…",
+      "dailyBudget": "例：50"
+    },
+    "objectives": {
+      "conversions": "コンバージョン",
+      "awareness": "認知度",
+      "traffic": "トラフィック",
+      "leads": "リード",
+      "appInstalls": "アプリインストール"
+    },
+    "preview": {
+      "title": "広告プレビュー",
+      "sponsored": "スポンサー",
+      "headlineFallback": "広告の見出しはこちら",
+      "bodyFallback": "広告の本文がここに表示されます。説得力のある内容にしましょう！",
+      "cta": "詳細はこちら →"
+    },
+    "score": {
+      "title": "🤖 AI最適化スコア",
+      "relevance": "関連性",
+      "ctrPrediction": "CTR予測",
+      "qualityScore": "品質スコア",
+      "targetingMatch": "ターゲティング一致度",
+      "footerActive": "入力するとスコアが更新されます · LumindAd XGBoostモデル搭載",
+      "footerIdle": "見出しと本文を追加してリアルタイムスコアを確認"
+    },
+    "aiSample": {
+      "headline": "スマートなAI広告でビジネスを成長させよう",
+      "body": "精密なターゲティングとリアルタイム最適化で理想の顧客にリーチ。機械学習で最大ROIを実現。"
+    }
+  },
+  "footer": {
+    "author": "Elizabeth Díaz Familia",
+    "tagline": "LumindAd Enterprise · Python · TensorFlow · React · グリーンAI",
+    "greenAI": "🌱 グリーンAI",
+    "i18n": "11言語対応",
+    "version": "v1.0.0 Enterprise",
+    "findMe": "フォローはこちら：",
+    "links": {
+      "linkedin": "LinkedIn",
+      "github": "GitHub",
+      "twitter": "Twitter/X",
+      "instagram": "Instagram",
+      "portfolio": "ポートフォリオ"
+    }
+  }
+}

@@ -1,0 +1,251 @@
+{
+  "nav": {
+    "dashboard": "Painel",
+    "createAd": "Criar Anúncio",
+    "campaigns": "Campanhas",
+    "budget": "Orçamento",
+    "analytics": "Análises",
+    "uploadData": "Enviar Dados",
+    "section": "NAVEGAÇÃO",
+    "newBadge": "NOVO"
+  },
+  "sidebar": {
+    "version": "v1.0.0 · ENTERPRISE",
+    "aiEngine": "Motor de IA",
+    "aiOnline": "IA Online",
+    "aiStack": "TensorFlow · XGBoost",
+    "aiFeatures": "SHAP · Detecção de Anomalias",
+    "greenAI": "IA Verde",
+    "greenBadge": "0.003 gCO₂ · GHG Escopo 2",
+    "userName": "Elizabeth D.F.",
+    "userRole": "IA Sustentável"
+  },
+  "pages": {
+    "dashboard": {
+      "title": "Painel de Desempenho",
+      "subtitle": "Monitore seu desempenho publicitário em tempo real — Insights com IA"
+    },
+    "campaigns": {
+      "title": "Campanhas",
+      "subtitle": "Gerencie e acompanhe todas as suas campanhas publicitárias"
+    },
+    "budget": {
+      "title": "Gestão de Orçamento",
+      "subtitle": "Rastreie e otimize seus gastos com recomendações de IA"
+    },
+    "analytics": {
+      "title": "Análises e Relatórios",
+      "subtitle": "Insights profundos sobre seu desempenho — SHAP · Detecção de Anomalias"
+    },
+    "upload": {
+      "title": "Enviar Dados",
+      "subtitle": "Processe até 10M de linhas · Processamento em chunks paralelos · Web Workers"
+    },
+    "createAd": {
+      "title": "Criar Novo Anúncio",
+      "subtitle": "Criação de anúncios com IA e otimização automática"
+    }
+  },
+  "common": {
+    "status": {
+      "active": "Ativo",
+      "paused": "Pausado",
+      "draft": "Rascunho",
+      "completed": "Concluído",
+      "training": "Treinando",
+      "ready": "Pronto",
+      "error": "Erro"
+    },
+    "buttons": {
+      "refresh": "⟳ Atualizar",
+      "createNewAd": "✦ Criar Novo Anúncio",
+      "newCampaign": "+ Nova Campanha",
+      "setBudget": "+ Definir Orçamento",
+      "exportReport": "↓ Exportar Relatório",
+      "exportResults": "↓ Exportar Resultados",
+      "preview": "Pré-visualização",
+      "saveDraft": "✓ Salvar Rascunho",
+      "applySuggestion": "Aplicar Sugestão",
+      "edit": "Editar",
+      "launchCampaign": "🚀 Lançar Campanha",
+      "aiGenerate": "🤖 Gerar com IA",
+      "generating": "⟳ Gerando…",
+      "processData": "▶ Processar Dados",
+      "processing": "⟳ Processando…",
+      "clearData": "🗑 Limpar Dados",
+      "learnMore": "Saiba mais →"
+    },
+    "table": {
+      "campaign": "Campanha",
+      "platform": "Plataforma",
+      "status": "Status",
+      "budget": "Orçamento",
+      "spent": "Gasto",
+      "impressions": "Impressões",
+      "ctr": "CTR",
+      "roas": "ROAS",
+      "actions": "Ações"
+    },
+    "filters": {
+      "allPlatforms": "Todas as Plataformas",
+      "searchCampaigns": "Buscar campanhas…"
+    },
+    "labels": {
+      "accuracy": "Precisão:",
+      "live": "Ao vivo",
+      "sponsored": "Patrocinado",
+      "new": "NOVO"
+    }
+  },
+  "metrics": {
+    "totalSpend": "Gasto Total",
+    "impressions": "Impressões",
+    "clicks": "Cliques",
+    "conversions": "Conversões",
+    "totalBudget": "Orçamento Total",
+    "totalSpent": "Total Gasto",
+    "remaining": "Restante",
+    "budgetUsed": "Orçamento Usado",
+    "clickThroughRate": "Taxa de Cliques",
+    "conversionRate": "Taxa de Conversão",
+    "costPerClick": "Custo por Clique"
+  },
+  "dashboard": {
+    "weeklyPerformance": "Desempenho Semanal",
+    "weeklySubtitle": "Impressões e cliques ao longo de 7 dias",
+    "platformSplit": "Divisão por Plataforma",
+    "platformSubtitle": "Distribuição do gasto publicitário",
+    "aiInsights": "Insights Gerados por IA",
+    "insights": {
+      "peakTitle": "Desempenho de Pico",
+      "peakDesc": "Anúncios de sexta convertem 34% melhor. Aumente o orçamento em $200 para a próxima sexta.",
+      "anomalyTitle": "Anomalia Detectada",
+      "anomalyDesc": "O CTR do TikTok caiu 18% vs a semana passada. Isolation Forest sinalizou isso.",
+      "growthTitle": "Oportunidade de Crescimento",
+      "growthDesc": "Segmento B2B do LinkedIn mostra ROAS de 5.1x. Recomenda-se escalar orçamento +40%."
+    }
+  },
+  "budget": {
+    "dailySpend": "Gasto Diário vs Orçamento",
+    "dailySubtitle": "Gasto real comparado com a meta diária",
+    "budgetTarget": "Meta de Orçamento",
+    "actualSpend": "Gasto Real",
+    "byPlatform": "Por Plataforma",
+    "aiRecommendation": "🤖 Recomendação IA",
+    "aiRecText": "Realocar $1.200 do Meta para o Google Ads. Modelo preditivo (XGBoost) estima melhoria de +23% no ROAS.",
+    "period": "Novembro 2025"
+  },
+  "analytics": {
+    "performanceTrends": "Tendências de Desempenho",
+    "impressionsTime": "Impressões ao longo do tempo",
+    "conversionsClicks": "Conversões e Cliques",
+    "mlPanel": "🧠 Modelos ML Ativos — TensorFlow · XGBoost · Explicabilidade SHAP",
+    "models": {
+      "churnPredictor": "Preditor de Churn",
+      "anomalyDetector": "Detector de Anomalias",
+      "clickPredictor": "Preditor de Cliques",
+      "roasOptimizer": "Otimizador de ROAS"
+    },
+    "modelTypes": {
+      "xgboost": "XGBoost",
+      "isolationForest": "Isolation Forest",
+      "neuralNetwork": "Rede Neural",
+      "automl": "AutoML"
+    }
+  },
+  "upload": {
+    "dropzone": {
+      "idle": "Arraste e solte seus arquivos aqui",
+      "active": "Solte seus arquivos aqui!",
+      "browse": "procurar arquivos",
+      "limits": "Máx. 10 arquivos · Suporta até 2GB · Processamento em chunks (50K linhas/chunk)",
+      "capacity": "⚡ 10 arquivos · 10M linhas máx"
+    },
+    "fileList": {
+      "title": "Arquivos Enviados",
+      "countBadge": "{{done}} processados · {{ready}} prontos",
+      "processingChunk": "Processando chunk…",
+      "rowsProcessed": "{{count}} linhas processadas",
+      "remove": "Remover arquivo"
+    },
+    "done": {
+      "title": "Processamento Concluído!",
+      "summary_one": "{{count}} arquivo processado com sucesso",
+      "summary_other": "{{count}} arquivos processados com sucesso",
+      "totalRows": "{{count}} linhas no total",
+      "mlReady": "Pronto para o pipeline de ML"
+    },
+    "benchmarks": {
+      "title": "⚡ Motor de Processamento — Benchmarks",
+      "chunked": "🔄 Processamento em Chunks (50K linhas/chunk)",
+      "workers": "⚡ Web Workers (interface não bloqueante)",
+      "gzip": "🗜 Compressão Gzip",
+      "memory": "🧠 Gerenciamento automático de memória",
+      "telecomX": "📡 Compatível: Telecom X ML Pipeline"
+    }
+  },
+  "createAd": {
+    "sections": {
+      "campaignSettings": "Configurações da Campanha",
+      "adCopy": "Texto do Anúncio",
+      "budgetSchedule": "Orçamento e Cronograma"
+    },
+    "fields": {
+      "platform": "Plataforma",
+      "objective": "Objetivo",
+      "headline": "Título",
+      "bodyText": "Texto do Corpo",
+      "dailyBudget": "Orçamento Diário ($)",
+      "startDate": "Data de Início",
+      "endDate": "Data de Término"
+    },
+    "placeholders": {
+      "headline": "Digite o título do seu anúncio…",
+      "body": "Digite o texto do seu anúncio…",
+      "generating": "Gerando…",
+      "dailyBudget": "ex. 50"
+    },
+    "objectives": {
+      "conversions": "Conversões",
+      "awareness": "Reconhecimento",
+      "traffic": "Tráfego",
+      "leads": "Leads",
+      "appInstalls": "Instalações de App"
+    },
+    "preview": {
+      "title": "Pré-visualização do Anúncio",
+      "sponsored": "Patrocinado",
+      "headlineFallback": "O Título do Seu Anúncio Aqui",
+      "bodyFallback": "O texto do seu anúncio aparecerá aqui. Torne-o convincente!",
+      "cta": "Saiba mais →"
+    },
+    "score": {
+      "title": "🤖 Pontuação de Otimização IA",
+      "relevance": "Relevância",
+      "ctrPrediction": "Previsão de CTR",
+      "qualityScore": "Pontuação de Qualidade",
+      "targetingMatch": "Correspondência de Segmentação",
+      "footerActive": "Pontuação atualiza conforme você digita · Powered by LumindAd XGBoost",
+      "footerIdle": "Adicione título e texto para ver atualizações ao vivo"
+    },
+    "aiSample": {
+      "headline": "Impulsione Seu Negócio com Publicidade IA Inteligente",
+      "body": "Alcance seus clientes ideais com segmentação precisa e otimização em tempo real. Powered by machine learning para o máximo ROI."
+    }
+  },
+  "footer": {
+    "author": "Elizabeth Díaz Família",
+    "tagline": "LumindAd Enterprise · Python · TensorFlow · React · IA Verde",
+    "greenAI": "🌱 IA Verde",
+    "i18n": "i18n 11 idiomas",
+    "version": "v1.0.0 Enterprise",
+    "findMe": "ME ENCONTRE:",
+    "links": {
+      "linkedin": "LinkedIn",
+      "github": "GitHub",
+      "twitter": "Twitter/X",
+      "instagram": "Instagram",
+      "portfolio": "Portfólio"
+    }
+  }
+}
