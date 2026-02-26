@@ -1,0 +1,1958 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_411b20c2340594eb591bd0be4ee9178e {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-minimap/3.6.1/Control.MiniMap.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-minimap/3.6.1/Control.MiniMap.css"/>
+</head>
+<body>
+    
+    
+<div style='position:fixed;bottom:30px;right:15px;z-index:9999;
+            background:#0f1117;padding:14px 18px;border-radius:10px;
+            border:1px solid #2d3250;font-family:Arial,sans-serif;
+            color:white;font-size:11px;min-width:200px;'>
+  <b style='color:#7c3aed;font-size:13px;'>&#128202; LumindAd</b><br>
+  <b style='color:#94a3b8;'>TelecomX Churn Map v3.0</b><br>
+  <hr style='border-color:#2d3250;margin:6px 0;'>
+  <b style='color:#e0e0e0;'>Churn Rate</b><br>
+  <span style='color:#ef4444;font-size:16px;'>&#9679;</span> &gt; 30% High<br>
+  <span style='color:#f59e0b;font-size:16px;'>&#9679;</span> 24&ndash;30% Medium<br>
+  <span style='color:#10b981;font-size:16px;'>&#9679;</span> &lt; 24% Low<br>
+  <hr style='border-color:#2d3250;margin:6px 0;'>
+  <b style='color:#e0e0e0;'>Regions</b><br>
+  <span style='color:#3b82f6;'>&#9679;</span> NA &nbsp;
+  <span style='color:#f97316;'>&#9679;</span> LATAM &nbsp;
+  <span style='color:#8b5cf6;'>&#9679;</span> EU<br>
+  <span style='color:#10b981;'>&#9679;</span> APAC &nbsp;
+  <span style='color:#eab308;'>&#9679;</span> MENA<br>
+  <span style='color:#ef4444;'>&#9679;</span> Africa &nbsp;
+  <span style='color:#a78bfa;'>&#9679;</span> CIS<br>
+  <hr style='border-color:#2d3250;margin:6px 0;'>
+  <small style='color:#475569;'>
+    Circle size = customer volume<br>
+    Click circle for country details<br>
+    Elizabeth D&iacute;az Familia &middot; 2025
+  </small>
+</div>
+    
+<div style='position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:9999;
+            background:#0f1117;padding:8px 22px;border-radius:8px;
+            border:1px solid #7c3aed;font-family:Arial,sans-serif;color:white;'>
+  <b style='color:#7c3aed;font-size:15px;'>LumindAd</b>
+  <span style='color:#06b6d4;font-size:13px;margin-left:8px;'>
+    Global Churn Intelligence &middot; 54 Countries &middot; 7 Regions &middot; 7,267 Customers
+  </span>
+</div>
+    
+            <div class="folium-map" id="map_411b20c2340594eb591bd0be4ee9178e" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_411b20c2340594eb591bd0be4ee9178e = L.map(
+                "map_411b20c2340594eb591bd0be4ee9178e",
+                {
+                    center: [20.0, 10.0],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 2,
+  "zoomControl": true,
+  "preferCanvas": true,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_51dccbd21c695b2e13a4c72222b5631e = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_51dccbd21c695b2e13a4c72222b5631e.addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+            L.control.fullscreen(
+                {
+  "position": "topleft",
+  "title": "Full Screen",
+  "titleCancel": "Exit Full Screen",
+  "forceSeparateButton": false,
+}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+            var tile_layer_b5b2b6d3ad829d69f6a5a772a6077e5b = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e", "detect_retina": false, "max_native_zoom": 20, "max_zoom": 20, "min_zoom": 0, "no_wrap": false, "opacity": 1, "subdomains": "abcd", "tms": false}
+            );
+            var mini_map_ee50fb33ea76e4b0022be569e1056658 = new L.Control.MiniMap(
+                tile_layer_b5b2b6d3ad829d69f6a5a772a6077e5b,
+                {
+  "position": "bottomleft",
+  "width": 160,
+  "height": 100,
+  "collapsedWidth": 25,
+  "collapsedHeight": 25,
+  "zoomLevelOffset": -5,
+  "zoomLevelFixed": 1,
+  "centerFixed": false,
+  "zoomAnimation": false,
+  "toggleDisplay": false,
+  "autoToggleDisplay": false,
+  "minimized": false,
+}
+            );
+            map_411b20c2340594eb591bd0be4ee9178e.addControl(mini_map_ee50fb33ea76e4b0022be569e1056658);
+        
+    
+            var circle_marker_b17c226ab2aee71743bb06e3a78e0e2a = L.circleMarker(
+                [-38.42, -63.62],
+                {"bubblingMouseEvents": true, "color": "#f97316", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#10b981", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.5, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_12b4dedd8a1d67a08f09e8536859a47e = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_a209da735d3db37d3770511db6191ccf = $(`<div id="html_a209da735d3db37d3770511db6191ccf" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #10b981;'>         <h4 style='color:#10b981;margin:0 0 8px 0;font-size:14px;'>             Argentina             <span style='font-size:10px;color:#f97316;margin-left:8px;'>                 [LATAM &middot; ES]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>140</b></td></tr>             <tr><td style='color:#10b981;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#10b981;'>23.6%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>33</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>36.3 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$67</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.520</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_12b4dedd8a1d67a08f09e8536859a47e.setContent(html_a209da735d3db37d3770511db6191ccf);
+            
+        
+
+        circle_marker_b17c226ab2aee71743bb06e3a78e0e2a.bindPopup(popup_12b4dedd8a1d67a08f09e8536859a47e)
+        ;
+
+        
+    
+    
+            circle_marker_b17c226ab2aee71743bb06e3a78e0e2a.bindTooltip(
+                `<div>
+                     Argentina | Churn=23.6% | n=140
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_02e55fdf0e1acf97355615e99e9ae262 = L.circleMarker(
+                [-25.27, 133.77],
+                {"bubblingMouseEvents": true, "color": "#3b82f6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#10b981", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.0, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_a8201b335a995e917d2c3d70b30d7711 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_aa6beaeb78774d0450e3195045e7a204 = $(`<div id="html_aa6beaeb78774d0450e3195045e7a204" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #10b981;'>         <h4 style='color:#10b981;margin:0 0 8px 0;font-size:14px;'>             Australia             <span style='font-size:10px;color:#3b82f6;margin-left:8px;'>                 [NA &middot; EN]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>136</b></td></tr>             <tr><td style='color:#10b981;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#10b981;'>22.1%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>30</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>32.1 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$63</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.529</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_a8201b335a995e917d2c3d70b30d7711.setContent(html_aa6beaeb78774d0450e3195045e7a204);
+            
+        
+
+        circle_marker_02e55fdf0e1acf97355615e99e9ae262.bindPopup(popup_a8201b335a995e917d2c3d70b30d7711)
+        ;
+
+        
+    
+    
+            circle_marker_02e55fdf0e1acf97355615e99e9ae262.bindTooltip(
+                `<div>
+                     Australia | Churn=22.1% | n=136
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2dd2e4c80a8bd50534394823516ff26f = L.circleMarker(
+                [53.71, 27.95],
+                {"bubblingMouseEvents": true, "color": "#a78bfa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.625, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_140099242bc0dfe174da6277634ebda8 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_d77288976d868d0a6274f853fb5aa142 = $(`<div id="html_d77288976d868d0a6274f853fb5aa142" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             Belarus             <span style='font-size:10px;color:#a78bfa;margin-left:8px;'>                 [CIS &middot; RU]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>125</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>28.8%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>36</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>34.8 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$69</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.543</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_140099242bc0dfe174da6277634ebda8.setContent(html_d77288976d868d0a6274f853fb5aa142);
+            
+        
+
+        circle_marker_2dd2e4c80a8bd50534394823516ff26f.bindPopup(popup_140099242bc0dfe174da6277634ebda8)
+        ;
+
+        
+    
+    
+            circle_marker_2dd2e4c80a8bd50534394823516ff26f.bindTooltip(
+                `<div>
+                     Belarus | Churn=28.8% | n=125
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a7b2c5398114adfb32f00859bf774a7a = L.circleMarker(
+                [-14.24, -51.93],
+                {"bubblingMouseEvents": true, "color": "#f97316", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ef4444", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.25, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_9bf29e9f43e20929758f7bdeb9a8f969 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_e94fcacadac79065e973ffe8064b0af6 = $(`<div id="html_e94fcacadac79065e973ffe8064b0af6" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #ef4444;'>         <h4 style='color:#ef4444;margin:0 0 8px 0;font-size:14px;'>             Brazil             <span style='font-size:10px;color:#f97316;margin-left:8px;'>                 [LATAM &middot; ES]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>130</b></td></tr>             <tr><td style='color:#ef4444;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#ef4444;'>31.5%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>41</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>27.3 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$63</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.567</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_9bf29e9f43e20929758f7bdeb9a8f969.setContent(html_e94fcacadac79065e973ffe8064b0af6);
+            
+        
+
+        circle_marker_a7b2c5398114adfb32f00859bf774a7a.bindPopup(popup_9bf29e9f43e20929758f7bdeb9a8f969)
+        ;
+
+        
+    
+    
+            circle_marker_a7b2c5398114adfb32f00859bf774a7a.bindTooltip(
+                `<div>
+                     Brazil | Churn=31.5% | n=130
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_583fc787ab0227ddfa1e47c4fa00b372 = L.circleMarker(
+                [56.13, -106.34],
+                {"bubblingMouseEvents": true, "color": "#3b82f6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.5, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_1ef992ddca9057ffe278e1ccf9a18953 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_801a1f4a648592406ba01bf47716396c = $(`<div id="html_801a1f4a648592406ba01bf47716396c" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             Canada             <span style='font-size:10px;color:#3b82f6;margin-left:8px;'>                 [NA &middot; EN]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>140</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>26.4%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>37</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>26.6 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$63</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.579</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_1ef992ddca9057ffe278e1ccf9a18953.setContent(html_801a1f4a648592406ba01bf47716396c);
+            
+        
+
+        circle_marker_583fc787ab0227ddfa1e47c4fa00b372.bindPopup(popup_1ef992ddca9057ffe278e1ccf9a18953)
+        ;
+
+        
+    
+    
+            circle_marker_583fc787ab0227ddfa1e47c4fa00b372.bindTooltip(
+                `<div>
+                     Canada | Churn=26.4% | n=140
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d5fef06dba3629b2ddfb55146462fc7b = L.circleMarker(
+                [-35.68, -71.54],
+                {"bubblingMouseEvents": true, "color": "#f97316", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#10b981", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.75, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_5e9cdf6781042c61591b1908f4b89655 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_04fb727bb95e398b9d043f2345de7025 = $(`<div id="html_04fb727bb95e398b9d043f2345de7025" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #10b981;'>         <h4 style='color:#10b981;margin:0 0 8px 0;font-size:14px;'>             Chile             <span style='font-size:10px;color:#f97316;margin-left:8px;'>                 [LATAM &middot; ES]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>134</b></td></tr>             <tr><td style='color:#10b981;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#10b981;'>21.6%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>29</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>35.1 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$65</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.526</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_5e9cdf6781042c61591b1908f4b89655.setContent(html_04fb727bb95e398b9d043f2345de7025);
+            
+        
+
+        circle_marker_d5fef06dba3629b2ddfb55146462fc7b.bindPopup(popup_5e9cdf6781042c61591b1908f4b89655)
+        ;
+
+        
+    
+    
+            circle_marker_d5fef06dba3629b2ddfb55146462fc7b.bindTooltip(
+                `<div>
+                     Chile | Churn=21.6% | n=134
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e986f216857ec5e4ca9471d4d6ceaad6 = L.circleMarker(
+                [35.86, 104.2],
+                {"bubblingMouseEvents": true, "color": "#10b981", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#10b981", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 13.375, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_20fe51b7833b01379b14c6351b845861 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_19f1c9d412eac0c819b82448d994b8e8 = $(`<div id="html_19f1c9d412eac0c819b82448d994b8e8" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #10b981;'>         <h4 style='color:#10b981;margin:0 0 8px 0;font-size:14px;'>             China             <span style='font-size:10px;color:#10b981;margin-left:8px;'>                 [APAC &middot; JA]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>107</b></td></tr>             <tr><td style='color:#10b981;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#10b981;'>15.0%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>16</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>31.3 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$63</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.529</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_20fe51b7833b01379b14c6351b845861.setContent(html_19f1c9d412eac0c819b82448d994b8e8);
+            
+        
+
+        circle_marker_e986f216857ec5e4ca9471d4d6ceaad6.bindPopup(popup_20fe51b7833b01379b14c6351b845861)
+        ;
+
+        
+    
+    
+            circle_marker_e986f216857ec5e4ca9471d4d6ceaad6.bindTooltip(
+                `<div>
+                     China | Churn=15.0% | n=107
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_995ee7870c100d3f5923c004870372a1 = L.circleMarker(
+                [4.57, -74.3],
+                {"bubblingMouseEvents": true, "color": "#f97316", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#10b981", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.0, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_5e0ef7c4cf8d676f27b0ed52429b8139 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_40401d51f900930e2f28431b8eaa8378 = $(`<div id="html_40401d51f900930e2f28431b8eaa8378" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #10b981;'>         <h4 style='color:#10b981;margin:0 0 8px 0;font-size:14px;'>             Colombia             <span style='font-size:10px;color:#f97316;margin-left:8px;'>                 [LATAM &middot; ES]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>120</b></td></tr>             <tr><td style='color:#10b981;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#10b981;'>22.5%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>27</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>31.6 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$64</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.532</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_5e0ef7c4cf8d676f27b0ed52429b8139.setContent(html_40401d51f900930e2f28431b8eaa8378);
+            
+        
+
+        circle_marker_995ee7870c100d3f5923c004870372a1.bindPopup(popup_5e0ef7c4cf8d676f27b0ed52429b8139)
+        ;
+
+        
+    
+    
+            circle_marker_995ee7870c100d3f5923c004870372a1.bindTooltip(
+                `<div>
+                     Colombia | Churn=22.5% | n=120
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_980f4c594fb09c913d480e28841eb184 = L.circleMarker(
+                [18.74, -70.16],
+                {"bubblingMouseEvents": true, "color": "#f97316", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.875, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_fa00c8848df8c77e79b1acc9447e5876 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_ee33e046fb7539b860d58d9406eb7fce = $(`<div id="html_ee33e046fb7539b860d58d9406eb7fce" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             Dominican Republic             <span style='font-size:10px;color:#f97316;margin-left:8px;'>                 [LATAM &middot; ES]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>135</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>29.6%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>40</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>30.6 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$65</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.562</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_fa00c8848df8c77e79b1acc9447e5876.setContent(html_ee33e046fb7539b860d58d9406eb7fce);
+            
+        
+
+        circle_marker_980f4c594fb09c913d480e28841eb184.bindPopup(popup_fa00c8848df8c77e79b1acc9447e5876)
+        ;
+
+        
+    
+    
+            circle_marker_980f4c594fb09c913d480e28841eb184.bindTooltip(
+                `<div>
+                     Dominican Republic | Churn=29.6% | n=135
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f2be19b7528355f386ed0ef341469bad = L.circleMarker(
+                [-1.83, -78.18],
+                {"bubblingMouseEvents": true, "color": "#f97316", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.25, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_0c1c03c3b4f9a70be24d1ef2984ab07a = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_8b5e85c927a5dfe8e86d80c7e62aff68 = $(`<div id="html_8b5e85c927a5dfe8e86d80c7e62aff68" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             Ecuador             <span style='font-size:10px;color:#f97316;margin-left:8px;'>                 [LATAM &middot; ES]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>130</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>26.2%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>34</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>30.1 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$63</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.547</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_0c1c03c3b4f9a70be24d1ef2984ab07a.setContent(html_8b5e85c927a5dfe8e86d80c7e62aff68);
+            
+        
+
+        circle_marker_f2be19b7528355f386ed0ef341469bad.bindPopup(popup_0c1c03c3b4f9a70be24d1ef2984ab07a)
+        ;
+
+        
+    
+    
+            circle_marker_f2be19b7528355f386ed0ef341469bad.bindTooltip(
+                `<div>
+                     Ecuador | Churn=26.2% | n=130
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ec0be8bb6b6f9d7ddb035609d6d4d9de = L.circleMarker(
+                [26.82, 30.8],
+                {"bubblingMouseEvents": true, "color": "#eab308", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18.375, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_ec9c0f7632be8667ac7b890ded8d0cfd = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_6eb1aeb4baf2e37551f47d73932ed119 = $(`<div id="html_6eb1aeb4baf2e37551f47d73932ed119" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             Egypt             <span style='font-size:10px;color:#eab308;margin-left:8px;'>                 [MENA &middot; AR]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>147</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>27.9%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>41</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>31.4 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$67</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.549</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_ec9c0f7632be8667ac7b890ded8d0cfd.setContent(html_6eb1aeb4baf2e37551f47d73932ed119);
+            
+        
+
+        circle_marker_ec0be8bb6b6f9d7ddb035609d6d4d9de.bindPopup(popup_ec9c0f7632be8667ac7b890ded8d0cfd)
+        ;
+
+        
+    
+    
+            circle_marker_ec0be8bb6b6f9d7ddb035609d6d4d9de.bindTooltip(
+                `<div>
+                     Egypt | Churn=27.9% | n=147
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_64fe309f06515d4510b7e215e7db7765 = L.circleMarker(
+                [9.15, 40.49],
+                {"bubblingMouseEvents": true, "color": "#ef4444", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ef4444", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.375, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_1ffcd9ed1a49f289458324ff8fcb29f5 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_04ae44a4b71a1093bbc7a393036c75a5 = $(`<div id="html_04ae44a4b71a1093bbc7a393036c75a5" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #ef4444;'>         <h4 style='color:#ef4444;margin:0 0 8px 0;font-size:14px;'>             Ethiopia             <span style='font-size:10px;color:#ef4444;margin-left:8px;'>                 [Africa &middot; EN]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>139</b></td></tr>             <tr><td style='color:#ef4444;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#ef4444;'>30.2%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>42</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>31.8 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$66</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.547</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_1ffcd9ed1a49f289458324ff8fcb29f5.setContent(html_04ae44a4b71a1093bbc7a393036c75a5);
+            
+        
+
+        circle_marker_64fe309f06515d4510b7e215e7db7765.bindPopup(popup_1ffcd9ed1a49f289458324ff8fcb29f5)
+        ;
+
+        
+    
+    
+            circle_marker_64fe309f06515d4510b7e215e7db7765.bindTooltip(
+                `<div>
+                     Ethiopia | Churn=30.2% | n=139
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_12daa666ce309ec629c621890e8dde9c = L.circleMarker(
+                [46.23, 2.21],
+                {"bubblingMouseEvents": true, "color": "#8b5cf6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.875, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_7eeee911ef763f09c74c87677049e565 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_0a7dd2b23a871412aca09e59e2345b3f = $(`<div id="html_0a7dd2b23a871412aca09e59e2345b3f" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             France             <span style='font-size:10px;color:#8b5cf6;margin-left:8px;'>                 [EU &middot; FR]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>127</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>26.8%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>34</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>29.0 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$64</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.548</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_7eeee911ef763f09c74c87677049e565.setContent(html_0a7dd2b23a871412aca09e59e2345b3f);
+            
+        
+
+        circle_marker_12daa666ce309ec629c621890e8dde9c.bindPopup(popup_7eeee911ef763f09c74c87677049e565)
+        ;
+
+        
+    
+    
+            circle_marker_12daa666ce309ec629c621890e8dde9c.bindTooltip(
+                `<div>
+                     France | Churn=26.8% | n=127
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_165eaa60496b9cb560c4d2e5c7c0d9a6 = L.circleMarker(
+                [51.17, 10.45],
+                {"bubblingMouseEvents": true, "color": "#8b5cf6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18.0, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_63d137eac481927e2b051d2cf8d4bbe0 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_0cde2bd61bb0a80d2eddb415ba7f3829 = $(`<div id="html_0cde2bd61bb0a80d2eddb415ba7f3829" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             Germany             <span style='font-size:10px;color:#8b5cf6;margin-left:8px;'>                 [EU &middot; FR]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>144</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>29.9%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>43</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>31.8 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$66</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.555</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_63d137eac481927e2b051d2cf8d4bbe0.setContent(html_0cde2bd61bb0a80d2eddb415ba7f3829);
+            
+        
+
+        circle_marker_165eaa60496b9cb560c4d2e5c7c0d9a6.bindPopup(popup_63d137eac481927e2b051d2cf8d4bbe0)
+        ;
+
+        
+    
+    
+            circle_marker_165eaa60496b9cb560c4d2e5c7c0d9a6.bindTooltip(
+                `<div>
+                     Germany | Churn=29.9% | n=144
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_471f464fe8a6499fea72d764f8d67539 = L.circleMarker(
+                [7.95, -1.02],
+                {"bubblingMouseEvents": true, "color": "#ef4444", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18.125, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_61d619953def44410a0be4a21ff5a909 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_a29e0519a846f68ad2fb6206720b119d = $(`<div id="html_a29e0519a846f68ad2fb6206720b119d" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             Ghana             <span style='font-size:10px;color:#ef4444;margin-left:8px;'>                 [Africa &middot; EN]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>145</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>24.8%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>36</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>34.5 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$63</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.504</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_61d619953def44410a0be4a21ff5a909.setContent(html_a29e0519a846f68ad2fb6206720b119d);
+            
+        
+
+        circle_marker_471f464fe8a6499fea72d764f8d67539.bindPopup(popup_61d619953def44410a0be4a21ff5a909)
+        ;
+
+        
+    
+    
+            circle_marker_471f464fe8a6499fea72d764f8d67539.bindTooltip(
+                `<div>
+                     Ghana | Churn=24.8% | n=145
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f939ef83257a98fbb72368fd61235844 = L.circleMarker(
+                [15.78, -90.23],
+                {"bubblingMouseEvents": true, "color": "#f97316", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18.75, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_3109054693cbfcda79d534d11b68d86a = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_a293335c23795e5f5c3d0cee6a072220 = $(`<div id="html_a293335c23795e5f5c3d0cee6a072220" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             Guatemala             <span style='font-size:10px;color:#f97316;margin-left:8px;'>                 [LATAM &middot; ES]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>150</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>26.7%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>40</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>31.5 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$64</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.543</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_3109054693cbfcda79d534d11b68d86a.setContent(html_a293335c23795e5f5c3d0cee6a072220);
+            
+        
+
+        circle_marker_f939ef83257a98fbb72368fd61235844.bindPopup(popup_3109054693cbfcda79d534d11b68d86a)
+        ;
+
+        
+    
+    
+            circle_marker_f939ef83257a98fbb72368fd61235844.bindTooltip(
+                `<div>
+                     Guatemala | Churn=26.7% | n=150
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f1a1bb565b6fa1b7f7e65e923fe13e58 = L.circleMarker(
+                [20.59, 78.96],
+                {"bubblingMouseEvents": true, "color": "#10b981", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.0, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_bf78321f8ced222dc75d4079f7236e2d = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_3cca648ccaee5138ca9ed78657efddf2 = $(`<div id="html_3cca648ccaee5138ca9ed78657efddf2" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             India             <span style='font-size:10px;color:#10b981;margin-left:8px;'>                 [APAC &middot; JA]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>128</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>27.3%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>35</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>32.4 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$67</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.542</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_bf78321f8ced222dc75d4079f7236e2d.setContent(html_3cca648ccaee5138ca9ed78657efddf2);
+            
+        
+
+        circle_marker_f1a1bb565b6fa1b7f7e65e923fe13e58.bindPopup(popup_bf78321f8ced222dc75d4079f7236e2d)
+        ;
+
+        
+    
+    
+            circle_marker_f1a1bb565b6fa1b7f7e65e923fe13e58.bindTooltip(
+                `<div>
+                     India | Churn=27.3% | n=128
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_bd3123bbe785247ba7c9cf13de85a3fd = L.circleMarker(
+                [-0.79, 113.92],
+                {"bubblingMouseEvents": true, "color": "#10b981", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#10b981", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.75, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_c68a0509c3aff8bdb485f281c30c7745 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_9742ce61b79ee9ae39e8ac1b00fa0317 = $(`<div id="html_9742ce61b79ee9ae39e8ac1b00fa0317" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #10b981;'>         <h4 style='color:#10b981;margin:0 0 8px 0;font-size:14px;'>             Indonesia             <span style='font-size:10px;color:#10b981;margin-left:8px;'>                 [APAC &middot; JA]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>126</b></td></tr>             <tr><td style='color:#10b981;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#10b981;'>23.8%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>30</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>29.1 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$59</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.535</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_c68a0509c3aff8bdb485f281c30c7745.setContent(html_9742ce61b79ee9ae39e8ac1b00fa0317);
+            
+        
+
+        circle_marker_bd3123bbe785247ba7c9cf13de85a3fd.bindPopup(popup_c68a0509c3aff8bdb485f281c30c7745)
+        ;
+
+        
+    
+    
+            circle_marker_bd3123bbe785247ba7c9cf13de85a3fd.bindTooltip(
+                `<div>
+                     Indonesia | Churn=23.8% | n=126
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_acde19f04540562404d2ec3131c82884 = L.circleMarker(
+                [31.05, 34.85],
+                {"bubblingMouseEvents": true, "color": "#eab308", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.0, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_8004b3ea2f20fc5a273554b59b18ca81 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_41e070f807b907412eab5cf78475aef0 = $(`<div id="html_41e070f807b907412eab5cf78475aef0" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             Israel             <span style='font-size:10px;color:#eab308;margin-left:8px;'>                 [MENA &middot; AR]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>128</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>26.6%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>34</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>31.9 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$65</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.549</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_8004b3ea2f20fc5a273554b59b18ca81.setContent(html_41e070f807b907412eab5cf78475aef0);
+            
+        
+
+        circle_marker_acde19f04540562404d2ec3131c82884.bindPopup(popup_8004b3ea2f20fc5a273554b59b18ca81)
+        ;
+
+        
+    
+    
+            circle_marker_acde19f04540562404d2ec3131c82884.bindTooltip(
+                `<div>
+                     Israel | Churn=26.6% | n=128
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_dfaef6026184b672a68a46013cf2347e = L.circleMarker(
+                [41.87, 12.57],
+                {"bubblingMouseEvents": true, "color": "#8b5cf6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#10b981", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.875, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_0602e1c7f0c15d0da0ffd1725a67c38f = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_64c805654d94074b25193e45734bbccd = $(`<div id="html_64c805654d94074b25193e45734bbccd" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #10b981;'>         <h4 style='color:#10b981;margin:0 0 8px 0;font-size:14px;'>             Italy             <span style='font-size:10px;color:#8b5cf6;margin-left:8px;'>                 [EU &middot; FR]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>127</b></td></tr>             <tr><td style='color:#10b981;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#10b981;'>22.8%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>29</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>34.4 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$65</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.512</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_0602e1c7f0c15d0da0ffd1725a67c38f.setContent(html_64c805654d94074b25193e45734bbccd);
+            
+        
+
+        circle_marker_dfaef6026184b672a68a46013cf2347e.bindPopup(popup_0602e1c7f0c15d0da0ffd1725a67c38f)
+        ;
+
+        
+    
+    
+            circle_marker_dfaef6026184b672a68a46013cf2347e.bindTooltip(
+                `<div>
+                     Italy | Churn=22.8% | n=127
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a77a2aac3a82441e129b8b4744725e05 = L.circleMarker(
+                [36.2, 138.25],
+                {"bubblingMouseEvents": true, "color": "#10b981", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.625, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_b2d13aafc2c8333f53670490b27e0cdf = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_7721ce8002ae4cd469cf417a3137731a = $(`<div id="html_7721ce8002ae4cd469cf417a3137731a" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             Japan             <span style='font-size:10px;color:#10b981;margin-left:8px;'>                 [APAC &middot; JA]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>141</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>25.5%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>36</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>34.7 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$62</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.497</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_b2d13aafc2c8333f53670490b27e0cdf.setContent(html_7721ce8002ae4cd469cf417a3137731a);
+            
+        
+
+        circle_marker_a77a2aac3a82441e129b8b4744725e05.bindPopup(popup_b2d13aafc2c8333f53670490b27e0cdf)
+        ;
+
+        
+    
+    
+            circle_marker_a77a2aac3a82441e129b8b4744725e05.bindTooltip(
+                `<div>
+                     Japan | Churn=25.5% | n=141
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_77a3617ed83bbc383567bd3fb2d24e06 = L.circleMarker(
+                [30.59, 36.24],
+                {"bubblingMouseEvents": true, "color": "#eab308", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#10b981", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.375, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_0b786d049c7f1d429cfef297f8bd5975 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_30d7a70f1602c9d74c366b3eeb77ed49 = $(`<div id="html_30d7a70f1602c9d74c366b3eeb77ed49" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #10b981;'>         <h4 style='color:#10b981;margin:0 0 8px 0;font-size:14px;'>             Jordan             <span style='font-size:10px;color:#eab308;margin-left:8px;'>                 [MENA &middot; AR]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>123</b></td></tr>             <tr><td style='color:#10b981;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#10b981;'>22.8%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>28</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>33.8 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$63</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.519</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_0b786d049c7f1d429cfef297f8bd5975.setContent(html_30d7a70f1602c9d74c366b3eeb77ed49);
+            
+        
+
+        circle_marker_77a3617ed83bbc383567bd3fb2d24e06.bindPopup(popup_0b786d049c7f1d429cfef297f8bd5975)
+        ;
+
+        
+    
+    
+            circle_marker_77a3617ed83bbc383567bd3fb2d24e06.bindTooltip(
+                `<div>
+                     Jordan | Churn=22.8% | n=123
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_99a66be0a62fccbcc433668b07c4cf74 = L.circleMarker(
+                [48.02, 66.92],
+                {"bubblingMouseEvents": true, "color": "#a78bfa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18.875, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_edf4556180c84909e0d1a62d230a2034 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_72f7bf2cc0da9ddad2bae2f6a22f053d = $(`<div id="html_72f7bf2cc0da9ddad2bae2f6a22f053d" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             Kazakhstan             <span style='font-size:10px;color:#a78bfa;margin-left:8px;'>                 [CIS &middot; RU]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>151</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>26.5%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>40</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>31.4 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$68</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.541</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_edf4556180c84909e0d1a62d230a2034.setContent(html_72f7bf2cc0da9ddad2bae2f6a22f053d);
+            
+        
+
+        circle_marker_99a66be0a62fccbcc433668b07c4cf74.bindPopup(popup_edf4556180c84909e0d1a62d230a2034)
+        ;
+
+        
+    
+    
+            circle_marker_99a66be0a62fccbcc433668b07c4cf74.bindTooltip(
+                `<div>
+                     Kazakhstan | Churn=26.5% | n=151
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b7c3db3b319e095ab91badbf2f076f60 = L.circleMarker(
+                [-0.02, 37.91],
+                {"bubblingMouseEvents": true, "color": "#ef4444", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 19.125, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_b729ca9a67817a1942734b1ae4e13b0c = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_ef9a471a1f2345f8847c6494e735d6a4 = $(`<div id="html_ef9a471a1f2345f8847c6494e735d6a4" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             Kenya             <span style='font-size:10px;color:#ef4444;margin-left:8px;'>                 [Africa &middot; EN]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>153</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>24.8%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>38</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>34.2 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$65</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.525</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_b729ca9a67817a1942734b1ae4e13b0c.setContent(html_ef9a471a1f2345f8847c6494e735d6a4);
+            
+        
+
+        circle_marker_b7c3db3b319e095ab91badbf2f076f60.bindPopup(popup_b729ca9a67817a1942734b1ae4e13b0c)
+        ;
+
+        
+    
+    
+            circle_marker_b7c3db3b319e095ab91badbf2f076f60.bindTooltip(
+                `<div>
+                     Kenya | Churn=24.8% | n=153
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_af88ec5c02e69e2103d75ef205550909 = L.circleMarker(
+                [29.31, 47.48],
+                {"bubblingMouseEvents": true, "color": "#eab308", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#10b981", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.5, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_bf0dcc695af0fbfb09566b8f758d4e40 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_7a312e77ae37a8f8601d15d6ad0b6dcb = $(`<div id="html_7a312e77ae37a8f8601d15d6ad0b6dcb" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #10b981;'>         <h4 style='color:#10b981;margin:0 0 8px 0;font-size:14px;'>             Kuwait             <span style='font-size:10px;color:#eab308;margin-left:8px;'>                 [MENA &middot; AR]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>124</b></td></tr>             <tr><td style='color:#10b981;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#10b981;'>19.4%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>24</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>35.2 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$67</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.522</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_bf0dcc695af0fbfb09566b8f758d4e40.setContent(html_7a312e77ae37a8f8601d15d6ad0b6dcb);
+            
+        
+
+        circle_marker_af88ec5c02e69e2103d75ef205550909.bindPopup(popup_bf0dcc695af0fbfb09566b8f758d4e40)
+        ;
+
+        
+    
+    
+            circle_marker_af88ec5c02e69e2103d75ef205550909.bindTooltip(
+                `<div>
+                     Kuwait | Churn=19.4% | n=124
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4b99510f2cb66d81b36dbe1b951979c4 = L.circleMarker(
+                [33.85, 35.86],
+                {"bubblingMouseEvents": true, "color": "#eab308", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.375, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_427d590e6600fcb8c0fab24581ccd6c0 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_a9d3bf521a6d8f2acd6618064bfe8466 = $(`<div id="html_a9d3bf521a6d8f2acd6618064bfe8466" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             Lebanon             <span style='font-size:10px;color:#eab308;margin-left:8px;'>                 [MENA &middot; AR]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>139</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>25.2%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>35</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>31.8 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$64</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.541</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_427d590e6600fcb8c0fab24581ccd6c0.setContent(html_a9d3bf521a6d8f2acd6618064bfe8466);
+            
+        
+
+        circle_marker_4b99510f2cb66d81b36dbe1b951979c4.bindPopup(popup_427d590e6600fcb8c0fab24581ccd6c0)
+        ;
+
+        
+    
+    
+            circle_marker_4b99510f2cb66d81b36dbe1b951979c4.bindTooltip(
+                `<div>
+                     Lebanon | Churn=25.2% | n=139
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0d929131904ad935e1a0d86c79e0ec5d = L.circleMarker(
+                [4.21, 101.98],
+                {"bubblingMouseEvents": true, "color": "#10b981", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#10b981", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.125, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_ed8be69ad19ec06623b9a87be6773525 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_cce39a48a832b9ab646432b6aa2ca3ee = $(`<div id="html_cce39a48a832b9ab646432b6aa2ca3ee" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #10b981;'>         <h4 style='color:#10b981;margin:0 0 8px 0;font-size:14px;'>             Malaysia             <span style='font-size:10px;color:#10b981;margin-left:8px;'>                 [APAC &middot; JA]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>121</b></td></tr>             <tr><td style='color:#10b981;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#10b981;'>24.0%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>29</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>33.1 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$66</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.528</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_ed8be69ad19ec06623b9a87be6773525.setContent(html_cce39a48a832b9ab646432b6aa2ca3ee);
+            
+        
+
+        circle_marker_0d929131904ad935e1a0d86c79e0ec5d.bindPopup(popup_ed8be69ad19ec06623b9a87be6773525)
+        ;
+
+        
+    
+    
+            circle_marker_0d929131904ad935e1a0d86c79e0ec5d.bindTooltip(
+                `<div>
+                     Malaysia | Churn=24.0% | n=121
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_249eb0925459b49d2adcf4aba06d14cd = L.circleMarker(
+                [23.63, -102.55],
+                {"bubblingMouseEvents": true, "color": "#f97316", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.25, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_2b03d434e5753b958d9125d9f8ff054b = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_8f5ad8773bccc60dd71f6f4ed11a0fc8 = $(`<div id="html_8f5ad8773bccc60dd71f6f4ed11a0fc8" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             Mexico             <span style='font-size:10px;color:#f97316;margin-left:8px;'>                 [LATAM &middot; ES]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>130</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>24.6%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>32</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>35.4 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$61</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.496</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_2b03d434e5753b958d9125d9f8ff054b.setContent(html_8f5ad8773bccc60dd71f6f4ed11a0fc8);
+            
+        
+
+        circle_marker_249eb0925459b49d2adcf4aba06d14cd.bindPopup(popup_2b03d434e5753b958d9125d9f8ff054b)
+        ;
+
+        
+    
+    
+            circle_marker_249eb0925459b49d2adcf4aba06d14cd.bindTooltip(
+                `<div>
+                     Mexico | Churn=24.6% | n=130
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_37aa894325e438050f4007577edc72a7 = L.circleMarker(
+                [31.79, -7.09],
+                {"bubblingMouseEvents": true, "color": "#eab308", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.125, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_b5d709ebd0d87883b37fb961dcb15ba5 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_dc327db46b5f77e60227cd61731dd191 = $(`<div id="html_dc327db46b5f77e60227cd61731dd191" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             Morocco             <span style='font-size:10px;color:#eab308;margin-left:8px;'>                 [MENA &middot; AR]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>129</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>26.4%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>34</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>33.2 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$64</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.527</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_b5d709ebd0d87883b37fb961dcb15ba5.setContent(html_dc327db46b5f77e60227cd61731dd191);
+            
+        
+
+        circle_marker_37aa894325e438050f4007577edc72a7.bindPopup(popup_b5d709ebd0d87883b37fb961dcb15ba5)
+        ;
+
+        
+    
+    
+            circle_marker_37aa894325e438050f4007577edc72a7.bindTooltip(
+                `<div>
+                     Morocco | Churn=26.4% | n=129
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0355bc4ed582c7bde46ac2a3a1607178 = L.circleMarker(
+                [52.13, 5.29],
+                {"bubblingMouseEvents": true, "color": "#8b5cf6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#10b981", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18.25, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_92a98a35fdb1012d724510c9a5d9aced = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_599e1353d944b4b3bb5160d21d2b0265 = $(`<div id="html_599e1353d944b4b3bb5160d21d2b0265" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #10b981;'>         <h4 style='color:#10b981;margin:0 0 8px 0;font-size:14px;'>             Netherlands             <span style='font-size:10px;color:#8b5cf6;margin-left:8px;'>                 [EU &middot; FR]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>146</b></td></tr>             <tr><td style='color:#10b981;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#10b981;'>23.3%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>34</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>32.0 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$63</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.535</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_92a98a35fdb1012d724510c9a5d9aced.setContent(html_599e1353d944b4b3bb5160d21d2b0265);
+            
+        
+
+        circle_marker_0355bc4ed582c7bde46ac2a3a1607178.bindPopup(popup_92a98a35fdb1012d724510c9a5d9aced)
+        ;
+
+        
+    
+    
+            circle_marker_0355bc4ed582c7bde46ac2a3a1607178.bindTooltip(
+                `<div>
+                     Netherlands | Churn=23.3% | n=146
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_7f7b063b84cb9cd1ef935d9535d7ed8c = L.circleMarker(
+                [-40.9, 174.88],
+                {"bubblingMouseEvents": true, "color": "#3b82f6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18.875, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_de5929ab6e54e0fc8899d8379fc86c22 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_5c2ada87df933432af91635b1210cae3 = $(`<div id="html_5c2ada87df933432af91635b1210cae3" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             New Zealand             <span style='font-size:10px;color:#3b82f6;margin-left:8px;'>                 [NA &middot; EN]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>151</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>25.2%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>38</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>34.5 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$69</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.524</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_de5929ab6e54e0fc8899d8379fc86c22.setContent(html_5c2ada87df933432af91635b1210cae3);
+            
+        
+
+        circle_marker_7f7b063b84cb9cd1ef935d9535d7ed8c.bindPopup(popup_de5929ab6e54e0fc8899d8379fc86c22)
+        ;
+
+        
+    
+    
+            circle_marker_7f7b063b84cb9cd1ef935d9535d7ed8c.bindTooltip(
+                `<div>
+                     New Zealand | Churn=25.2% | n=151
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f7f3751a397ff88e7c3968e3f1229c1f = L.circleMarker(
+                [9.08, 8.68],
+                {"bubblingMouseEvents": true, "color": "#ef4444", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ef4444", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.375, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_d655a9ab2c8f8031687539ef6418b087 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_feb55fad5ceac832dd551ea4efcad378 = $(`<div id="html_feb55fad5ceac832dd551ea4efcad378" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #ef4444;'>         <h4 style='color:#ef4444;margin:0 0 8px 0;font-size:14px;'>             Nigeria             <span style='font-size:10px;color:#ef4444;margin-left:8px;'>                 [Africa &middot; EN]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>139</b></td></tr>             <tr><td style='color:#ef4444;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#ef4444;'>33.1%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>46</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>33.9 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$70</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.549</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_d655a9ab2c8f8031687539ef6418b087.setContent(html_feb55fad5ceac832dd551ea4efcad378);
+            
+        
+
+        circle_marker_f7f3751a397ff88e7c3968e3f1229c1f.bindPopup(popup_d655a9ab2c8f8031687539ef6418b087)
+        ;
+
+        
+    
+    
+            circle_marker_f7f3751a397ff88e7c3968e3f1229c1f.bindTooltip(
+                `<div>
+                     Nigeria | Churn=33.1% | n=139
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_79edae501432a3dc2ab2a1b6c0d454b4 = L.circleMarker(
+                [-9.19, -75.01],
+                {"bubblingMouseEvents": true, "color": "#f97316", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#10b981", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.25, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_63f0bf3be78617d46cf431ad1439d177 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_e46f386286f3c606b5d2ca7ffae6340d = $(`<div id="html_e46f386286f3c606b5d2ca7ffae6340d" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #10b981;'>         <h4 style='color:#10b981;margin:0 0 8px 0;font-size:14px;'>             Peru             <span style='font-size:10px;color:#f97316;margin-left:8px;'>                 [LATAM &middot; ES]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>130</b></td></tr>             <tr><td style='color:#10b981;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#10b981;'>23.8%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>31</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>33.1 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$62</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.524</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_63f0bf3be78617d46cf431ad1439d177.setContent(html_e46f386286f3c606b5d2ca7ffae6340d);
+            
+        
+
+        circle_marker_79edae501432a3dc2ab2a1b6c0d454b4.bindPopup(popup_63f0bf3be78617d46cf431ad1439d177)
+        ;
+
+        
+    
+    
+            circle_marker_79edae501432a3dc2ab2a1b6c0d454b4.bindTooltip(
+                `<div>
+                     Peru | Churn=23.8% | n=130
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f5ea570c3a51181925e3428832a32bf6 = L.circleMarker(
+                [12.88, 121.77],
+                {"bubblingMouseEvents": true, "color": "#10b981", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#10b981", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.875, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_e342a7ebe47c95184fac61c6d70b91e3 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_44e43d28291ba28e23e0bceabecc0092 = $(`<div id="html_44e43d28291ba28e23e0bceabecc0092" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #10b981;'>         <h4 style='color:#10b981;margin:0 0 8px 0;font-size:14px;'>             Philippines             <span style='font-size:10px;color:#10b981;margin-left:8px;'>                 [APAC &middot; JA]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>127</b></td></tr>             <tr><td style='color:#10b981;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#10b981;'>21.3%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>27</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>31.4 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$66</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.543</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_e342a7ebe47c95184fac61c6d70b91e3.setContent(html_44e43d28291ba28e23e0bceabecc0092);
+            
+        
+
+        circle_marker_f5ea570c3a51181925e3428832a32bf6.bindPopup(popup_e342a7ebe47c95184fac61c6d70b91e3)
+        ;
+
+        
+    
+    
+            circle_marker_f5ea570c3a51181925e3428832a32bf6.bindTooltip(
+                `<div>
+                     Philippines | Churn=21.3% | n=127
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3e3069cf3b0462c666c6a3d1ffa7beb7 = L.circleMarker(
+                [51.92, 19.15],
+                {"bubblingMouseEvents": true, "color": "#8b5cf6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18.0, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_2967cf7997d50836f9e63d7b08b40342 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_b20dc721c0182a18576ae400c67f24de = $(`<div id="html_b20dc721c0182a18576ae400c67f24de" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             Poland             <span style='font-size:10px;color:#8b5cf6;margin-left:8px;'>                 [EU &middot; FR]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>144</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>27.8%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>40</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>30.9 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$68</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.571</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_2967cf7997d50836f9e63d7b08b40342.setContent(html_b20dc721c0182a18576ae400c67f24de);
+            
+        
+
+        circle_marker_3e3069cf3b0462c666c6a3d1ffa7beb7.bindPopup(popup_2967cf7997d50836f9e63d7b08b40342)
+        ;
+
+        
+    
+    
+            circle_marker_3e3069cf3b0462c666c6a3d1ffa7beb7.bindTooltip(
+                `<div>
+                     Poland | Churn=27.8% | n=144
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d939c80ee235586ddc7c64a353de7c9c = L.circleMarker(
+                [39.4, -8.22],
+                {"bubblingMouseEvents": true, "color": "#8b5cf6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#10b981", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.625, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_f6e0c688a9de5699404b4ca7934e65b5 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_004bdd8f1b66a65ae0a7fe5994e4d9a8 = $(`<div id="html_004bdd8f1b66a65ae0a7fe5994e4d9a8" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #10b981;'>         <h4 style='color:#10b981;margin:0 0 8px 0;font-size:14px;'>             Portugal             <span style='font-size:10px;color:#8b5cf6;margin-left:8px;'>                 [EU &middot; FR]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>133</b></td></tr>             <tr><td style='color:#10b981;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#10b981;'>20.3%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>27</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>32.3 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$61</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.526</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_f6e0c688a9de5699404b4ca7934e65b5.setContent(html_004bdd8f1b66a65ae0a7fe5994e4d9a8);
+            
+        
+
+        circle_marker_d939c80ee235586ddc7c64a353de7c9c.bindPopup(popup_f6e0c688a9de5699404b4ca7934e65b5)
+        ;
+
+        
+    
+    
+            circle_marker_d939c80ee235586ddc7c64a353de7c9c.bindTooltip(
+                `<div>
+                     Portugal | Churn=20.3% | n=133
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d3fc40614891aea8b2ccea0993a19257 = L.circleMarker(
+                [25.35, 51.18],
+                {"bubblingMouseEvents": true, "color": "#eab308", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ef4444", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 14.5, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_aea988221bf494d298130fbab49cad25 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_79cb7bf6a89b5b001aa6779959e0c257 = $(`<div id="html_79cb7bf6a89b5b001aa6779959e0c257" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #ef4444;'>         <h4 style='color:#ef4444;margin:0 0 8px 0;font-size:14px;'>             Qatar             <span style='font-size:10px;color:#eab308;margin-left:8px;'>                 [MENA &middot; AR]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>116</b></td></tr>             <tr><td style='color:#ef4444;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#ef4444;'>33.6%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>39</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>28.4 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$67</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.585</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_aea988221bf494d298130fbab49cad25.setContent(html_79cb7bf6a89b5b001aa6779959e0c257);
+            
+        
+
+        circle_marker_d3fc40614891aea8b2ccea0993a19257.bindPopup(popup_aea988221bf494d298130fbab49cad25)
+        ;
+
+        
+    
+    
+            circle_marker_d3fc40614891aea8b2ccea0993a19257.bindTooltip(
+                `<div>
+                     Qatar | Churn=33.6% | n=116
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_57660fcc735f01aa6bc5a94f95c27d54 = L.circleMarker(
+                [61.52, 105.32],
+                {"bubblingMouseEvents": true, "color": "#a78bfa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.375, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_32307ddb3d28a1dc789ac97bd89a1c7c = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_1c96277ea9a7d5ef02df3b06e155f3f2 = $(`<div id="html_1c96277ea9a7d5ef02df3b06e155f3f2" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             Russia             <span style='font-size:10px;color:#a78bfa;margin-left:8px;'>                 [CIS &middot; RU]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>131</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>26.0%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>34</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>30.6 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$62</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.535</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_32307ddb3d28a1dc789ac97bd89a1c7c.setContent(html_1c96277ea9a7d5ef02df3b06e155f3f2);
+            
+        
+
+        circle_marker_57660fcc735f01aa6bc5a94f95c27d54.bindPopup(popup_32307ddb3d28a1dc789ac97bd89a1c7c)
+        ;
+
+        
+    
+    
+            circle_marker_57660fcc735f01aa6bc5a94f95c27d54.bindTooltip(
+                `<div>
+                     Russia | Churn=26.0% | n=131
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2d15f3da099e64e922f3f4f7f966072e = L.circleMarker(
+                [23.89, 45.08],
+                {"bubblingMouseEvents": true, "color": "#eab308", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 14.875, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_fffc92fc6ddccd7b9fb5a7c830fa737b = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_1134553cbf87bad0d119b6c550ae128e = $(`<div id="html_1134553cbf87bad0d119b6c550ae128e" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             Saudi Arabia             <span style='font-size:10px;color:#eab308;margin-left:8px;'>                 [MENA &middot; AR]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>119</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>29.4%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>35</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>32.0 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$68</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.555</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_fffc92fc6ddccd7b9fb5a7c830fa737b.setContent(html_1134553cbf87bad0d119b6c550ae128e);
+            
+        
+
+        circle_marker_2d15f3da099e64e922f3f4f7f966072e.bindPopup(popup_fffc92fc6ddccd7b9fb5a7c830fa737b)
+        ;
+
+        
+    
+    
+            circle_marker_2d15f3da099e64e922f3f4f7f966072e.bindTooltip(
+                `<div>
+                     Saudi Arabia | Churn=29.4% | n=119
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_576dfbced3b2c673174d78abca957949 = L.circleMarker(
+                [1.35, 103.82],
+                {"bubblingMouseEvents": true, "color": "#10b981", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.25, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_1ddcbe512618d8185e0b0aa0f1cc9660 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_9a89aacb6f3e851f42572b3e48a46268 = $(`<div id="html_9a89aacb6f3e851f42572b3e48a46268" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             Singapore             <span style='font-size:10px;color:#10b981;margin-left:8px;'>                 [APAC &middot; JA]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>138</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>27.5%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>38</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>32.0 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$63</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.548</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_1ddcbe512618d8185e0b0aa0f1cc9660.setContent(html_9a89aacb6f3e851f42572b3e48a46268);
+            
+        
+
+        circle_marker_576dfbced3b2c673174d78abca957949.bindPopup(popup_1ddcbe512618d8185e0b0aa0f1cc9660)
+        ;
+
+        
+    
+    
+            circle_marker_576dfbced3b2c673174d78abca957949.bindTooltip(
+                `<div>
+                     Singapore | Churn=27.5% | n=138
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_bc437cc29eaea88cd0f66b24eb33375d = L.circleMarker(
+                [-30.56, 22.94],
+                {"bubblingMouseEvents": true, "color": "#ef4444", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 14.5, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_7f4d1df2da43341e84984126c5e06303 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_119012803a555cf3ccdeb7249f0182d0 = $(`<div id="html_119012803a555cf3ccdeb7249f0182d0" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             South Africa             <span style='font-size:10px;color:#ef4444;margin-left:8px;'>                 [Africa &middot; EN]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>116</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>24.1%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>28</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>31.1 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$68</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.554</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_7f4d1df2da43341e84984126c5e06303.setContent(html_119012803a555cf3ccdeb7249f0182d0);
+            
+        
+
+        circle_marker_bc437cc29eaea88cd0f66b24eb33375d.bindPopup(popup_7f4d1df2da43341e84984126c5e06303)
+        ;
+
+        
+    
+    
+            circle_marker_bc437cc29eaea88cd0f66b24eb33375d.bindTooltip(
+                `<div>
+                     South Africa | Churn=24.1% | n=116
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_7cd97b57b1649a62e9420cddab0e6c44 = L.circleMarker(
+                [35.91, 127.77],
+                {"bubblingMouseEvents": true, "color": "#10b981", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18.75, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_112d032f35b11d4d872f18ccba57b6bf = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_82c8d5c9e584cbb609c61a51213d1dbe = $(`<div id="html_82c8d5c9e584cbb609c61a51213d1dbe" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             South Korea             <span style='font-size:10px;color:#10b981;margin-left:8px;'>                 [APAC &middot; JA]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>150</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>26.7%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>40</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>33.1 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$67</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.527</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_112d032f35b11d4d872f18ccba57b6bf.setContent(html_82c8d5c9e584cbb609c61a51213d1dbe);
+            
+        
+
+        circle_marker_7cd97b57b1649a62e9420cddab0e6c44.bindPopup(popup_112d032f35b11d4d872f18ccba57b6bf)
+        ;
+
+        
+    
+    
+            circle_marker_7cd97b57b1649a62e9420cddab0e6c44.bindTooltip(
+                `<div>
+                     South Korea | Churn=26.7% | n=150
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_02afb20ed662ae2a9a4873fe4227ceff = L.circleMarker(
+                [40.46, -3.75],
+                {"bubblingMouseEvents": true, "color": "#8b5cf6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#10b981", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18.25, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_03b75f4b616a6cb85e05f5d942c419f4 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_8ab8341e86610bf00f7dbb667adc7f2e = $(`<div id="html_8ab8341e86610bf00f7dbb667adc7f2e" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #10b981;'>         <h4 style='color:#10b981;margin:0 0 8px 0;font-size:14px;'>             Spain             <span style='font-size:10px;color:#8b5cf6;margin-left:8px;'>                 [EU &middot; FR]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>146</b></td></tr>             <tr><td style='color:#10b981;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#10b981;'>24.0%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>35</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>32.1 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$60</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.532</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_03b75f4b616a6cb85e05f5d942c419f4.setContent(html_8ab8341e86610bf00f7dbb667adc7f2e);
+            
+        
+
+        circle_marker_02afb20ed662ae2a9a4873fe4227ceff.bindPopup(popup_03b75f4b616a6cb85e05f5d942c419f4)
+        ;
+
+        
+    
+    
+            circle_marker_02afb20ed662ae2a9a4873fe4227ceff.bindTooltip(
+                `<div>
+                     Spain | Churn=24.0% | n=146
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2a59280e3f4b3144d17a23727bb3de07 = L.circleMarker(
+                [60.13, 18.64],
+                {"bubblingMouseEvents": true, "color": "#8b5cf6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 20.125, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_beb495d7ed6fff051476fcfb96061234 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_d45862bb3b68d4c30e8ca6b01828a3ae = $(`<div id="html_d45862bb3b68d4c30e8ca6b01828a3ae" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             Sweden             <span style='font-size:10px;color:#8b5cf6;margin-left:8px;'>                 [EU &middot; FR]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>161</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>28.0%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>45</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>33.3 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$62</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.499</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_beb495d7ed6fff051476fcfb96061234.setContent(html_d45862bb3b68d4c30e8ca6b01828a3ae);
+            
+        
+
+        circle_marker_2a59280e3f4b3144d17a23727bb3de07.bindPopup(popup_beb495d7ed6fff051476fcfb96061234)
+        ;
+
+        
+    
+    
+            circle_marker_2a59280e3f4b3144d17a23727bb3de07.bindTooltip(
+                `<div>
+                     Sweden | Churn=28.0% | n=161
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_128e60b26c49ab8318f80e2e2ccba301 = L.circleMarker(
+                [46.82, 8.23],
+                {"bubblingMouseEvents": true, "color": "#8b5cf6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#10b981", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.5, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_46fb2908567cfb290c0b52d9c15b6dfb = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_2db8072f2edadf38af814e2b88db081b = $(`<div id="html_2db8072f2edadf38af814e2b88db081b" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #10b981;'>         <h4 style='color:#10b981;margin:0 0 8px 0;font-size:14px;'>             Switzerland             <span style='font-size:10px;color:#8b5cf6;margin-left:8px;'>                 [EU &middot; FR]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>140</b></td></tr>             <tr><td style='color:#10b981;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#10b981;'>22.9%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>32</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>33.4 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$68</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.536</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_46fb2908567cfb290c0b52d9c15b6dfb.setContent(html_2db8072f2edadf38af814e2b88db081b);
+            
+        
+
+        circle_marker_128e60b26c49ab8318f80e2e2ccba301.bindPopup(popup_46fb2908567cfb290c0b52d9c15b6dfb)
+        ;
+
+        
+    
+    
+            circle_marker_128e60b26c49ab8318f80e2e2ccba301.bindTooltip(
+                `<div>
+                     Switzerland | Churn=22.9% | n=140
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b55aa2b991876ad76391af344797504d = L.circleMarker(
+                [15.87, 100.99],
+                {"bubblingMouseEvents": true, "color": "#10b981", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ef4444", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.875, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_65a15e3728bf8a9e01e97d6103f40753 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_24120bb84ef159add90f0f6c44d6f835 = $(`<div id="html_24120bb84ef159add90f0f6c44d6f835" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #ef4444;'>         <h4 style='color:#ef4444;margin:0 0 8px 0;font-size:14px;'>             Thailand             <span style='font-size:10px;color:#10b981;margin-left:8px;'>                 [APAC &middot; JA]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>127</b></td></tr>             <tr><td style='color:#ef4444;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#ef4444;'>32.3%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>41</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>30.9 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$67</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.559</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_65a15e3728bf8a9e01e97d6103f40753.setContent(html_24120bb84ef159add90f0f6c44d6f835);
+            
+        
+
+        circle_marker_b55aa2b991876ad76391af344797504d.bindPopup(popup_65a15e3728bf8a9e01e97d6103f40753)
+        ;
+
+        
+    
+    
+            circle_marker_b55aa2b991876ad76391af344797504d.bindTooltip(
+                `<div>
+                     Thailand | Churn=32.3% | n=127
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_cb8d65b9bef1e319836c74226bd50247 = L.circleMarker(
+                [38.96, 35.24],
+                {"bubblingMouseEvents": true, "color": "#eab308", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 19.125, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_9f0b42e2be6d00748b26da87bf4d491d = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_ddb99d9c7e57e4af69b0a52001b0064f = $(`<div id="html_ddb99d9c7e57e4af69b0a52001b0064f" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             Turkey             <span style='font-size:10px;color:#eab308;margin-left:8px;'>                 [MENA &middot; AR]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>153</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>26.1%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>40</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>30.1 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$62</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.547</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_9f0b42e2be6d00748b26da87bf4d491d.setContent(html_ddb99d9c7e57e4af69b0a52001b0064f);
+            
+        
+
+        circle_marker_cb8d65b9bef1e319836c74226bd50247.bindPopup(popup_9f0b42e2be6d00748b26da87bf4d491d)
+        ;
+
+        
+    
+    
+            circle_marker_cb8d65b9bef1e319836c74226bd50247.bindTooltip(
+                `<div>
+                     Turkey | Churn=26.1% | n=153
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_94df9f90b55f808fa592dd1fbbb50e5c = L.circleMarker(
+                [23.42, 53.85],
+                {"bubblingMouseEvents": true, "color": "#eab308", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.375, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_782f39358c1b04788bc8779ea86d5997 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_7320887d77d6296f16d481c92574e268 = $(`<div id="html_7320887d77d6296f16d481c92574e268" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             UAE             <span style='font-size:10px;color:#eab308;margin-left:8px;'>                 [MENA &middot; AR]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>131</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>26.7%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>35</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>34.8 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$69</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.525</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_782f39358c1b04788bc8779ea86d5997.setContent(html_7320887d77d6296f16d481c92574e268);
+            
+        
+
+        circle_marker_94df9f90b55f808fa592dd1fbbb50e5c.bindPopup(popup_782f39358c1b04788bc8779ea86d5997)
+        ;
+
+        
+    
+    
+            circle_marker_94df9f90b55f808fa592dd1fbbb50e5c.bindTooltip(
+                `<div>
+                     UAE | Churn=26.7% | n=131
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e97fa5a9996faa217855d16980bdb73d = L.circleMarker(
+                [48.38, 31.17],
+                {"bubblingMouseEvents": true, "color": "#a78bfa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#10b981", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.0, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_cfd7c251f3bf6501178aae5f9062b1d5 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_db991917dbf33d8824a1bc13ac71fb43 = $(`<div id="html_db991917dbf33d8824a1bc13ac71fb43" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #10b981;'>         <h4 style='color:#10b981;margin:0 0 8px 0;font-size:14px;'>             Ukraine             <span style='font-size:10px;color:#a78bfa;margin-left:8px;'>                 [CIS &middot; RU]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>120</b></td></tr>             <tr><td style='color:#10b981;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#10b981;'>20.8%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>25</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>36.7 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$67</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.493</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_cfd7c251f3bf6501178aae5f9062b1d5.setContent(html_db991917dbf33d8824a1bc13ac71fb43);
+            
+        
+
+        circle_marker_e97fa5a9996faa217855d16980bdb73d.bindPopup(popup_cfd7c251f3bf6501178aae5f9062b1d5)
+        ;
+
+        
+    
+    
+            circle_marker_e97fa5a9996faa217855d16980bdb73d.bindTooltip(
+                `<div>
+                     Ukraine | Churn=20.8% | n=120
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_262feb5f40159b15a0a90198b710f1d9 = L.circleMarker(
+                [55.38, -3.44],
+                {"bubblingMouseEvents": true, "color": "#8b5cf6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#10b981", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 19.25, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_8daf6fde9fea0087aa1b4712303898c3 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_b66674bedb7e73fea6029c6b3ea3ba3e = $(`<div id="html_b66674bedb7e73fea6029c6b3ea3ba3e" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #10b981;'>         <h4 style='color:#10b981;margin:0 0 8px 0;font-size:14px;'>             United Kingdom             <span style='font-size:10px;color:#8b5cf6;margin-left:8px;'>                 [EU &middot; FR]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>154</b></td></tr>             <tr><td style='color:#10b981;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#10b981;'>21.4%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>33</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>35.3 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$59</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.476</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_8daf6fde9fea0087aa1b4712303898c3.setContent(html_b66674bedb7e73fea6029c6b3ea3ba3e);
+            
+        
+
+        circle_marker_262feb5f40159b15a0a90198b710f1d9.bindPopup(popup_8daf6fde9fea0087aa1b4712303898c3)
+        ;
+
+        
+    
+    
+            circle_marker_262feb5f40159b15a0a90198b710f1d9.bindTooltip(
+                `<div>
+                     United Kingdom | Churn=21.4% | n=154
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0482b0682eb5b76d1bba51af53880744 = L.circleMarker(
+                [37.09, -95.71],
+                {"bubblingMouseEvents": true, "color": "#3b82f6", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.0, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_9ecb080365f428a8028e3c1af0cbc7e6 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_79136bb3b5b65d8641d34a73ab47d948 = $(`<div id="html_79136bb3b5b65d8641d34a73ab47d948" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             United States             <span style='font-size:10px;color:#3b82f6;margin-left:8px;'>                 [NA &middot; EN]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>136</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>29.4%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>40</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>34.6 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$67</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.540</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_9ecb080365f428a8028e3c1af0cbc7e6.setContent(html_79136bb3b5b65d8641d34a73ab47d948);
+            
+        
+
+        circle_marker_0482b0682eb5b76d1bba51af53880744.bindPopup(popup_9ecb080365f428a8028e3c1af0cbc7e6)
+        ;
+
+        
+    
+    
+            circle_marker_0482b0682eb5b76d1bba51af53880744.bindTooltip(
+                `<div>
+                     United States | Churn=29.4% | n=136
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3b7352e29ac39fe39ead40726b1da2b0 = L.circleMarker(
+                [41.38, 64.59],
+                {"bubblingMouseEvents": true, "color": "#a78bfa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18.0, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_a1d35e1b7162e6b21e1c47273c95de78 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_7b3661aff2b217eb9c293d5549099ff4 = $(`<div id="html_7b3661aff2b217eb9c293d5549099ff4" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             Uzbekistan             <span style='font-size:10px;color:#a78bfa;margin-left:8px;'>                 [CIS &middot; RU]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>144</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>25.7%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>37</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>34.0 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$66</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.523</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_a1d35e1b7162e6b21e1c47273c95de78.setContent(html_7b3661aff2b217eb9c293d5549099ff4);
+            
+        
+
+        circle_marker_3b7352e29ac39fe39ead40726b1da2b0.bindPopup(popup_a1d35e1b7162e6b21e1c47273c95de78)
+        ;
+
+        
+    
+    
+            circle_marker_3b7352e29ac39fe39ead40726b1da2b0.bindTooltip(
+                `<div>
+                     Uzbekistan | Churn=25.7% | n=144
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0248ea41005114ebb22a1c0c43a8f953 = L.circleMarker(
+                [6.42, -66.59],
+                {"bubblingMouseEvents": true, "color": "#f97316", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 13.625, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_3d0fc23bf94b69665095825493ce14f2 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_ee603b50ec217fc3b7e65010dca9db06 = $(`<div id="html_ee603b50ec217fc3b7e65010dca9db06" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             Venezuela             <span style='font-size:10px;color:#f97316;margin-left:8px;'>                 [LATAM &middot; ES]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>109</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>26.6%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>29</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>30.3 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$63</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.537</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_3d0fc23bf94b69665095825493ce14f2.setContent(html_ee603b50ec217fc3b7e65010dca9db06);
+            
+        
+
+        circle_marker_0248ea41005114ebb22a1c0c43a8f953.bindPopup(popup_3d0fc23bf94b69665095825493ce14f2)
+        ;
+
+        
+    
+    
+            circle_marker_0248ea41005114ebb22a1c0c43a8f953.bindTooltip(
+                `<div>
+                     Venezuela | Churn=26.6% | n=109
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_86c592522e0bf5b6a7ea7d1020425cee = L.circleMarker(
+                [14.06, 108.28],
+                {"bubblingMouseEvents": true, "color": "#10b981", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#f59e0b", "fillOpacity": 0.72, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.125, "stroke": true, "weight": 1.5}
+            ).addTo(map_411b20c2340594eb591bd0be4ee9178e);
+        
+    
+        var popup_9eb801d098d994f1818c65d9ff8dd7c9 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_c6d67108cbb7138efee9938aa64c3dde = $(`<div id="html_c6d67108cbb7138efee9938aa64c3dde" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial,sans-serif;background:#0f1117;color:white;                 padding:14px;border-radius:10px;min-width:240px;                 border:2px solid #f59e0b;'>         <h4 style='color:#f59e0b;margin:0 0 8px 0;font-size:14px;'>             Vietnam             <span style='font-size:10px;color:#10b981;margin-left:8px;'>                 [APAC &middot; JA]             </span>         </h4>         <table style='width:100%;font-size:12px;border-collapse:collapse;'>             <tr><td style='color:#94a3b8;padding:2px 0;'>Total customers</td>                 <td style='text-align:right;'><b>137</b></td></tr>             <tr><td style='color:#f59e0b;padding:2px 0;'>Churn rate</td>                 <td style='text-align:right;'><b style='color:#f59e0b;'>27.0%</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Churned</td>                 <td style='text-align:right;'><b>37</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg tenure</td>                 <td style='text-align:right;'><b>28.3 mo</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg monthly</td>                 <td style='text-align:right;'><b>$62</b></td></tr>             <tr><td style='color:#94a3b8;padding:2px 0;'>Avg risk score</td>                 <td style='text-align:right;'><b>0.576</b></td></tr>         </table>         <div style='margin-top:8px;font-size:10px;color:#475569;'>             LumindAd &middot; TelecomX Churn Intelligence v3.0         </div>     </div>     </div>`)[0];
+                popup_9eb801d098d994f1818c65d9ff8dd7c9.setContent(html_c6d67108cbb7138efee9938aa64c3dde);
+            
+        
+
+        circle_marker_86c592522e0bf5b6a7ea7d1020425cee.bindPopup(popup_9eb801d098d994f1818c65d9ff8dd7c9)
+        ;
+
+        
+    
+    
+            circle_marker_86c592522e0bf5b6a7ea7d1020425cee.bindTooltip(
+                `<div>
+                     Vietnam | Churn=27.0% | n=137
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+</script>
+</html>

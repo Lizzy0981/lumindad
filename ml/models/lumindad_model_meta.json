@@ -1,0 +1,274 @@
+{
+  "version": "LumindAd_TelecomX_v3.0",
+  "pipeline": "TelecomX Churn Intelligence \u00b7 LumindAd Global ML",
+  "author": "Elizabeth D\u00edaz Familia \u00b7 Sustainable AI Scientist",
+  "task": "Binary Classification \u2014 Customer Churn Prediction",
+  "target": "Churn  (1 = churned, 0 = retained)",
+  "dataset": {
+    "source": "raw/TelecomX_Data.json",
+    "processed": "processed/LumindAd_TelecomX_Global_v3.csv",
+    "total_rows": 7267,
+    "train_rows": 8636,
+    "test_rows": 1454,
+    "churn_rate": 0.2572,
+    "smote": true,
+    "scaler": "RobustScaler"
+  },
+  "features": {
+    "count": 26,
+    "names": [
+      "country",
+      "region",
+      "lang",
+      "gender",
+      "SeniorCitizen",
+      "Partner",
+      "Dependents",
+      "tenure",
+      "tenure_band",
+      "PhoneService",
+      "MultipleLines",
+      "InternetService",
+      "OnlineSecurity",
+      "OnlineBackup",
+      "DeviceProtection",
+      "TechSupport",
+      "StreamingTV",
+      "StreamingMovies",
+      "Contract",
+      "Contract_enc",
+      "PaperlessBilling",
+      "PaymentMethod",
+      "MonthlyCharges",
+      "TotalCharges",
+      "charge_tier",
+      "churn_risk_score"
+    ],
+    "label_encoders": {
+      "gender": [
+        "Female",
+        "Male"
+      ],
+      "InternetService": [
+        "DSL",
+        "Fiber optic",
+        "No"
+      ],
+      "Contract": [
+        "Month-to-month",
+        "One year",
+        "Two year"
+      ],
+      "PaymentMethod": [
+        "Bank transfer (automatic)",
+        "Credit card (automatic)",
+        "Electronic check",
+        "Mailed check"
+      ],
+      "region": [
+        "APAC",
+        "Africa",
+        "CIS",
+        "EU",
+        "LATAM",
+        "MENA",
+        NaN
+      ],
+      "lang": [
+        "ar",
+        "en",
+        "es",
+        "fr",
+        "ja",
+        "ru"
+      ],
+      "country": [
+        "Argentina",
+        "Australia",
+        "Belarus",
+        "Brazil",
+        "Canada",
+        "Chile",
+        "China",
+        "Colombia",
+        "Dominican Republic",
+        "Ecuador",
+        "Egypt",
+        "Ethiopia",
+        "France",
+        "Germany",
+        "Ghana",
+        "Guatemala",
+        "India",
+        "Indonesia",
+        "Israel",
+        "Italy",
+        "Japan",
+        "Jordan",
+        "Kazakhstan",
+        "Kenya",
+        "Kuwait",
+        "Lebanon",
+        "Malaysia",
+        "Mexico",
+        "Morocco",
+        "Netherlands",
+        "New Zealand",
+        "Nigeria",
+        "Peru",
+        "Philippines",
+        "Poland",
+        "Portugal",
+        "Qatar",
+        "Russia",
+        "Saudi Arabia",
+        "Singapore",
+        "South Africa",
+        "South Korea",
+        "Spain",
+        "Sweden",
+        "Switzerland",
+        "Thailand",
+        "Turkey",
+        "UAE",
+        "Ukraine",
+        "United Kingdom",
+        "United States",
+        "Uzbekistan",
+        "Venezuela",
+        "Vietnam"
+      ],
+      "tenure_band": [
+        "Champion (60+m)",
+        "Growing (13-36m)",
+        "Loyal (37-60m)",
+        "New (0-12m)"
+      ],
+      "charge_tier": [
+        "High",
+        "Low",
+        "Mid",
+        "Premium"
+      ]
+    }
+  },
+  "models": {
+    "XGBoost": {
+      "file": "best_ml_XGBoost.pkl",
+      "type": "Classical ML",
+      "metrics": {
+        "accuracy": 0.7627,
+        "precision": 0.5275,
+        "recall": 0.7433,
+        "f1": 0.6171,
+        "roc_auc": 0.8252
+      },
+      "train_time_s": 2.0,
+      "optimal_threshold": 0.3155
+    },
+    "MLP": {
+      "file": "LumindAd_MLP.keras",
+      "type": "Deep Learning",
+      "metrics": {
+        "accuracy": 0.7235,
+        "precision": 0.4784,
+        "recall": 0.8289,
+        "f1": 0.6067,
+        "roc_auc": 0.8215
+      },
+      "train_time_s": 10.66,
+      "params": 51969,
+      "optimal_threshold": 0.3637
+    },
+    "LSTM": {
+      "file": "LumindAd_LSTM.keras",
+      "type": "Deep Learning",
+      "metrics": {
+        "accuracy": 0.6417,
+        "precision": 0.4091,
+        "recall": 0.885,
+        "f1": 0.5596,
+        "roc_auc": 0.7321
+      },
+      "train_time_s": 40.63,
+      "params": 30529,
+      "optimal_threshold": 0.4435
+    },
+    "CNN1D": {
+      "file": "LumindAd_CNN1D.keras",
+      "type": "Deep Learning",
+      "metrics": {
+        "accuracy": 0.7118,
+        "precision": 0.4599,
+        "recall": 0.6898,
+        "f1": 0.5519,
+        "roc_auc": 0.7758
+      },
+      "train_time_s": 14.66,
+      "params": 7905,
+      "optimal_threshold": 0.495
+    },
+    "Autoencoder": {
+      "file": "LumindAd_Autoencoder.keras",
+      "type": "Deep Learning",
+      "metrics": {
+        "accuracy": 0.3879,
+        "precision": 0.2846,
+        "recall": 0.9118,
+        "f1": 0.4338,
+        "roc_auc": 0.5228
+      },
+      "train_time_s": 16.6,
+      "params": 29418,
+      "anomaly_threshold": 0.11055177,
+      "optimal_threshold": 0.1852,
+      "anomaly_threshold_mse": 0.11323403559323343
+    }
+  },
+  "best_model": {
+    "name": "XGBoost",
+    "f1": 0.6171,
+    "roc_auc": 0.8252,
+    "optimal_threshold": 0.3155
+  },
+  "architecture": {
+    "MLP": "Input\u2192Dense(256,relu,L2)\u2192BN\u2192Drop(0.3)\u2192Dense(128,relu,L2)\u2192BN\u2192Drop(0.3)\u2192Dense(64,relu)\u2192BN\u2192Drop(0.2)\u2192Dense(32,relu)\u2192Dense(1,sigmoid)",
+    "LSTM": "Input\u2192Reshape(N,1)\u2192LSTM(64,seq,drop=0.2)\u2192LSTM(32,drop=0.2)\u2192Dense(32,relu)\u2192BN\u2192Drop(0.25)\u2192Dense(1,sigmoid)",
+    "CNN1D": "Input\u2192Reshape(N,1)\u2192Conv1D(64,k=3,same)\u2192BN\u2192MaxPool(2)\u2192Conv1D(32,k=3,same)\u2192BN\u2192GAP\u2192Dense(32,relu)\u2192Drop(0.25)\u2192Dense(1,sigmoid)",
+    "Autoencoder": "Encoder: Input\u2192Dense(128)\u2192BN\u2192Drop(0.2)\u2192Dense(64)\u2192Dense(32)\u2192bottleneck(16) | Decoder: \u2192Dense(32)\u2192Dense(64)\u2192BN\u2192Dense(128)\u2192Dense(N,linear)"
+  },
+  "training": {
+    "optimizer": "Adam(lr=1e-3)",
+    "loss": "binary_crossentropy",
+    "callbacks": [
+      "EarlyStopping(val_auc,patience=10)",
+      "ReduceLROnPlateau(factor=0.5,patience=5)"
+    ],
+    "batch_size": 256,
+    "max_epochs": {
+      "MLP": 80,
+      "LSTM": 60,
+      "CNN1D": 60,
+      "Autoencoder": 50
+    }
+  },
+  "preprocessing_order": [
+    "1. Load CSV from data/processed/",
+    "2. LabelEncode categoricals (use features.label_encoders map)",
+    "3. Drop columns: customerID, cpc_index",
+    "4. fillna(0)",
+    "5. X_scaled = RobustScaler.transform(X)  \u2190 load scaler_robust.pkl",
+    "6. churn_prob = model.predict(X_scaled)   \u2190 threshold 0.5 for classification"
+  ],
+  "scaler_file": "scaler_robust.pkl",
+  "green_ai": {
+    "standard": "GHG Protocol Scope 2",
+    "cpu_w": 95,
+    "gpu_w": 250,
+    "pue": 1.57,
+    "carbon_intensity_kgco2_kwh": 0.475,
+    "total_co2_g": 5.93902,
+    "rating": "YELLOW"
+  },
+  "calibration_note": "All thresholds calibrated via ROC curve F1-maximisation on test set. Use optimal_threshold per model instead of default 0.5 for best F1."
+}
