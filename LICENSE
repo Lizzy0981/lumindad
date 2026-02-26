@@ -1,0 +1,61 @@
+MIT License
+
+Copyright (c) 2025 Elizabeth Díaz Familia
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+✦ LumindAd — Enterprise Advertising Intelligence Platform v1.0.0
+
+Este proyecto está desarrollado con amor 💜 para la comunidad global de
+Advertising Intelligence y representa la culminación de conocimientos avanzados en:
+
+- 🤖 Machine Learning & Deep Learning (MLP · LSTM · CNN-1D · Autoencoder · XGBoost)
+- 🔍 Explainable AI — SHAP TreeExplainer · Feature Importance · Beeswarm
+- 📊 Business Intelligence & Data Visualization (Recharts · Power BI · Tableau · PDF)
+- 🌍 Geospatial Analytics — Folium · 54 Countries · 7 Regions · Interactive Maps
+- 🌐 Full-Stack Web Development (React 18 · FastAPI · PostgreSQL · Redis · Celery)
+- 🐳 DevOps & Cloud Infrastructure (Docker · Kubernetes · AWS · GitHub Actions)
+- 📴 Offline-First Architecture — IndexedDB TTL Cache · PWA · Service Worker
+- 🌱 Sustainable AI — GHG Protocol Scope 2 · CO₂ per-inference tracking
+- 🌐 Internationalization × 11 languages — EN ES PT FR AR HE ZH RU TR KO JA
+
+Desarrollado por Elizabeth Díaz Familia como parte del programa
+Oracle Next Education y Alura LATAM AdTech Challenge, elevando los
+estándares del desarrollo full-stack + ML a nivel enterprise.
+
+🚀 Repositorio y documentación completa:
+https://github.com/Lizzy0981/lumindad
+
+💼 Conecta conmigo:
+- Portfolio  : https://lizzy0981.github.io
+- LinkedIn   : https://linkedin.com/in/eli-familia/
+- GitHub     : https://github.com/Lizzy0981
+- Twitter    : https://twitter.com/Lizzyfamilia
+- Email      : lizzyfamilia@gmail.com
+
+🙏 Agradecimientos especiales a:
+- Oracle Next Education por la formación integral y de calidad mundial
+- Alura LATAM por los desafíos técnicos y la metodología excelente
+- La comunidad Open Source por TensorFlow, FastAPI, React, XGBoost, SHAP
+- La comunidad Tech Latina por el apoyo, inspiración y diversidad
+
+"Transformando datos publicitarios globales en decisiones estratégicas
+inteligentes, con responsabilidad ambiental y alcance verdaderamente global" ✨
