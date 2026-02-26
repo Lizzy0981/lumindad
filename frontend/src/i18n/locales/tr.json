@@ -1,0 +1,251 @@
+{
+  "nav": {
+    "dashboard": "Gösterge Paneli",
+    "createAd": "Reklam Oluştur",
+    "campaigns": "Kampanyalar",
+    "budget": "Bütçe",
+    "analytics": "Analitik",
+    "uploadData": "Veri Yükle",
+    "section": "NAVİGASYON",
+    "newBadge": "YENİ"
+  },
+  "sidebar": {
+    "version": "v1.0.0 · KURUMSAL",
+    "aiEngine": "YZ Motoru",
+    "aiOnline": "YZ Çevrimiçi",
+    "aiStack": "TensorFlow · XGBoost",
+    "aiFeatures": "SHAP · Anomali Tespiti",
+    "greenAI": "Yeşil YZ",
+    "greenBadge": "0.003 gr CO₂ · GHG Kapsam 2",
+    "userName": "Elizabeth D.F.",
+    "userRole": "Sürdürülebilir YZ"
+  },
+  "pages": {
+    "dashboard": {
+      "title": "Performans Gösterge Paneli",
+      "subtitle": "Reklam performansınızı gerçek zamanlı izleyin — YZ destekli içgörüler"
+    },
+    "campaigns": {
+      "title": "Kampanyalar",
+      "subtitle": "Tüm reklam kampanyalarınızı yönetin ve takip edin"
+    },
+    "budget": {
+      "title": "Bütçe Yönetimi",
+      "subtitle": "YZ önerileriyle reklam harcamalarınızı takip edin ve optimize edin"
+    },
+    "analytics": {
+      "title": "Analitik ve Raporlar",
+      "subtitle": "Reklam performansınıza derin içgörüler — SHAP · Anomali Tespiti"
+    },
+    "upload": {
+      "title": "Veri Yükle",
+      "subtitle": "10M satıra kadar işlem · Paralel parça işleme · Web Workers"
+    },
+    "createAd": {
+      "title": "Yeni Reklam Oluştur",
+      "subtitle": "YZ destekli reklam oluşturma ve otomatik optimizasyon"
+    }
+  },
+  "common": {
+    "status": {
+      "active": "Aktif",
+      "paused": "Duraklatıldı",
+      "draft": "Taslak",
+      "completed": "Tamamlandı",
+      "training": "Eğitiliyor",
+      "ready": "Hazır",
+      "error": "Hata"
+    },
+    "buttons": {
+      "refresh": "⟳ Yenile",
+      "createNewAd": "✦ Yeni Reklam Oluştur",
+      "newCampaign": "+ Yeni Kampanya",
+      "setBudget": "+ Bütçe Ayarla",
+      "exportReport": "↓ Raporu Dışa Aktar",
+      "exportResults": "↓ Sonuçları Dışa Aktar",
+      "preview": "Önizleme",
+      "saveDraft": "✓ Taslağı Kaydet",
+      "applySuggestion": "Öneriyi Uygula",
+      "edit": "Düzenle",
+      "launchCampaign": "🚀 Kampanyayı Başlat",
+      "aiGenerate": "🤖 YZ ile Oluştur",
+      "generating": "⟳ Oluşturuluyor…",
+      "processData": "▶ Verileri İşle",
+      "processing": "⟳ İşleniyor…",
+      "clearData": "🗑 Verileri Temizle",
+      "learnMore": "Daha fazla bilgi →"
+    },
+    "table": {
+      "campaign": "Kampanya",
+      "platform": "Platform",
+      "status": "Durum",
+      "budget": "Bütçe",
+      "spent": "Harcanan",
+      "impressions": "Gösterim",
+      "ctr": "TO",
+      "roas": "ROAS",
+      "actions": "İşlemler"
+    },
+    "filters": {
+      "allPlatforms": "Tüm Platformlar",
+      "searchCampaigns": "Kampanya ara…"
+    },
+    "labels": {
+      "accuracy": "Doğruluk:",
+      "live": "Canlı",
+      "sponsored": "Sponsorlu",
+      "new": "YENİ"
+    }
+  },
+  "metrics": {
+    "totalSpend": "Toplam Harcama",
+    "impressions": "Gösterim",
+    "clicks": "Tıklama",
+    "conversions": "Dönüşüm",
+    "totalBudget": "Toplam Bütçe",
+    "totalSpent": "Toplam Harcanan",
+    "remaining": "Kalan",
+    "budgetUsed": "Kullanılan Bütçe",
+    "clickThroughRate": "Tıklama Oranı",
+    "conversionRate": "Dönüşüm Oranı",
+    "costPerClick": "Tıklama Başına Maliyet"
+  },
+  "dashboard": {
+    "weeklyPerformance": "Haftalık Performans",
+    "weeklySubtitle": "7 gün boyunca gösterim ve tıklamalar",
+    "platformSplit": "Platform Dağılımı",
+    "platformSubtitle": "Reklam harcaması dağılımı",
+    "aiInsights": "YZ Tarafından Üretilen İçgörüler",
+    "insights": {
+      "peakTitle": "Zirve Performans",
+      "peakDesc": "Cuma reklamları %34 daha iyi dönüşüm sağlıyor. Gelecek cuma için 200$ bütçe artırın.",
+      "anomalyTitle": "Anomali Tespit Edildi",
+      "anomalyDesc": "TikTok kampanyası TO'su geçen haftaya göre %18 düştü. Isolation Forest bunu işaretledi.",
+      "growthTitle": "Büyüme Fırsatı",
+      "growthDesc": "LinkedIn B2B segmenti 5.1x ROAS gösteriyor. Bütçeyi +%40 ölçeklendirmeniz önerilir."
+    }
+  },
+  "budget": {
+    "dailySpend": "Günlük Harcama vs Bütçe",
+    "dailySubtitle": "Gerçek harcama ile günlük bütçe hedefinin karşılaştırması",
+    "budgetTarget": "Bütçe Hedefi",
+    "actualSpend": "Gerçek Harcama",
+    "byPlatform": "Platforma Göre",
+    "aiRecommendation": "🤖 YZ Önerisi",
+    "aiRecText": "1.200$'ı Meta'dan Google Ads'e yeniden tahsis edin. Tahmin modeli (XGBoost) +%23 ROAS iyileştirmesi öngörüyor.",
+    "period": "Kasım 2025"
+  },
+  "analytics": {
+    "performanceTrends": "Performans Trendleri",
+    "impressionsTime": "Zaman içinde gösterimler",
+    "conversionsClicks": "Dönüşümler ve Tıklamalar",
+    "mlPanel": "🧠 Aktif ML Modelleri — TensorFlow · XGBoost · SHAP Açıklanabilirliği",
+    "models": {
+      "churnPredictor": "Kayıp Tahmincisi",
+      "anomalyDetector": "Anomali Dedektörü",
+      "clickPredictor": "Tıklama Tahmincisi",
+      "roasOptimizer": "ROAS Optimize Edici"
+    },
+    "modelTypes": {
+      "xgboost": "XGBoost",
+      "isolationForest": "Isolation Forest",
+      "neuralNetwork": "Sinir Ağı",
+      "automl": "AutoML"
+    }
+  },
+  "upload": {
+    "dropzone": {
+      "idle": "Dosyalarınızı buraya sürükleyip bırakın",
+      "active": "Dosyalarınızı buraya bırakın!",
+      "browse": "dosyalara göz at",
+      "limits": "Maks. 10 dosya · 2 GB'a kadar dosya desteği · Paralel parça işleme (50K satır/parça)",
+      "capacity": "⚡ 10 dosya · Maks. 10M satır"
+    },
+    "fileList": {
+      "title": "Yüklenen Dosyalar",
+      "countBadge": "{{done}} işlendi · {{ready}} hazır",
+      "processingChunk": "Parça işleniyor…",
+      "rowsProcessed": "{{count}} satır işlendi",
+      "remove": "Dosyayı kaldır"
+    },
+    "done": {
+      "title": "İşlem Tamamlandı!",
+      "summary_one": "{{count}} dosya başarıyla işlendi",
+      "summary_other": "{{count}} dosya başarıyla işlendi",
+      "totalRows": "Toplam {{count}} satır",
+      "mlReady": "ML pipeline'ı için hazır"
+    },
+    "benchmarks": {
+      "title": "⚡ İşlem Motoru — Performans Kıyaslamaları",
+      "chunked": "🔄 Parça İşleme (50K satır/parça)",
+      "workers": "⚡ Web Workers (engelleyici olmayan UI)",
+      "gzip": "🗜 Gzip sıkıştırma",
+      "memory": "🧠 Otomatik bellek yönetimi",
+      "telecomX": "📡 Uyumlu: Telecom X ML Pipeline"
+    }
+  },
+  "createAd": {
+    "sections": {
+      "campaignSettings": "Kampanya Ayarları",
+      "adCopy": "Reklam Metni",
+      "budgetSchedule": "Bütçe ve Program"
+    },
+    "fields": {
+      "platform": "Platform",
+      "objective": "Hedef",
+      "headline": "Başlık",
+      "bodyText": "Gövde Metni",
+      "dailyBudget": "Günlük Bütçe ($)",
+      "startDate": "Başlangıç Tarihi",
+      "endDate": "Bitiş Tarihi"
+    },
+    "placeholders": {
+      "headline": "Reklam başlığınızı girin…",
+      "body": "Reklam metninizi girin…",
+      "generating": "Oluşturuluyor…",
+      "dailyBudget": "örn. 50"
+    },
+    "objectives": {
+      "conversions": "Dönüşümler",
+      "awareness": "Farkındalık",
+      "traffic": "Trafik",
+      "leads": "Potansiyel Müşteriler",
+      "appInstalls": "Uygulama Yüklemeleri"
+    },
+    "preview": {
+      "title": "Reklam Önizlemesi",
+      "sponsored": "Sponsorlu",
+      "headlineFallback": "Reklam Başlığınız Burada",
+      "bodyFallback": "Reklam metniniz burada görünecek. İkna edici yapın!",
+      "cta": "Daha fazla bilgi →"
+    },
+    "score": {
+      "title": "🤖 YZ Optimizasyon Puanı",
+      "relevance": "Alaka Düzeyi",
+      "ctrPrediction": "TO Tahmini",
+      "qualityScore": "Kalite Puanı",
+      "targetingMatch": "Hedefleme Eşleşmesi",
+      "footerActive": "Yazarken puan güncelleniyor · LumindAd XGBoost modeli tarafından desteklenmektedir",
+      "footerIdle": "Canlı puan güncellemeleri için başlık ve metin ekleyin"
+    },
+    "aiSample": {
+      "headline": "Akıllı YZ Reklamcılığıyla İşinizi Büyütün",
+      "body": "Hassas hedefleme ve gerçek zamanlı optimizasyonla ideal müşterilerinize ulaşın. Maksimum YG için makine öğrenimi tarafından desteklenmektedir."
+    }
+  },
+  "footer": {
+    "author": "Elizabeth Díaz Familia",
+    "tagline": "LumindAd Enterprise · Python · TensorFlow · React · Yeşil YZ",
+    "greenAI": "🌱 Yeşil YZ",
+    "i18n": "11 dil",
+    "version": "v1.0.0 Enterprise",
+    "findMe": "BENİ BUL:",
+    "links": {
+      "linkedin": "LinkedIn",
+      "github": "GitHub",
+      "twitter": "Twitter/X",
+      "instagram": "Instagram",
+      "portfolio": "Portfolyo"
+    }
+  }
+}

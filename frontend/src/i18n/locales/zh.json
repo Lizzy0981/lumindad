@@ -1,0 +1,251 @@
+{
+  "nav": {
+    "dashboard": "仪表盘",
+    "createAd": "创建广告",
+    "campaigns": "广告活动",
+    "budget": "预算",
+    "analytics": "数据分析",
+    "uploadData": "上传数据",
+    "section": "导航",
+    "newBadge": "新"
+  },
+  "sidebar": {
+    "version": "v1.0.0 · 企业版",
+    "aiEngine": "AI引擎",
+    "aiOnline": "AI在线",
+    "aiStack": "TensorFlow · XGBoost",
+    "aiFeatures": "SHAP · 异常检测",
+    "greenAI": "绿色AI",
+    "greenBadge": "0.003克CO₂ · GHG范围2",
+    "userName": "Elizabeth D.F.",
+    "userRole": "可持续AI"
+  },
+  "pages": {
+    "dashboard": {
+      "title": "效果仪表盘",
+      "subtitle": "实时监控您的广告效果 — AI驱动的洞察"
+    },
+    "campaigns": {
+      "title": "广告活动",
+      "subtitle": "管理和跟踪您所有的广告活动"
+    },
+    "budget": {
+      "title": "预算管理",
+      "subtitle": "通过AI建议追踪和优化您的广告支出"
+    },
+    "analytics": {
+      "title": "分析与报告",
+      "subtitle": "广告效果深度洞察 — SHAP · 异常检测"
+    },
+    "upload": {
+      "title": "上传数据",
+      "subtitle": "处理多达1000万行 · 分块并行处理 · Web Workers"
+    },
+    "createAd": {
+      "title": "创建新广告",
+      "subtitle": "AI驱动的广告创作与自动优化"
+    }
+  },
+  "common": {
+    "status": {
+      "active": "活跃",
+      "paused": "暂停",
+      "draft": "草稿",
+      "completed": "已完成",
+      "training": "训练中",
+      "ready": "就绪",
+      "error": "错误"
+    },
+    "buttons": {
+      "refresh": "⟳ 刷新",
+      "createNewAd": "✦ 创建新广告",
+      "newCampaign": "+ 新广告活动",
+      "setBudget": "+ 设置预算",
+      "exportReport": "↓ 导出报告",
+      "exportResults": "↓ 导出结果",
+      "preview": "预览",
+      "saveDraft": "✓ 保存草稿",
+      "applySuggestion": "应用建议",
+      "edit": "编辑",
+      "launchCampaign": "🚀 启动广告活动",
+      "aiGenerate": "🤖 AI生成",
+      "generating": "⟳ 生成中…",
+      "processData": "▶ 处理数据",
+      "processing": "⟳ 处理中…",
+      "clearData": "🗑 清除数据",
+      "learnMore": "了解更多 →"
+    },
+    "table": {
+      "campaign": "广告活动",
+      "platform": "平台",
+      "status": "状态",
+      "budget": "预算",
+      "spent": "已花费",
+      "impressions": "展示量",
+      "ctr": "点击率",
+      "roas": "广告支出回报",
+      "actions": "操作"
+    },
+    "filters": {
+      "allPlatforms": "所有平台",
+      "searchCampaigns": "搜索广告活动…"
+    },
+    "labels": {
+      "accuracy": "准确率：",
+      "live": "直播",
+      "sponsored": "赞助",
+      "new": "新"
+    }
+  },
+  "metrics": {
+    "totalSpend": "总支出",
+    "impressions": "展示量",
+    "clicks": "点击量",
+    "conversions": "转化量",
+    "totalBudget": "总预算",
+    "totalSpent": "总支出",
+    "remaining": "剩余",
+    "budgetUsed": "已用预算",
+    "clickThroughRate": "点击率",
+    "conversionRate": "转化率",
+    "costPerClick": "每次点击费用"
+  },
+  "dashboard": {
+    "weeklyPerformance": "每周表现",
+    "weeklySubtitle": "7天内的展示量和点击量",
+    "platformSplit": "平台分布",
+    "platformSubtitle": "广告支出分布",
+    "aiInsights": "AI生成的洞察",
+    "insights": {
+      "peakTitle": "峰值表现",
+      "peakDesc": "周五广告转化率高出34%。为下周五增加200美元预算。",
+      "anomalyTitle": "检测到异常",
+      "anomalyDesc": "TikTok广告点击率较上周下降18%。Isolation Forest已标记此问题。",
+      "growthTitle": "增长机会",
+      "growthDesc": "LinkedIn B2B细分市场显示5.1倍ROAS。建议将预算增加+40%。"
+    }
+  },
+  "budget": {
+    "dailySpend": "每日支出与预算对比",
+    "dailySubtitle": "实际支出与每日预算目标对比",
+    "budgetTarget": "预算目标",
+    "actualSpend": "实际支出",
+    "byPlatform": "按平台",
+    "aiRecommendation": "🤖 AI建议",
+    "aiRecText": "将1,200美元从Meta重新分配到Google Ads。预测模型（XGBoost）估计ROAS提升+23%。",
+    "period": "2025年11月"
+  },
+  "analytics": {
+    "performanceTrends": "表现趋势",
+    "impressionsTime": "展示量随时间变化",
+    "conversionsClicks": "转化量与点击量",
+    "mlPanel": "🧠 活跃ML模型 — TensorFlow · XGBoost · SHAP可解释性",
+    "models": {
+      "churnPredictor": "流失预测器",
+      "anomalyDetector": "异常检测器",
+      "clickPredictor": "点击预测器",
+      "roasOptimizer": "ROAS优化器"
+    },
+    "modelTypes": {
+      "xgboost": "XGBoost",
+      "isolationForest": "孤立森林",
+      "neuralNetwork": "神经网络",
+      "automl": "AutoML"
+    }
+  },
+  "upload": {
+    "dropzone": {
+      "idle": "将文件拖放到此处",
+      "active": "将文件放在这里！",
+      "browse": "浏览文件",
+      "limits": "最多10个文件 · 支持最大2GB文件 · 并行分块处理（50K行/块）",
+      "capacity": "⚡ 10个文件 · 最多1000万行"
+    },
+    "fileList": {
+      "title": "已上传文件",
+      "countBadge": "{{done}}个已处理 · {{ready}}个就绪",
+      "processingChunk": "处理数据块中…",
+      "rowsProcessed": "已处理{{count}}行",
+      "remove": "删除文件"
+    },
+    "done": {
+      "title": "处理完成！",
+      "summary_one": "成功处理{{count}}个文件",
+      "summary_other": "成功处理{{count}}个文件",
+      "totalRows": "共{{count}}行",
+      "mlReady": "已准备好用于ML流水线"
+    },
+    "benchmarks": {
+      "title": "⚡ 处理引擎 — 性能基准",
+      "chunked": "🔄 分块处理（50K行/块）",
+      "workers": "⚡ Web Workers（非阻塞UI）",
+      "gzip": "🗜 Gzip压缩",
+      "memory": "🧠 自动内存管理",
+      "telecomX": "📡 兼容：Telecom X ML流水线"
+    }
+  },
+  "createAd": {
+    "sections": {
+      "campaignSettings": "广告活动设置",
+      "adCopy": "广告文案",
+      "budgetSchedule": "预算与排期"
+    },
+    "fields": {
+      "platform": "平台",
+      "objective": "目标",
+      "headline": "标题",
+      "bodyText": "正文",
+      "dailyBudget": "每日预算（$）",
+      "startDate": "开始日期",
+      "endDate": "结束日期"
+    },
+    "placeholders": {
+      "headline": "输入您的广告标题…",
+      "body": "输入您的广告正文…",
+      "generating": "生成中…",
+      "dailyBudget": "如：50"
+    },
+    "objectives": {
+      "conversions": "转化",
+      "awareness": "品牌认知",
+      "traffic": "流量",
+      "leads": "潜在客户",
+      "appInstalls": "应用安装"
+    },
+    "preview": {
+      "title": "广告预览",
+      "sponsored": "赞助",
+      "headlineFallback": "您的广告标题在此",
+      "bodyFallback": "您的广告正文将显示在这里。让它引人入胜！",
+      "cta": "了解更多 →"
+    },
+    "score": {
+      "title": "🤖 AI优化评分",
+      "relevance": "相关性",
+      "ctrPrediction": "点击率预测",
+      "qualityScore": "质量评分",
+      "targetingMatch": "定向匹配度",
+      "footerActive": "输入时评分实时更新 · 由LumindAd XGBoost模型驱动",
+      "footerIdle": "添加标题和正文以查看实时评分"
+    },
+    "aiSample": {
+      "headline": "用智能AI广告助力您的业务增长",
+      "body": "通过精准定向和实时优化触达理想客户。机器学习驱动，实现最大投资回报率。"
+    }
+  },
+  "footer": {
+    "author": "Elizabeth Díaz Familia",
+    "tagline": "LumindAd Enterprise · Python · TensorFlow · React · 绿色AI",
+    "greenAI": "🌱 绿色AI",
+    "i18n": "11种语言",
+    "version": "v1.0.0 企业版",
+    "findMe": "联系我：",
+    "links": {
+      "linkedin": "领英",
+      "github": "GitHub",
+      "twitter": "Twitter/X",
+      "instagram": "Instagram",
+      "portfolio": "作品集"
+    }
+  }
+}

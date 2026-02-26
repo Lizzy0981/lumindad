@@ -1,0 +1,253 @@
+{
+  "nav": {
+    "dashboard": "Панель",
+    "createAd": "Создать объявление",
+    "campaigns": "Кампании",
+    "budget": "Бюджет",
+    "analytics": "Аналитика",
+    "uploadData": "Загрузить данные",
+    "section": "НАВИГАЦИЯ",
+    "newBadge": "НОВОЕ"
+  },
+  "sidebar": {
+    "version": "v1.0.0 · КОРПОРАТИВНЫЙ",
+    "aiEngine": "ИИ-движок",
+    "aiOnline": "ИИ онлайн",
+    "aiStack": "TensorFlow · XGBoost",
+    "aiFeatures": "SHAP · Обнаружение аномалий",
+    "greenAI": "Зелёный ИИ",
+    "greenBadge": "0.003 г CO₂ · ПГ Охват 2",
+    "userName": "Элизабет Д.Ф.",
+    "userRole": "Устойчивый ИИ"
+  },
+  "pages": {
+    "dashboard": {
+      "title": "Панель эффективности",
+      "subtitle": "Отслеживайте эффективность рекламы в реальном времени — ИИ-аналитика"
+    },
+    "campaigns": {
+      "title": "Кампании",
+      "subtitle": "Управляйте и отслеживайте все свои рекламные кампании"
+    },
+    "budget": {
+      "title": "Управление бюджетом",
+      "subtitle": "Отслеживайте и оптимизируйте рекламные расходы с ИИ-рекомендациями"
+    },
+    "analytics": {
+      "title": "Аналитика и отчёты",
+      "subtitle": "Глубокое понимание эффективности рекламы — SHAP · Обнаружение аномалий"
+    },
+    "upload": {
+      "title": "Загрузить данные",
+      "subtitle": "Обработка до 10M строк · Параллельная чанковая обработка · Web Workers"
+    },
+    "createAd": {
+      "title": "Создать новое объявление",
+      "subtitle": "Создание объявлений с ИИ и автоматической оптимизацией"
+    }
+  },
+  "common": {
+    "status": {
+      "active": "Активна",
+      "paused": "На паузе",
+      "draft": "Черновик",
+      "completed": "Завершена",
+      "training": "Обучение",
+      "ready": "Готово",
+      "error": "Ошибка"
+    },
+    "buttons": {
+      "refresh": "⟳ Обновить",
+      "createNewAd": "✦ Создать новое объявление",
+      "newCampaign": "+ Новая кампания",
+      "setBudget": "+ Установить бюджет",
+      "exportReport": "↓ Экспорт отчёта",
+      "exportResults": "↓ Экспорт результатов",
+      "preview": "Предпросмотр",
+      "saveDraft": "✓ Сохранить черновик",
+      "applySuggestion": "Применить предложение",
+      "edit": "Изменить",
+      "launchCampaign": "🚀 Запустить кампанию",
+      "aiGenerate": "🤖 Сгенерировать ИИ",
+      "generating": "⟳ Генерирую…",
+      "processData": "▶ Обработать данные",
+      "processing": "⟳ Обработка…",
+      "clearData": "🗑 Очистить данные",
+      "learnMore": "Узнать больше →"
+    },
+    "table": {
+      "campaign": "Кампания",
+      "platform": "Платформа",
+      "status": "Статус",
+      "budget": "Бюджет",
+      "spent": "Потрачено",
+      "impressions": "Показы",
+      "ctr": "CTR",
+      "roas": "ROAS",
+      "actions": "Действия"
+    },
+    "filters": {
+      "allPlatforms": "Все платформы",
+      "searchCampaigns": "Поиск кампаний…"
+    },
+    "labels": {
+      "accuracy": "Точность:",
+      "live": "Прямой эфир",
+      "sponsored": "Реклама",
+      "new": "НОВОЕ"
+    }
+  },
+  "metrics": {
+    "totalSpend": "Общие расходы",
+    "impressions": "Показы",
+    "clicks": "Клики",
+    "conversions": "Конверсии",
+    "totalBudget": "Общий бюджет",
+    "totalSpent": "Всего потрачено",
+    "remaining": "Остаток",
+    "budgetUsed": "Использовано бюджета",
+    "clickThroughRate": "Кликабельность",
+    "conversionRate": "Коэффициент конверсии",
+    "costPerClick": "Цена клика"
+  },
+  "dashboard": {
+    "weeklyPerformance": "Недельная эффективность",
+    "weeklySubtitle": "Показы и клики за 7 дней",
+    "platformSplit": "Разбивка по платформам",
+    "platformSubtitle": "Распределение рекламных расходов",
+    "aiInsights": "Аналитика от ИИ",
+    "insights": {
+      "peakTitle": "Пик эффективности",
+      "peakDesc": "Объявления в пятницу конвертируются на 34% лучше. Увеличьте бюджет на $200 в следующую пятницу.",
+      "anomalyTitle": "Аномалия обнаружена",
+      "anomalyDesc": "CTR TikTok упал на 18% по сравнению с прошлой неделей. Isolation Forest отметил это.",
+      "growthTitle": "Возможность роста",
+      "growthDesc": "Сегмент B2B LinkedIn показывает ROAS 5.1x. Рекомендуется увеличить бюджет на +40%."
+    }
+  },
+  "budget": {
+    "dailySpend": "Ежедневные расходы vs бюджет",
+    "dailySubtitle": "Фактические расходы по сравнению с дневным планом",
+    "budgetTarget": "Плановый бюджет",
+    "actualSpend": "Фактические расходы",
+    "byPlatform": "По платформам",
+    "aiRecommendation": "🤖 Рекомендация ИИ",
+    "aiRecText": "Перераспределите $1 200 с Meta на Google Ads. Прогностическая модель (XGBoost) оценивает улучшение ROAS на +23%.",
+    "period": "Ноябрь 2025"
+  },
+  "analytics": {
+    "performanceTrends": "Тенденции эффективности",
+    "impressionsTime": "Динамика показов",
+    "conversionsClicks": "Конверсии и клики",
+    "mlPanel": "🧠 Активные ML-модели — TensorFlow · XGBoost · Объяснимость SHAP",
+    "models": {
+      "churnPredictor": "Предсказатель оттока",
+      "anomalyDetector": "Детектор аномалий",
+      "clickPredictor": "Предсказатель кликов",
+      "roasOptimizer": "Оптимизатор ROAS"
+    },
+    "modelTypes": {
+      "xgboost": "XGBoost",
+      "isolationForest": "Изолирующий лес",
+      "neuralNetwork": "Нейронная сеть",
+      "automl": "AutoML"
+    }
+  },
+  "upload": {
+    "dropzone": {
+      "idle": "Перетащите файлы сюда",
+      "active": "Отпустите файлы здесь!",
+      "browse": "выбрать файлы",
+      "limits": "Макс. 10 файлов · Поддерживает файлы до 2 ГБ · Параллельная обработка (50K строк/чанк)",
+      "capacity": "⚡ 10 файлов · 10M строк макс."
+    },
+    "fileList": {
+      "title": "Загруженные файлы",
+      "countBadge": "{{done}} обработано · {{ready}} готово",
+      "processingChunk": "Обработка чанка…",
+      "rowsProcessed": "{{count}} строк обработано",
+      "remove": "Удалить файл"
+    },
+    "done": {
+      "title": "Обработка завершена!",
+      "summary_one": "{{count}} файл успешно обработан",
+      "summary_few": "{{count}} файла успешно обработано",
+      "summary_many": "{{count}} файлов успешно обработано",
+      "summary_other": "{{count}} файлов успешно обработано",
+      "totalRows": "{{count}} строк всего",
+      "mlReady": "Готово для ML-конвейера"
+    },
+    "benchmarks": {
+      "title": "⚡ Движок обработки — Бенчмарки производительности",
+      "chunked": "🔄 Чанковая обработка (50K строк/чанк)",
+      "workers": "⚡ Web Workers (неблокирующий UI)",
+      "gzip": "🗜 Сжатие Gzip",
+      "memory": "🧠 Автоматическое управление памятью",
+      "telecomX": "📡 Совместимо: Telecom X ML Pipeline"
+    }
+  },
+  "createAd": {
+    "sections": {
+      "campaignSettings": "Настройки кампании",
+      "adCopy": "Текст объявления",
+      "budgetSchedule": "Бюджет и расписание"
+    },
+    "fields": {
+      "platform": "Платформа",
+      "objective": "Цель",
+      "headline": "Заголовок",
+      "bodyText": "Основной текст",
+      "dailyBudget": "Дневной бюджет ($)",
+      "startDate": "Дата начала",
+      "endDate": "Дата окончания"
+    },
+    "placeholders": {
+      "headline": "Введите заголовок объявления…",
+      "body": "Введите текст объявления…",
+      "generating": "Генерирую…",
+      "dailyBudget": "напр. 50"
+    },
+    "objectives": {
+      "conversions": "Конверсии",
+      "awareness": "Узнаваемость",
+      "traffic": "Трафик",
+      "leads": "Лиды",
+      "appInstalls": "Установки приложения"
+    },
+    "preview": {
+      "title": "Предпросмотр объявления",
+      "sponsored": "Реклама",
+      "headlineFallback": "Ваш заголовок объявления здесь",
+      "bodyFallback": "Текст вашего объявления появится здесь. Сделайте его убедительным!",
+      "cta": "Узнать больше →"
+    },
+    "score": {
+      "title": "🤖 ИИ-оценка оптимизации",
+      "relevance": "Релевантность",
+      "ctrPrediction": "Прогноз CTR",
+      "qualityScore": "Оценка качества",
+      "targetingMatch": "Соответствие таргетингу",
+      "footerActive": "Оценка обновляется по мере набора · Powered by LumindAd XGBoost",
+      "footerIdle": "Добавьте заголовок и текст для оценки в реальном времени"
+    },
+    "aiSample": {
+      "headline": "Развивайте бизнес с умной ИИ-рекламой",
+      "body": "Достигайте идеальных клиентов с точным таргетингом и оптимизацией в реальном времени. Powered by machine learning для максимального ROI."
+    }
+  },
+  "footer": {
+    "author": "Элизабет Диас Фамилиа",
+    "tagline": "LumindAd Enterprise · Python · TensorFlow · React · Зелёный ИИ",
+    "greenAI": "🌱 Зелёный ИИ",
+    "i18n": "11 языков",
+    "version": "v1.0.0 Enterprise",
+    "findMe": "НАЙДИ МЕНЯ:",
+    "links": {
+      "linkedin": "LinkedIn",
+      "github": "GitHub",
+      "twitter": "Twitter/X",
+      "instagram": "Instagram",
+      "portfolio": "Портфолио"
+    }
+  }
+}

@@ -1,0 +1,251 @@
+{
+  "nav": {
+    "dashboard":  "Dashboard",
+    "createAd":   "Create Ad",
+    "campaigns":  "Campaigns",
+    "budget":     "Budget",
+    "analytics":  "Analytics",
+    "uploadData": "Upload Data",
+    "section":    "NAVIGATION",
+    "newBadge":   "NEW"
+  },
+  "sidebar": {
+    "version":    "v1.0.0 · ENTERPRISE",
+    "aiEngine":   "AI Engine",
+    "aiOnline":   "AI Online",
+    "aiStack":    "TensorFlow · XGBoost",
+    "aiFeatures": "SHAP · Anomaly Detection",
+    "greenAI":    "Green AI",
+    "greenBadge": "0.003 gCO₂ · GHG Scope 2",
+    "userName":   "Elizabeth D.F.",
+    "userRole":   "Sustainable AI"
+  },
+  "pages": {
+    "dashboard": {
+      "title":    "Performance Dashboard",
+      "subtitle": "Monitor your advertising performance in real-time — AI-powered insights"
+    },
+    "campaigns": {
+      "title":    "Campaigns",
+      "subtitle": "Manage and track all your advertising campaigns"
+    },
+    "budget": {
+      "title":    "Budget Management",
+      "subtitle": "Track and optimize your advertising spend with AI recommendations"
+    },
+    "analytics": {
+      "title":    "Analytics & Reports",
+      "subtitle": "Deep insights into your advertising performance — SHAP · Anomaly Detection"
+    },
+    "upload": {
+      "title":    "Upload Data",
+      "subtitle": "Process up to 10M rows · Chunked parallel processing · Web Workers"
+    },
+    "createAd": {
+      "title":    "Create New Ad",
+      "subtitle": "AI-powered ad creation with automatic optimization"
+    }
+  },
+  "common": {
+    "status": {
+      "active":    "Active",
+      "paused":    "Paused",
+      "draft":     "Draft",
+      "completed": "Completed",
+      "training":  "Training",
+      "ready":     "Ready",
+      "error":     "Error"
+    },
+    "buttons": {
+      "refresh":         "⟳ Refresh",
+      "createNewAd":     "✦ Create New Ad",
+      "newCampaign":     "+ New Campaign",
+      "setBudget":       "+ Set Budget",
+      "exportReport":    "↓ Export Report",
+      "exportResults":   "↓ Export Results",
+      "preview":         "Preview",
+      "saveDraft":       "✓ Save Draft",
+      "applySuggestion": "Apply Suggestion",
+      "edit":            "Edit",
+      "launchCampaign":  "🚀 Launch Campaign",
+      "aiGenerate":      "🤖 AI Generate",
+      "generating":      "⟳ Generating…",
+      "processData":     "▶ Process Data",
+      "processing":      "⟳ Processing…",
+      "clearData":       "🗑 Clear Data",
+      "learnMore":       "Learn More →"
+    },
+    "table": {
+      "campaign":    "Campaign",
+      "platform":    "Platform",
+      "status":      "Status",
+      "budget":      "Budget",
+      "spent":       "Spent",
+      "impressions": "Impressions",
+      "ctr":         "CTR",
+      "roas":        "ROAS",
+      "actions":     "Actions"
+    },
+    "filters": {
+      "allPlatforms":    "All Platforms",
+      "searchCampaigns": "Search campaigns…"
+    },
+    "labels": {
+      "accuracy":  "Accuracy:",
+      "live":      "Live",
+      "sponsored": "Sponsored",
+      "new":       "NEW"
+    }
+  },
+  "metrics": {
+    "totalSpend":       "Total Spend",
+    "impressions":      "Impressions",
+    "clicks":           "Clicks",
+    "conversions":      "Conversions",
+    "totalBudget":      "Total Budget",
+    "totalSpent":       "Total Spent",
+    "remaining":        "Remaining",
+    "budgetUsed":       "Budget Used",
+    "clickThroughRate": "Click-Through Rate",
+    "conversionRate":   "Conversion Rate",
+    "costPerClick":     "Cost Per Click"
+  },
+  "dashboard": {
+    "weeklyPerformance": "Weekly Performance",
+    "weeklySubtitle":    "Impressions & clicks over 7 days",
+    "platformSplit":     "Platform Split",
+    "platformSubtitle":  "Ad spend distribution",
+    "aiInsights":        "AI-Generated Insights",
+    "insights": {
+      "peakTitle":    "Peak Performance",
+      "peakDesc":     "Friday ads convert 34% better. Increase budget by $200 for next Friday.",
+      "anomalyTitle": "Anomaly Detected",
+      "anomalyDesc":  "TikTok campaign CTR dropped 18% vs last week. Isolation Forest flagged this.",
+      "growthTitle":  "Growth Opportunity",
+      "growthDesc":   "LinkedIn B2B segment shows 5.1x ROAS. Recommend scaling budget +40%."
+    }
+  },
+  "budget": {
+    "dailySpend":       "Daily Spend vs Budget",
+    "dailySubtitle":    "Actual spend compared to daily budget target",
+    "budgetTarget":     "Budget Target",
+    "actualSpend":      "Actual Spend",
+    "byPlatform":       "By Platform",
+    "aiRecommendation": "🤖 AI Recommendation",
+    "aiRecText":        "Reallocate $1,200 from Meta to Google Ads. Predictive model (XGBoost) estimates +23% ROAS improvement.",
+    "period":           "November 2025"
+  },
+  "analytics": {
+    "performanceTrends": "Performance Trends",
+    "impressionsTime":   "Impressions over time",
+    "conversionsClicks": "Conversions & Clicks",
+    "mlPanel":           "🧠 ML Models Active — TensorFlow · XGBoost · SHAP Explainability",
+    "models": {
+      "churnPredictor":  "Churn Predictor",
+      "anomalyDetector": "Anomaly Detector",
+      "clickPredictor":  "Click Predictor",
+      "roasOptimizer":   "ROAS Optimizer"
+    },
+    "modelTypes": {
+      "xgboost":         "XGBoost",
+      "isolationForest": "Isolation Forest",
+      "neuralNetwork":   "Neural Network",
+      "automl":          "AutoML"
+    }
+  },
+  "upload": {
+    "dropzone": {
+      "idle":     "Drag & drop your files here",
+      "active":   "Drop your files here!",
+      "browse":   "browse files",
+      "limits":   "Max 10 files · Supports files up to 2GB · Parallel chunked processing (50K rows/chunk)",
+      "capacity": "⚡ 10 files · 10M rows max"
+    },
+    "fileList": {
+      "title":          "Uploaded Files",
+      "countBadge":     "{{done}} processed · {{ready}} ready",
+      "processingChunk":"Processing chunk…",
+      "rowsProcessed":  "{{count}} rows processed",
+      "remove":         "Remove file"
+    },
+    "done": {
+      "title":         "Processing Complete!",
+      "summary_one":   "{{count}} file processed successfully",
+      "summary_other": "{{count}} files processed successfully",
+      "totalRows":     "{{count}} total rows",
+      "mlReady":       "Ready for ML pipeline"
+    },
+    "benchmarks": {
+      "title":    "⚡ Processing Engine — Performance Benchmarks",
+      "chunked":  "🔄 Chunked Processing (50K rows/chunk)",
+      "workers":  "⚡ Web Workers (non-blocking UI)",
+      "gzip":     "🗜 Gzip compression",
+      "memory":   "🧠 Auto memory management",
+      "telecomX": "📡 Compatible: Telecom X ML Pipeline"
+    }
+  },
+  "createAd": {
+    "sections": {
+      "campaignSettings": "Campaign Settings",
+      "adCopy":           "Ad Copy",
+      "budgetSchedule":   "Budget & Schedule"
+    },
+    "fields": {
+      "platform":    "Platform",
+      "objective":   "Objective",
+      "headline":    "Headline",
+      "bodyText":    "Body Text",
+      "dailyBudget": "Daily Budget ($)",
+      "startDate":   "Start Date",
+      "endDate":     "End Date"
+    },
+    "placeholders": {
+      "headline":    "Enter your ad headline…",
+      "body":        "Enter your ad body text…",
+      "generating":  "Generating…",
+      "dailyBudget": "e.g. 50"
+    },
+    "objectives": {
+      "conversions": "Conversions",
+      "awareness":   "Awareness",
+      "traffic":     "Traffic",
+      "leads":       "Leads",
+      "appInstalls": "App Installs"
+    },
+    "preview": {
+      "title":           "Ad Preview",
+      "sponsored":       "Sponsored",
+      "headlineFallback":"Your Ad Headline Here",
+      "bodyFallback":    "Your ad body text will appear here. Make it compelling!",
+      "cta":             "Learn More →"
+    },
+    "score": {
+      "title":          "🤖 AI Optimization Score",
+      "relevance":      "Relevance",
+      "ctrPrediction":  "CTR Prediction",
+      "qualityScore":   "Quality Score",
+      "targetingMatch": "Targeting Match",
+      "footerActive":   "Score updates as you type · Powered by LumindAd XGBoost model",
+      "footerIdle":     "Add headline & body to see live score updates"
+    },
+    "aiSample": {
+      "headline": "Boost Your Business with Smart AI Advertising",
+      "body":     "Reach your ideal customers with precision targeting and real-time optimization. Powered by machine learning for maximum ROI."
+    }
+  },
+  "footer": {
+    "author":  "Elizabeth Díaz Familia",
+    "tagline": "LumindAd Enterprise · Python · TensorFlow · React · Green AI",
+    "greenAI": "🌱 Green AI",
+    "i18n":    "i18n 11 langs",
+    "version": "v1.0.0 Enterprise",
+    "findMe":  "FIND ME:",
+    "links": {
+      "linkedin":  "LinkedIn",
+      "github":    "GitHub",
+      "twitter":   "Twitter/X",
+      "instagram": "Instagram",
+      "portfolio": "Portfolio"
+    }
+  }
+}

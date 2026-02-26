@@ -1,0 +1,253 @@
+{
+  "nav": {
+    "dashboard": "לוח בקרה",
+    "createAd": "צור מודעה",
+    "campaigns": "קמפיינים",
+    "budget": "תקציב",
+    "analytics": "ניתוחים",
+    "uploadData": "העלה נתונים",
+    "section": "ניווט",
+    "newBadge": "חדש"
+  },
+  "sidebar": {
+    "version": "v1.0.0 · ארגוני",
+    "aiEngine": "מנוע בינה מלאכותית",
+    "aiOnline": "בינה מלאכותית מחוברת",
+    "aiStack": "TensorFlow · XGBoost",
+    "aiFeatures": "SHAP · זיהוי חריגות",
+    "greenAI": "בינה מלאכותית ירוקה",
+    "greenBadge": "0.003 גרם CO₂ · GHG היקף 2",
+    "userName": "אליזבת ד.פ.",
+    "userRole": "בינה מלאכותית בת-קיימא"
+  },
+  "pages": {
+    "dashboard": {
+      "title": "לוח ביצועים",
+      "subtitle": "עקוב אחר ביצועי הפרסום שלך בזמן אמת — תובנות מונעות בינה מלאכותית"
+    },
+    "campaigns": {
+      "title": "קמפיינים",
+      "subtitle": "נהל ועקוב אחר כל קמפיינֵי הפרסום שלך"
+    },
+    "budget": {
+      "title": "ניהול תקציב",
+      "subtitle": "עקוב ומטב את ההוצאה הפרסומית שלך עם המלצות בינה מלאכותית"
+    },
+    "analytics": {
+      "title": "ניתוחים ודוחות",
+      "subtitle": "תובנות מעמיקות על ביצועי הפרסום שלך — SHAP · זיהוי חריגות"
+    },
+    "upload": {
+      "title": "העלה נתונים",
+      "subtitle": "עיבוד עד 10M שורות · עיבוד מקביל בנתחים · Web Workers"
+    },
+    "createAd": {
+      "title": "צור מודעה חדשה",
+      "subtitle": "יצירת מודעות בעזרת בינה מלאכותית עם אופטימיזציה אוטומטית"
+    }
+  },
+  "common": {
+    "status": {
+      "active": "פעיל",
+      "paused": "מושהה",
+      "draft": "טיוטה",
+      "completed": "הושלם",
+      "training": "מאומן",
+      "ready": "מוכן",
+      "error": "שגיאה"
+    },
+    "buttons": {
+      "refresh": "⟳ רענן",
+      "createNewAd": "✦ צור מודעה חדשה",
+      "newCampaign": "+ קמפיין חדש",
+      "setBudget": "+ הגדר תקציב",
+      "exportReport": "↓ ייצא דוח",
+      "exportResults": "↓ ייצא תוצאות",
+      "preview": "תצוגה מקדימה",
+      "saveDraft": "✓ שמור טיוטה",
+      "applySuggestion": "החל הצעה",
+      "edit": "ערוך",
+      "launchCampaign": "🚀 השק קמפיין",
+      "aiGenerate": "🤖 צור עם בינה מלאכותית",
+      "generating": "⟳ יוצר…",
+      "processData": "▶ עבד נתונים",
+      "processing": "⟳ מעבד…",
+      "clearData": "🗑 נקה נתונים",
+      "learnMore": "מידע נוסף →"
+    },
+    "table": {
+      "campaign": "קמפיין",
+      "platform": "פלטפורמה",
+      "status": "סטטוס",
+      "budget": "תקציב",
+      "spent": "הוצא",
+      "impressions": "חשיפות",
+      "ctr": "שיעור קליקים",
+      "roas": "החזר הוצאות",
+      "actions": "פעולות"
+    },
+    "filters": {
+      "allPlatforms": "כל הפלטפורמות",
+      "searchCampaigns": "חפש קמפיינים…"
+    },
+    "labels": {
+      "accuracy": "דיוק:",
+      "live": "חי",
+      "sponsored": "ממומן",
+      "new": "חדש"
+    }
+  },
+  "metrics": {
+    "totalSpend": "סך ההוצאה",
+    "impressions": "חשיפות",
+    "clicks": "קליקים",
+    "conversions": "המרות",
+    "totalBudget": "סך התקציב",
+    "totalSpent": "סך שהוצא",
+    "remaining": "נותר",
+    "budgetUsed": "תקציב בשימוש",
+    "clickThroughRate": "שיעור קליקים",
+    "conversionRate": "שיעור המרה",
+    "costPerClick": "עלות לקליק"
+  },
+  "dashboard": {
+    "weeklyPerformance": "ביצועים שבועיים",
+    "weeklySubtitle": "חשיפות וקליקים במשך 7 ימים",
+    "platformSplit": "חלוקה לפי פלטפורמה",
+    "platformSubtitle": "התפלגות הוצאות פרסום",
+    "aiInsights": "תובנות שנוצרו על-ידי בינה מלאכותית",
+    "insights": {
+      "peakTitle": "ביצועי שיא",
+      "peakDesc": "מודעות יום שישי ממירות 34% יותר. הגדל תקציב ב-$200 לשישי הבא.",
+      "anomalyTitle": "חריגה זוהתה",
+      "anomalyDesc": "ה-CTR של TikTok ירד 18% לעומת השבוע שעבר. Isolation Forest סימן זאת.",
+      "growthTitle": "הזדמנות צמיחה",
+      "growthDesc": "מגזר B2B בלינקדאין מציג ROAS של 5.1x. מומלץ להגדיל תקציב ב-40%."
+    }
+  },
+  "budget": {
+    "dailySpend": "הוצאה יומית מול תקציב",
+    "dailySubtitle": "הוצאה בפועל בהשוואה ליעד היומי",
+    "budgetTarget": "יעד תקציב",
+    "actualSpend": "הוצאה בפועל",
+    "byPlatform": "לפי פלטפורמה",
+    "aiRecommendation": "🤖 המלצת בינה מלאכותית",
+    "aiRecText": "הקצה מחדש $1,200 ממטא לגוגל אדס. המודל החיזויי (XGBoost) מעריך שיפור של +23% ב-ROAS.",
+    "period": "נובמבר 2025"
+  },
+  "analytics": {
+    "performanceTrends": "מגמות ביצועים",
+    "impressionsTime": "חשיפות לאורך זמן",
+    "conversionsClicks": "המרות וקליקים",
+    "mlPanel": "🧠 מודלי ML פעילים — TensorFlow · XGBoost · פרשנות SHAP",
+    "models": {
+      "churnPredictor": "מנבא נטישה",
+      "anomalyDetector": "גלאי חריגות",
+      "clickPredictor": "מנבא קליקים",
+      "roasOptimizer": "מייעל ROAS"
+    },
+    "modelTypes": {
+      "xgboost": "XGBoost",
+      "isolationForest": "Isolation Forest",
+      "neuralNetwork": "רשת עצבית",
+      "automl": "AutoML"
+    }
+  },
+  "upload": {
+    "dropzone": {
+      "idle": "גרור ושחרר קבצים כאן",
+      "active": "שחרר את הקבצים כאן!",
+      "browse": "עיון בקבצים",
+      "limits": "מקסימום 10 קבצים · תומך בקבצים עד 2GB · עיבוד מקביל (50K שורות/נתח)",
+      "capacity": "⚡ 10 קבצים · 10M שורות מקסימום"
+    },
+    "fileList": {
+      "title": "קבצים שהועלו",
+      "countBadge": "{{done}} עובדו · {{ready}} מוכנים",
+      "processingChunk": "מעבד נתח…",
+      "rowsProcessed": "{{count}} שורות עובדו",
+      "remove": "הסר קובץ"
+    },
+    "done": {
+      "title": "העיבוד הושלם!",
+      "summary_one": "קובץ {{count}} עובד בהצלחה",
+      "summary_other": "{{count}} קבצים עובדו בהצלחה",
+      "summary_two": "שני קבצים עובדו בהצלחה",
+      "summary_many": "{{count}} קבצים עובדו בהצלחה",
+      "totalRows": "{{count}} שורות סה\"כ",
+      "mlReady": "מוכן לצינור ML"
+    },
+    "benchmarks": {
+      "title": "⚡ מנוע עיבוד — בנצ'מרקים",
+      "chunked": "🔄 עיבוד בנתחים (50K שורות/נתח)",
+      "workers": "⚡ Web Workers (ממשק לא חוסם)",
+      "gzip": "🗜 דחיסת Gzip",
+      "memory": "🧠 ניהול זיכרון אוטומטי",
+      "telecomX": "📡 תואם: Telecom X ML Pipeline"
+    }
+  },
+  "createAd": {
+    "sections": {
+      "campaignSettings": "הגדרות קמפיין",
+      "adCopy": "טקסט המודעה",
+      "budgetSchedule": "תקציב ולוח זמנים"
+    },
+    "fields": {
+      "platform": "פלטפורמה",
+      "objective": "מטרה",
+      "headline": "כותרת",
+      "bodyText": "גוף הטקסט",
+      "dailyBudget": "תקציב יומי ($)",
+      "startDate": "תאריך התחלה",
+      "endDate": "תאריך סיום"
+    },
+    "placeholders": {
+      "headline": "הזן את כותרת המודעה…",
+      "body": "הזן את טקסט המודעה…",
+      "generating": "יוצר…",
+      "dailyBudget": "לדוגמה: 50"
+    },
+    "objectives": {
+      "conversions": "המרות",
+      "awareness": "מודעות",
+      "traffic": "תנועה",
+      "leads": "לידים",
+      "appInstalls": "התקנות אפליקציה"
+    },
+    "preview": {
+      "title": "תצוגה מקדימה של מודעה",
+      "sponsored": "ממומן",
+      "headlineFallback": "כותרת המודעה שלך כאן",
+      "bodyFallback": "טקסט המודעה שלך יופיע כאן. גרום לו להיות מושך!",
+      "cta": "מידע נוסף →"
+    },
+    "score": {
+      "title": "🤖 ציון אופטימיזציה AI",
+      "relevance": "רלוונטיות",
+      "ctrPrediction": "תחזית CTR",
+      "qualityScore": "ציון איכות",
+      "targetingMatch": "התאמת טירגוט",
+      "footerActive": "הציון מתעדכן בעת ההקלדה · מופעל על-ידי מודל XGBoost של LumindAd",
+      "footerIdle": "הוסף כותרת וגוף טקסט לציון בזמן אמת"
+    },
+    "aiSample": {
+      "headline": "קדם את העסק שלך עם פרסום AI חכם",
+      "body": "הגע ללקוחות האידיאליים שלך עם טירגוט מדויק ואופטימיזציה בזמן אמת. מופעל על-ידי למידת מכונה למקסימום ROI."
+    }
+  },
+  "footer": {
+    "author": "אליזבת דיאז פמיליה",
+    "tagline": "LumindAd Enterprise · Python · TensorFlow · React · AI ירוק",
+    "greenAI": "🌱 AI ירוק",
+    "i18n": "11 שפות",
+    "version": "v1.0.0 Enterprise",
+    "findMe": "מצא אותי:",
+    "links": {
+      "linkedin": "LinkedIn",
+      "github": "GitHub",
+      "twitter": "Twitter/X",
+      "instagram": "Instagram",
+      "portfolio": "תיק עבודות"
+    }
+  }
+}
