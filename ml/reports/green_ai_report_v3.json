@@ -1,0 +1,224 @@
+{
+  "report_id": "lumindad_telecomx_v3_green_ai",
+  "version": "LumindAd_TelecomX_v3.0",
+  "author": "Elizabeth Diaz Familia  Sustainable AI Scientist",
+  "pipeline": "TelecomX Churn Intelligence  LumindAd Global ML",
+  "generated_at": "2025-01-15T10:30:00Z",
+  "methodology": {
+    "standard": "GHG Protocol Scope 2  Indirect Emissions from Electricity",
+    "pue": 1.57,
+    "pue_source": "Uptime Institute Global Data Center Survey 2023",
+    "carbon_intensity": 0.475,
+    "ci_source": "IEA Global Energy Review 2023  World average grid mix",
+    "ci_units": "kgCO2/kWh",
+    "formula": {
+      "energy": "kWh = (CPU_W + GPU_W) * train_time_s / 3600 * PUE / 1000",
+      "emissions": "CO2_g = kWh * carbon_intensity * 1000"
+    },
+    "hardware_assumptions": {
+      "cpu": "95W  server-grade Intel Xeon equivalent",
+      "gpu": "250W  NVIDIA A100 equivalent  (Deep Learning models only)",
+      "classical_ml": "CPU only  no GPU required"
+    },
+    "references": [
+      "Lacoste et al. (2019). Quantifying the Carbon Emissions of Machine Learning. NeurIPS Workshop",
+      "Lannelongue et al. (2021). Green Algorithms v2.0. Advanced Science",
+      "Patterson et al. (2022). Carbon Emissions and Large Neural Network Training. CACM",
+      "IEA (2023). Global Energy Review: CO2 Emissions in 2022",
+      "Uptime Institute (2023). Global Data Center Survey"
+    ]
+  },
+  "summary": {
+    "total_models": 5,
+    "classical_ml_count": 1,
+    "deep_learning_count": 4,
+    "total_train_time_s": 84.55,
+    "total_train_time_human": "1.4 minutes",
+    "total_energy_kwh": 0.0125032,
+    "total_co2_g": 5.93902,
+    "total_co2_kg": 0.00593902,
+    "equivalences": {
+      "car_km": 0.0494918,
+      "car_km_description": "Avg passenger car at 120gCO2/km",
+      "phone_charge_h": 7.4238,
+      "phone_description": "Smartphone charging at 0.8gCO2/h",
+      "led_bulb_h": 19.7967,
+      "led_description": "10W LED bulb at 0.3gCO2/h",
+      "google_search_equiv": 29.7,
+      "google_description": "Google search query approx 0.2gCO2 each"
+    },
+    "rating": "YELLOW",
+    "rating_criteria": {
+      "GREEN": "Total CO2 < 1g  Minimal impact",
+      "YELLOW": "Total CO2 1-10g  Low impact",
+      "ORANGE": "Total CO2 10-100g  Moderate impact",
+      "RED": "Total CO2 > 100g  High impact"
+    },
+    "classification": "YELLOW -- 5.93902 gCO2 total pipeline emissions."
+  },
+  "per_model": {
+    "XGBoost": {
+      "model_type": "Classical ML",
+      "model_file": "best_ml_XGBoost.pkl",
+      "computation": {
+        "train_time_s": 2.0,
+        "cpu_w": 95,
+        "gpu_w": 0,
+        "total_power_w": 95,
+        "pue": 1.57
+      },
+      "energy": {
+        "kwh": 8.286e-05,
+        "kwh_formula": "(95+0)W * 2.0s / 3600 * 1.57PUE / 1000"
+      },
+      "emissions": {
+        "co2_g": 0.039359,
+        "co2_kg": 3.9359e-05,
+        "carbon_intensity_kgco2_kwh": 0.475,
+        "co2_formula": "8.286e-05 kWh * 0.475 kgCO2/kWh * 1000"
+      },
+      "equivalences": {
+        "car_km": 0.00032799,
+        "phone_charge_h": 0.049199,
+        "led_bulb_10w_h": 0.131197
+      },
+      "performance": {
+        "f1_score": 0.6171,
+        "roc_auc": 0.8252,
+        "green_efficiency_f1_per_gco2": 15.68
+      }
+    },
+    "MLP": {
+      "model_type": "Deep Learning",
+      "model_file": "LumindAd_MLP.keras",
+      "computation": {
+        "train_time_s": 10.66,
+        "cpu_w": 95,
+        "gpu_w": 250,
+        "total_power_w": 345,
+        "pue": 1.57
+      },
+      "energy": {
+        "kwh": 0.00160389,
+        "kwh_formula": "(95+250)W * 10.66s / 3600 * 1.57PUE / 1000"
+      },
+      "emissions": {
+        "co2_g": 0.761846,
+        "co2_kg": 0.000761846,
+        "carbon_intensity_kgco2_kwh": 0.475,
+        "co2_formula": "0.00160389 kWh * 0.475 kgCO2/kWh * 1000"
+      },
+      "equivalences": {
+        "car_km": 0.00634871,
+        "phone_charge_h": 0.952307,
+        "led_bulb_10w_h": 2.539486
+      },
+      "performance": {
+        "f1_score": 0.6067,
+        "roc_auc": 0.8215,
+        "green_efficiency_f1_per_gco2": 0.8
+      }
+    },
+    "LSTM": {
+      "model_type": "Deep Learning",
+      "model_file": "LumindAd_LSTM.keras",
+      "computation": {
+        "train_time_s": 40.63,
+        "cpu_w": 95,
+        "gpu_w": 250,
+        "total_power_w": 345,
+        "pue": 1.57
+      },
+      "energy": {
+        "kwh": 0.00611312,
+        "kwh_formula": "(95+250)W * 40.63s / 3600 * 1.57PUE / 1000"
+      },
+      "emissions": {
+        "co2_g": 2.903733,
+        "co2_kg": 0.002903733,
+        "carbon_intensity_kgco2_kwh": 0.475,
+        "co2_formula": "0.00611312 kWh * 0.475 kgCO2/kWh * 1000"
+      },
+      "equivalences": {
+        "car_km": 0.02419777,
+        "phone_charge_h": 3.629666,
+        "led_bulb_10w_h": 9.67911
+      },
+      "performance": {
+        "f1_score": 0.5596,
+        "roc_auc": 0.7321,
+        "green_efficiency_f1_per_gco2": 0.19
+      }
+    },
+    "CNN1D": {
+      "model_type": "Deep Learning",
+      "model_file": "LumindAd_CNN1D.keras",
+      "computation": {
+        "train_time_s": 14.66,
+        "cpu_w": 95,
+        "gpu_w": 250,
+        "total_power_w": 345,
+        "pue": 1.57
+      },
+      "energy": {
+        "kwh": 0.00220572,
+        "kwh_formula": "(95+250)W * 14.66s / 3600 * 1.57PUE / 1000"
+      },
+      "emissions": {
+        "co2_g": 1.047717,
+        "co2_kg": 0.001047717,
+        "carbon_intensity_kgco2_kwh": 0.475,
+        "co2_formula": "0.00220572 kWh * 0.475 kgCO2/kWh * 1000"
+      },
+      "equivalences": {
+        "car_km": 0.00873097,
+        "phone_charge_h": 1.309646,
+        "led_bulb_10w_h": 3.492389
+      },
+      "performance": {
+        "f1_score": 0.5519,
+        "roc_auc": 0.7758,
+        "green_efficiency_f1_per_gco2": 0.53
+      }
+    },
+    "Autoencoder": {
+      "model_type": "Deep Learning",
+      "model_file": "LumindAd_Autoencoder.keras",
+      "computation": {
+        "train_time_s": 16.6,
+        "cpu_w": 95,
+        "gpu_w": 250,
+        "total_power_w": 345,
+        "pue": 1.57
+      },
+      "energy": {
+        "kwh": 0.00249761,
+        "kwh_formula": "(95+250)W * 16.6s / 3600 * 1.57PUE / 1000"
+      },
+      "emissions": {
+        "co2_g": 1.186364,
+        "co2_kg": 0.001186364,
+        "carbon_intensity_kgco2_kwh": 0.475,
+        "co2_formula": "0.00249761 kWh * 0.475 kgCO2/kWh * 1000"
+      },
+      "equivalences": {
+        "car_km": 0.00988637,
+        "phone_charge_h": 1.482955,
+        "led_bulb_10w_h": 3.954547
+      },
+      "performance": {
+        "f1_score": 0.4338,
+        "roc_auc": 0.5228,
+        "green_efficiency_f1_per_gco2": 0.37
+      }
+    }
+  },
+  "optimization_notes": [
+    "EarlyStopping with patience=10 prevents unnecessary epochs  reduces CO2 by est 30-40%",
+    "Batch size 256 maximises GPU utilisation per training step",
+    "ReduceLROnPlateau reduces convergence time for DL models",
+    "XGBoost CPU-only  3x lower CO2 than equivalent DL model with same F1",
+    "Autoencoder trained on subset (normal samples only)  further reduces compute",
+    "No hyperparameter search (Optuna/RandomSearch)  would 10-100x increase CO2"
+  ]
+}

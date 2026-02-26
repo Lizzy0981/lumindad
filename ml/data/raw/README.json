@@ -1,0 +1,72 @@
+{
+  "source_raw": "raw/TelecomX_Data.json",
+  "output_file": "LumindAd_TelecomX_Global_v3.csv",
+  "records": 7267,
+  "columns": 29,
+  "column_names": [
+    "customerID",
+    "country",
+    "region",
+    "lang",
+    "cpc_index",
+    "gender",
+    "SeniorCitizen",
+    "Partner",
+    "Dependents",
+    "tenure",
+    "tenure_band",
+    "PhoneService",
+    "MultipleLines",
+    "InternetService",
+    "OnlineSecurity",
+    "OnlineBackup",
+    "DeviceProtection",
+    "TechSupport",
+    "StreamingTV",
+    "StreamingMovies",
+    "Contract",
+    "Contract_enc",
+    "PaperlessBilling",
+    "PaymentMethod",
+    "MonthlyCharges",
+    "TotalCharges",
+    "charge_tier",
+    "churn_risk_score",
+    "Churn"
+  ],
+  "churn_rate": 0.2572,
+  "global_enrichment": {
+    "countries": 54,
+    "regions": [
+      "NA",
+      "LATAM",
+      "EU",
+      "APAC",
+      "MENA",
+      "Africa",
+      "CIS"
+    ],
+    "languages": [
+      "ru",
+      "ja",
+      "es",
+      "ar",
+      "en",
+      "fr"
+    ]
+  },
+  "transformations": [
+    "Nested JSON flattened to tabular CSV",
+    "Binary encoding: Yes/No \u2192 1/0",
+    "Contract ordinal: Month-to-month=0, One year=1, Two year=2",
+    "tenure_band derived from tenure (4 bands)",
+    "charge_tier derived from MonthlyCharges (4 tiers)",
+    "churn_risk_score: composite risk signal (0\u20131)",
+    "Global context assigned: country \u00b7 region \u00b7 lang \u00b7 cpc_index",
+    "TotalCharges coerced to float (empty string \u2192 0.0)"
+  ],
+  "processed_at": "2025-01-15T08:15:00Z",
+  "pipeline": "LumindAd \u00b7 TelecomX Churn Intelligence v3.0",
+  "notebook": "TelecomX_Parte2_Global_v3.ipynb",
+  "author": "Elizabeth D\u00edaz Familia \u00b7 Sustainable AI Scientist"
+}

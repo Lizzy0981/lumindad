@@ -1,0 +1,253 @@
+{
+  "nav": {
+    "dashboard": "لوحة التحكم",
+    "createAd": "إنشاء إعلان",
+    "campaigns": "الحملات",
+    "budget": "الميزانية",
+    "analytics": "التحليلات",
+    "uploadData": "رفع البيانات",
+    "section": "التنقل",
+    "newBadge": "جديد"
+  },
+  "sidebar": {
+    "version": "v1.0.0 · المؤسسات",
+    "aiEngine": "محرك الذكاء الاصطناعي",
+    "aiOnline": "الذكاء الاصطناعي متصل",
+    "aiStack": "TensorFlow · XGBoost",
+    "aiFeatures": "SHAP · كشف الشذوذ",
+    "greenAI": "الذكاء الاصطناعي الأخضر",
+    "greenBadge": "٠.٠٠٣ جم CO₂ · GHG النطاق ٢",
+    "userName": "إليزابيث د.ف.",
+    "userRole": "الذكاء الاصطناعي المستدام"
+  },
+  "pages": {
+    "dashboard": {
+      "title": "لوحة الأداء",
+      "subtitle": "راقب أداء إعلاناتك في الوقت الفعلي — رؤى مدعومة بالذكاء الاصطناعي"
+    },
+    "campaigns": {
+      "title": "الحملات",
+      "subtitle": "أدِر وتتبع جميع حملاتك الإعلانية"
+    },
+    "budget": {
+      "title": "إدارة الميزانية",
+      "subtitle": "تتبع وحسِّن إنفاقك الإعلاني بتوصيات الذكاء الاصطناعي"
+    },
+    "analytics": {
+      "title": "التحليلات والتقارير",
+      "subtitle": "رؤى معمّقة لأداء إعلاناتك — SHAP · كشف الشذوذ"
+    },
+    "upload": {
+      "title": "رفع البيانات",
+      "subtitle": "معالجة حتى ١٠ مليون صف · معالجة متوازية · Web Workers"
+    },
+    "createAd": {
+      "title": "إنشاء إعلان جديد",
+      "subtitle": "إنشاء إعلانات بالذكاء الاصطناعي مع تحسين تلقائي"
+    }
+  },
+  "common": {
+    "status": {
+      "active": "نشط",
+      "paused": "موقوف",
+      "draft": "مسودة",
+      "completed": "مكتمل",
+      "training": "قيد التدريب",
+      "ready": "جاهز",
+      "error": "خطأ"
+    },
+    "buttons": {
+      "refresh": "⟳ تحديث",
+      "createNewAd": "✦ إنشاء إعلان جديد",
+      "newCampaign": "+ حملة جديدة",
+      "setBudget": "+ تحديد الميزانية",
+      "exportReport": "↓ تصدير التقرير",
+      "exportResults": "↓ تصدير النتائج",
+      "preview": "معاينة",
+      "saveDraft": "✓ حفظ المسودة",
+      "applySuggestion": "تطبيق الاقتراح",
+      "edit": "تعديل",
+      "launchCampaign": "🚀 إطلاق الحملة",
+      "aiGenerate": "🤖 توليد بالذكاء الاصطناعي",
+      "generating": "⟳ جارٍ التوليد…",
+      "processData": "▶ معالجة البيانات",
+      "processing": "⟳ جارٍ المعالجة…",
+      "clearData": "🗑 مسح البيانات",
+      "learnMore": "اعرف المزيد →"
+    },
+    "table": {
+      "campaign": "الحملة",
+      "platform": "المنصة",
+      "status": "الحالة",
+      "budget": "الميزانية",
+      "spent": "المُنفَق",
+      "impressions": "مرات الظهور",
+      "ctr": "نسبة النقر",
+      "roas": "عائد الإنفاق",
+      "actions": "الإجراءات"
+    },
+    "filters": {
+      "allPlatforms": "جميع المنصات",
+      "searchCampaigns": "البحث في الحملات…"
+    },
+    "labels": {
+      "accuracy": "الدقة:",
+      "live": "مباشر",
+      "sponsored": "ممول",
+      "new": "جديد"
+    }
+  },
+  "metrics": {
+    "totalSpend": "إجمالي الإنفاق",
+    "impressions": "مرات الظهور",
+    "clicks": "النقرات",
+    "conversions": "التحويلات",
+    "totalBudget": "إجمالي الميزانية",
+    "totalSpent": "إجمالي المُنفَق",
+    "remaining": "المتبقي",
+    "budgetUsed": "الميزانية المستخدمة",
+    "clickThroughRate": "معدل النقر",
+    "conversionRate": "معدل التحويل",
+    "costPerClick": "تكلفة النقرة"
+  },
+  "dashboard": {
+    "weeklyPerformance": "الأداء الأسبوعي",
+    "weeklySubtitle": "مرات الظهور والنقرات خلال ٧ أيام",
+    "platformSplit": "التوزيع حسب المنصة",
+    "platformSubtitle": "توزيع الإنفاق الإعلاني",
+    "aiInsights": "رؤى مولَّدة بالذكاء الاصطناعي",
+    "insights": {
+      "peakTitle": "ذروة الأداء",
+      "peakDesc": "إعلانات الجمعة تحقق تحويلاً أعلى بنسبة ٣٤٪. زد الميزانية ٢٠٠$ للجمعة القادمة.",
+      "anomalyTitle": "شذوذ مكتشف",
+      "anomalyDesc": "انخفض CTR TikTok بنسبة ١٨٪ مقارنة بالأسبوع الماضي. رصده نموذج Isolation Forest.",
+      "growthTitle": "فرصة نمو",
+      "growthDesc": "يُظهر قطاع B2B على LinkedIn عائد إنفاق ٥.١x. يُوصى بزيادة الميزانية ٤٠٪."
+    }
+  },
+  "budget": {
+    "dailySpend": "الإنفاق اليومي مقابل الميزانية",
+    "dailySubtitle": "الإنفاق الفعلي مقارنة بالهدف اليومي",
+    "budgetTarget": "هدف الميزانية",
+    "actualSpend": "الإنفاق الفعلي",
+    "byPlatform": "حسب المنصة",
+    "aiRecommendation": "🤖 توصية الذكاء الاصطناعي",
+    "aiRecText": "أعِد تخصيص ١٢٠٠ دولار من Meta إلى Google Ads. يُقدِّر النموذج التنبؤي (XGBoost) تحسناً +٢٣٪ في عائد الإنفاق.",
+    "period": "نوفمبر ٢٠٢٥"
+  },
+  "analytics": {
+    "performanceTrends": "اتجاهات الأداء",
+    "impressionsTime": "مرات الظهور عبر الزمن",
+    "conversionsClicks": "التحويلات والنقرات",
+    "mlPanel": "🧠 نماذج تعلم الآلة النشطة — TensorFlow · XGBoost · تفسيرية SHAP",
+    "models": {
+      "churnPredictor": "متنبئ الإيقاف",
+      "anomalyDetector": "كاشف الشذوذ",
+      "clickPredictor": "متنبئ النقرات",
+      "roasOptimizer": "مُحسِّن عائد الإنفاق"
+    },
+    "modelTypes": {
+      "xgboost": "XGBoost",
+      "isolationForest": "Isolation Forest",
+      "neuralNetwork": "شبكة عصبية",
+      "automl": "AutoML"
+    }
+  },
+  "upload": {
+    "dropzone": {
+      "idle": "اسحب ملفاتك وأفلتها هنا",
+      "active": "أفلت ملفاتك هنا!",
+      "browse": "تصفح الملفات",
+      "limits": "حد أقصى ١٠ ملفات · يدعم ملفات حتى ٢ جيجابايت · معالجة متوازية (٥٠K صف/قطعة)",
+      "capacity": "⚡ ١٠ ملفات · ١٠M صف كحد أقصى"
+    },
+    "fileList": {
+      "title": "الملفات المرفوعة",
+      "countBadge": "{{done}} معالَج · {{ready}} جاهز",
+      "processingChunk": "جارٍ معالجة القطعة…",
+      "rowsProcessed": "{{count}} صف معالَج",
+      "remove": "إزالة الملف"
+    },
+    "done": {
+      "title": "اكتملت المعالجة!",
+      "summary_one": "تمت معالجة {{count}} ملف بنجاح",
+      "summary_other": "تمت معالجة {{count}} ملف بنجاح",
+      "summary_few": "تمت معالجة {{count}} ملفات بنجاح",
+      "summary_many": "تمت معالجة {{count}} ملفاً بنجاح",
+      "totalRows": "{{count}} صف إجمالي",
+      "mlReady": "جاهز لخط أنابيب تعلم الآلة"
+    },
+    "benchmarks": {
+      "title": "⚡ محرك المعالجة — مقاييس الأداء",
+      "chunked": "🔄 معالجة على دُفعات (٥٠K صف/قطعة)",
+      "workers": "⚡ Web Workers (واجهة غير معطِّلة)",
+      "gzip": "🗜 ضغط Gzip",
+      "memory": "🧠 إدارة الذاكرة التلقائية",
+      "telecomX": "📡 متوافق: خط أنابيب Telecom X ML"
+    }
+  },
+  "createAd": {
+    "sections": {
+      "campaignSettings": "إعدادات الحملة",
+      "adCopy": "نص الإعلان",
+      "budgetSchedule": "الميزانية والجدول الزمني"
+    },
+    "fields": {
+      "platform": "المنصة",
+      "objective": "الهدف",
+      "headline": "العنوان الرئيسي",
+      "bodyText": "نص الجسم",
+      "dailyBudget": "الميزانية اليومية ($)",
+      "startDate": "تاريخ البدء",
+      "endDate": "تاريخ الانتهاء"
+    },
+    "placeholders": {
+      "headline": "أدخل عنوان إعلانك…",
+      "body": "أدخل نص إعلانك…",
+      "generating": "جارٍ التوليد…",
+      "dailyBudget": "مثال: ٥٠"
+    },
+    "objectives": {
+      "conversions": "التحويلات",
+      "awareness": "الوعي بالعلامة",
+      "traffic": "الزيارات",
+      "leads": "العملاء المحتملون",
+      "appInstalls": "تنزيلات التطبيق"
+    },
+    "preview": {
+      "title": "معاينة الإعلان",
+      "sponsored": "ممول",
+      "headlineFallback": "عنوان إعلانك هنا",
+      "bodyFallback": "سيظهر نص إعلانك هنا. اجعله مقنعاً!",
+      "cta": "اعرف المزيد →"
+    },
+    "score": {
+      "title": "🤖 درجة تحسين الذكاء الاصطناعي",
+      "relevance": "الصلة",
+      "ctrPrediction": "توقع نسبة النقر",
+      "qualityScore": "درجة الجودة",
+      "targetingMatch": "مطابقة الاستهداف",
+      "footerActive": "تتحدث الدرجة أثناء الكتابة · مدعوم بنموذج XGBoost من LumindAd",
+      "footerIdle": "أضف عنواناً ونصاً لرؤية التحديثات المباشرة"
+    },
+    "aiSample": {
+      "headline": "عزِّز أعمالك بالإعلانات الذكية المدعومة بالذكاء الاصطناعي",
+      "body": "تواصل مع عملائك المثاليين بالاستهداف الدقيق والتحسين الفوري. مدعوم بتعلم الآلة لأقصى عائد على الاستثمار."
+    }
+  },
+  "footer": {
+    "author": "إليزابيث دياز فاميليا",
+    "tagline": "LumindAd Enterprise · Python · TensorFlow · React · الذكاء الاصطناعي الأخضر",
+    "greenAI": "🌱 الذكاء الاصطناعي الأخضر",
+    "i18n": "١١ لغة",
+    "version": "v1.0.0 Enterprise",
+    "findMe": "تواصل معي:",
+    "links": {
+      "linkedin": "LinkedIn",
+      "github": "GitHub",
+      "twitter": "Twitter/X",
+      "instagram": "Instagram",
+      "portfolio": "معرض الأعمال"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "description": ".lumindad_cache \u2014 Offline TTL cache for LumindAd notebooks",
+  "mechanism": "OfflineCache class (pickle-based, TTL=6h)",
+  "ttl_seconds": 21600,
+  "file_format": "MD5(key).pkl \u2014 pickle.dump(entry_dict, protocol=4)",
+  "entry_schema": {
+    "key": "str \u2014 unique cache key",
+    "hash": "str \u2014 MD5 hex digest of key (= filename without .pkl)",
+    "data": "dict \u2014 cached API response payload",
+    "created_at": "ISO8601 UTC \u2014 when entry was created",
+    "expires_at": "ISO8601 UTC \u2014 created_at + ttl_s",
+    "ttl_s": "int \u2014 TTL in seconds (6h = 21600)",
+    "version": "str \u2014 cache schema version"
+  },
+  "invalidation": "Entry is expired when datetime.utcnow() > expires_at",
+  "fallback": "On miss or expiry, OfflineCache uses embedded FALLBACK constants",
+  "entries": 5,
+  "index": "cache_index.json \u2014 human-readable entry list",
+  "pipeline": "LumindAd \u00b7 TelecomX v3.0 + AdPerformance v1.0",
+  "author": "Elizabeth D\u00edaz Familia \u00b7 Sustainable AI Scientist"
+}

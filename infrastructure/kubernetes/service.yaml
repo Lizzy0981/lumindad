@@ -1,0 +1,155 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# service.yaml
+# LumindAd · Ad Performance Intelligence Platform v1.0
+# Kubernetes Services — Network layer for all deployments
+# Author: Elizabeth Díaz Familia · AI Data Scientist · Sustainable Intelligence & BI
+# ══════════════════════════════════════════════════════════════════════════════
+#
+# Services:
+#   lumindad-frontend-svc    LoadBalancer  :80          → frontend pods :80
+#   lumindad-backend-svc     ClusterIP     :8000        → backend pods  :8000
+#   lumindad-ml-svc          ClusterIP     :8001        → ml pods       :8001
+#   lumindad-redis-svc       ClusterIP     :6379        → redis pod     :6379
+#   lumindad-postgres-svc    ClusterIP     :5432        → postgres pod  :5432
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 1. FRONTEND — LoadBalancer (external entry point)
+#    In production: Ingress handles TLS termination; this stays ClusterIP.
+#    For bare-metal / local: LoadBalancer exposes port 80 directly.
+# ─────────────────────────────────────────────────────────────────────────────
+apiVersion: v1
+kind: Service
+metadata:
+  name: lumindad-frontend-svc
+  namespace: lumindad
+  labels:
+    app: lumindad
+    tier: frontend
+  annotations:
+    lumindad.ai/description: "React 18 + nginx static server"
+    # Cloud provider annotations (uncomment for production)
+    # service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    # service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+spec:
+  type: ClusterIP        # Ingress handles external traffic — see ingress.yaml
+  selector:
+    app: lumindad
+    tier: frontend
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+  sessionAffinity: None
+
+---
+# ─────────────────────────────────────────────────────────────────────────────
+# 2. BACKEND — ClusterIP (internal — reached via Ingress /api/*)
+# ─────────────────────────────────────────────────────────────────────────────
+apiVersion: v1
+kind: Service
+metadata:
+  name: lumindad-backend-svc
+  namespace: lumindad
+  labels:
+    app: lumindad
+    tier: backend
+  annotations:
+    lumindad.ai/description: "FastAPI · SQLAlchemy · JWT · Celery publisher"
+    lumindad.ai/api-docs: "http://lumindad-backend-svc:8000/docs"
+spec:
+  type: ClusterIP
+  selector:
+    app: lumindad
+    tier: backend
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8000
+      targetPort: 8000
+  sessionAffinity: ClientIP        # Sticky sessions for upload SSE streams
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 300
+
+---
+# ─────────────────────────────────────────────────────────────────────────────
+# 3. ML INFERENCE — ClusterIP (internal — reached via Ingress /ml/*)
+#    Backend calls this service for: churn prediction, SHAP, anomaly detection
+# ─────────────────────────────────────────────────────────────────────────────
+apiVersion: v1
+kind: Service
+metadata:
+  name: lumindad-ml-svc
+  namespace: lumindad
+  labels:
+    app: lumindad
+    tier: ml
+  annotations:
+    lumindad.ai/description: "TF · XGBoost · SHAP · MLP · LSTM · CNN-1D · Autoencoder"
+    lumindad.ai/green-ai: "GHG Protocol Scope 2 | PUE=1.57 | CI=0.475 kgCO2/kWh"
+    lumindad.ai/models: "XGBoost (best F1=0.6171) · MLP (AUC=0.8215) · LSTM · CNN-1D · Autoencoder"
+spec:
+  type: ClusterIP
+  selector:
+    app: lumindad
+    tier: ml
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8001
+      targetPort: 8001
+  sessionAffinity: None            # Stateless — any replica can serve inference
+
+---
+# ─────────────────────────────────────────────────────────────────────────────
+# 4. REDIS — ClusterIP (internal only — Celery broker + API cache)
+# ─────────────────────────────────────────────────────────────────────────────
+apiVersion: v1
+kind: Service
+metadata:
+  name: lumindad-redis-svc
+  namespace: lumindad
+  labels:
+    app: lumindad
+    tier: cache
+  annotations:
+    lumindad.ai/description: "Redis 7 — Celery broker + TTL API cache (maxmem 512MB LRU)"
+spec:
+  type: ClusterIP
+  selector:
+    app: lumindad
+    tier: cache
+  ports:
+    - name: redis
+      protocol: TCP
+      port: 6379
+      targetPort: 6379
+  sessionAffinity: None
+
+---
+# ─────────────────────────────────────────────────────────────────────────────
+# 5. POSTGRESQL — ClusterIP (internal only — backend + migrations)
+# ─────────────────────────────────────────────────────────────────────────────
+apiVersion: v1
+kind: Service
+metadata:
+  name: lumindad-postgres-svc
+  namespace: lumindad
+  labels:
+    app: lumindad
+    tier: database
+  annotations:
+    lumindad.ai/description: "PostgreSQL 15 — primary RDBMS (campaigns · users · uploads)"
+spec:
+  type: ClusterIP
+  selector:
+    app: lumindad
+    tier: database
+  ports:
+    - name: postgres
+      protocol: TCP
+      port: 5432
+      targetPort: 5432
+  sessionAffinity: None

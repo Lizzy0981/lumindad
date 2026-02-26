@@ -1,0 +1,178 @@
+{
+  "name": "lumindad-frontend",
+  "version": "1.0.0",
+  "description": "LumindAd Enterprise Advertising Intelligence Platform — React 18 + TypeScript frontend",
+  "author": "Elizabeth Díaz Familia <lizzyfamilia@gmail.com>",
+  "license": "MIT",
+  "private": true,
+
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Lizzy0981/lumindad.git"
+  },
+  "homepage": "https://lumindad.app",
+  "bugs": {
+    "url": "https://github.com/Lizzy0981/lumindad/issues"
+  },
+
+  "keywords": [
+    "lumindad",
+    "advertising-intelligence",
+    "ai-marketing",
+    "campaign-management",
+    "green-ai",
+    "react",
+    "typescript",
+    "vite",
+    "recharts",
+    "zustand",
+    "i18n",
+    "pwa",
+    "adtech",
+    "alura-latam"
+  ],
+
+  "engines": {
+    "node": ">=18.0.0",
+    "npm":  ">=9.0.0"
+  },
+
+  "scripts": {
+    "_comment_dev":        "──── Development ────────────────────────────────────────────",
+    "dev":                 "vite",
+    "dev:host":            "vite --host",
+
+    "_comment_build":      "──── Build ──────────────────────────────────────────────────",
+    "build":               "tsc --noEmit && vite build",
+    "build:fast":          "vite build",
+    "preview":             "vite preview",
+    "preview:host":        "vite preview --host",
+
+    "_comment_types":      "──── Type checking ──────────────────────────────────────────",
+    "type-check":          "tsc --noEmit",
+    "type-check:watch":    "tsc --noEmit --watch",
+
+    "_comment_lint":       "──── Linting & Formatting ───────────────────────────────────",
+    "lint":                "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix":            "eslint . --ext ts,tsx --fix",
+    "format":              "prettier --write 'src/**/*.{ts,tsx,css}'",
+    "format:check":        "prettier --check 'src/**/*.{ts,tsx,css}'",
+
+    "_comment_test":       "──── Testing ────────────────────────────────────────────────",
+    "test":                "vitest",
+    "test:ui":             "vitest --ui",
+    "test:coverage":       "vitest --coverage",
+    "test:run":            "vitest run",
+
+    "_comment_clean":      "──── Utilities ──────────────────────────────────────────────",
+    "clean":               "rm -rf dist .tsbuildinfo node_modules/.cache",
+    "clean:all":           "rm -rf dist .tsbuildinfo node_modules",
+    "analyze":             "vite build --mode analyze"
+  },
+
+  "dependencies": {
+    "_comment_react":       "──── React ──────────────────────────────────────────────────",
+    "react":                "^18.3.1",
+    "react-dom":            "^18.3.1",
+
+    "_comment_router":      "──── Routing ─────────────────────────────────────────────",
+    "react-router-dom":     "^6.24.1",
+
+    "_comment_state":       "──── State management ────────────────────────────────────",
+    "zustand":              "^4.5.4",
+
+    "_comment_charts":      "──── Charts (Recharts) ────────────────────────────────────",
+    "recharts":             "^2.12.7",
+
+    "_comment_i18n":        "──── Internationalisation — 11 languages ─────────────────",
+    "i18next":              "^23.14.0",
+    "react-i18next":        "^15.0.1",
+    "i18next-browser-languagedetector": "^8.0.0",
+
+    "_comment_http":        "──── HTTP client ─────────────────────────────────────────",
+    "axios":                "^1.7.4",
+
+    "_comment_ui":          "──── UI primitives ───────────────────────────────────────",
+    "@radix-ui/react-dialog":    "^1.1.1",
+    "@radix-ui/react-dropdown-menu": "^2.1.1",
+    "@radix-ui/react-tooltip":   "^1.1.2",
+    "@radix-ui/react-progress":  "^1.1.0",
+    "@radix-ui/react-switch":    "^1.1.0",
+    "@radix-ui/react-select":    "^2.1.1",
+
+    "_comment_icons":       "──── Icons ──────────────────────────────────────────────",
+    "lucide-react":         "^0.263.1",
+
+    "_comment_excel":       "──── Excel parsing (SheetJS) ─────────────────────────────",
+    "xlsx":                 "^0.18.5",
+
+    "_comment_compression": "──── Gzip compression ────────────────────────────────────",
+    "pako":                 "^2.1.0",
+
+    "_comment_dates":       "──── Date utilities ──────────────────────────────────────",
+    "date-fns":             "^3.6.0"
+  },
+
+  "devDependencies": {
+    "_comment_vite":        "──── Vite & build tools ──────────────────────────────────",
+    "vite":                 "^5.4.2",
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite-plugin-pwa":      "^0.20.5",
+    "vite-plugin-compression": "^0.5.1",
+    "workbox-window":       "^7.1.0",
+
+    "_comment_ts":          "──── TypeScript ──────────────────────────────────────────",
+    "typescript":           "^5.5.3",
+    "@types/react":         "^18.3.3",
+    "@types/react-dom":     "^18.3.0",
+    "@types/node":          "^22.5.4",
+    "@types/pako":          "^2.0.3",
+
+    "_comment_tailwind":    "──── Tailwind CSS ────────────────────────────────────────",
+    "tailwindcss":          "^3.4.10",
+    "autoprefixer":         "^10.4.20",
+    "postcss":              "^8.4.41",
+
+    "_comment_lint":        "──── ESLint ──────────────────────────────────────────────",
+    "eslint":                            "^9.9.0",
+    "@typescript-eslint/eslint-plugin":  "^8.4.0",
+    "@typescript-eslint/parser":         "^8.4.0",
+    "eslint-plugin-react-hooks":         "^5.1.0",
+    "eslint-plugin-react-refresh":       "^0.4.11",
+    "eslint-plugin-import":              "^2.29.1",
+
+    "_comment_format":      "──── Prettier ────────────────────────────────────────────",
+    "prettier":             "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.6",
+
+    "_comment_test":        "──── Testing (Vitest) ────────────────────────────────────",
+    "vitest":               "^2.0.5",
+    "@vitest/ui":           "^2.0.5",
+    "@vitest/coverage-v8":  "^2.0.5",
+    "@testing-library/react":        "^16.0.0",
+    "@testing-library/jest-dom":     "^6.5.0",
+    "@testing-library/user-event":   "^14.5.2",
+    "jsdom":                "^25.0.0",
+
+    "_comment_analyze":     "──── Bundle analysis ─────────────────────────────────────",
+    "rollup-plugin-visualizer": "^5.12.0"
+  },
+
+  "peerDependencies": {
+    "react":     "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

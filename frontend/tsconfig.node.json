@@ -1,0 +1,33 @@
+{
+  /**
+   * LumindAd · TypeScript Node Configuration
+   * frontend/tsconfig.node.json
+   *
+   * Separate tsconfig for Vite configuration files (vite.config.ts,
+   * tailwind.config.ts, postcss.config.js) which run in Node.js,
+   * not the browser DOM.
+   *
+   * Required because:
+   *   - vite.config.ts uses __dirname, process.env, require()
+   *   - These are not available in the browser lib
+   *   - Vite uses this config when type-checking its own config file
+   *
+   * Referenced from tsconfig.json as:
+   *   "references": [{ "path": "./tsconfig.node.json" }]
+   */
+  "compilerOptions": {
+    "composite":             true,
+    "skipLibCheck":          true,
+    "module":                "ESNext",
+    "moduleResolution":      "bundler",
+    "allowSyntheticDefaultImports": true,
+    "strict":                true,
+    "noEmit":                true,
+    "target":                "ES2022",
+    "lib":                   ["ES2022"]
+  },
+  "include": [
+    "vite.config.ts",
+    "tailwind.config.ts"
+  ]
+}

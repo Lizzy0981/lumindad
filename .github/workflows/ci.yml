@@ -1,0 +1,358 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# ci.yml — Continuous Integration
+# LumindAd · Ad Performance Intelligence Platform v1.0
+# Author: Elizabeth Díaz Familia · AI Data Scientist · Sustainable Intelligence & BI
+#
+# Triggers  : Every Pull Request (any branch → any branch)
+#             Push to main / develop (fast feedback)
+#
+# Jobs:
+#   lint-frontend     ESLint + TypeScript type-check (Node 20)
+#   test-frontend     Vitest unit + component tests
+#   lint-backend      Ruff + Black formatting check (Python 3.11)
+#   test-backend      Pytest — 252 tests (unit + integration)
+#   lint-ml           Ruff on ml/ notebooks/scripts
+#   security          Trivy filesystem scan + pip-audit + npm audit
+#   ci-status         Final gate — all jobs must pass
+# ══════════════════════════════════════════════════════════════════════════════
+
+name: CI — Tests & Lint
+
+on:
+  pull_request:
+    branches: ["**"]
+  push:
+    branches:
+      - main
+      - develop
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true          # Cancel stale runs on new push
+
+env:
+  NODE_VERSION: "20"
+  PYTHON_VERSION: "3.11"
+  # Silence TF logs in test runs
+  TF_CPP_MIN_LOG_LEVEL: "3"
+  PYTHONDONTWRITEBYTECODE: "1"
+  PYTHONUNBUFFERED: "1"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# JOB 1 — Frontend lint (ESLint + TypeScript)
+# ─────────────────────────────────────────────────────────────────────────────
+jobs:
+  lint-frontend:
+    name: Lint · Frontend (ESLint + TSC)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit
+
+      - name: TypeScript type-check
+        run: npm run type-check
+        # Fails on any TS error — no implicit any allowed
+
+      - name: ESLint
+        run: npm run lint
+        # Configured in frontend/.eslintrc — React + TS rules
+
+      - name: Check Prettier formatting
+        run: npm run format:check
+
+# ─────────────────────────────────────────────────────────────────────────────
+# JOB 2 — Frontend tests (Vitest)
+# ─────────────────────────────────────────────────────────────────────────────
+  test-frontend:
+    name: Test · Frontend (Vitest)
+    runs-on: ubuntu-latest
+    needs: lint-frontend
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Run Vitest
+        run: npm run test:run -- --reporter=verbose --coverage
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: frontend-coverage
+          path: frontend/coverage/
+          retention-days: 7
+
+      - name: Build check (Vite)
+        run: npm run build
+        env:
+          VITE_API_URL: http://localhost:8000
+          VITE_APP_VERSION: "1.0.0"
+          VITE_APP_ENV: test
+
+# ─────────────────────────────────────────────────────────────────────────────
+# JOB 3 — Backend lint (Ruff + Black)
+# ─────────────────────────────────────────────────────────────────────────────
+  lint-backend:
+    name: Lint · Backend (Ruff + Black)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+
+      - name: Install lint tools
+        run: pip install ruff black isort mypy --quiet
+
+      - name: Ruff — linting
+        run: ruff check app/ --output-format=github
+
+      - name: Black — formatting check
+        run: black --check app/
+
+      - name: isort — import order
+        run: isort --check-only app/
+
+      - name: Mypy — type checking (non-blocking)
+        run: mypy app/ --ignore-missing-imports --no-error-summary || true
+
+# ─────────────────────────────────────────────────────────────────────────────
+# JOB 4 — Backend tests (Pytest — 252 tests)
+# ─────────────────────────────────────────────────────────────────────────────
+  test-backend:
+    name: Test · Backend (Pytest 252)
+    runs-on: ubuntu-latest
+    needs: lint-backend
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_DB:       lumindad_test
+          POSTGRES_USER:     lumindad
+          POSTGRES_PASSWORD: test_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U lumindad"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7.2-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+
+    defaults:
+      run:
+        working-directory: backend
+
+    env:
+      DATABASE_URL:   postgresql+asyncpg://lumindad:test_password@localhost:5432/lumindad_test
+      REDIS_URL:      redis://localhost:6379/0
+      SECRET_KEY:     ci-test-secret-key-not-for-production
+      JWT_SECRET:     ci-test-jwt-secret-not-for-production
+      APP_ENV:        test
+      LOG_LEVEL:      warning
+      MODEL_DIR:      ../ml/models
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-asyncio pytest-cov httpx --quiet
+
+      - name: Run Alembic migrations (test DB)
+        run: alembic upgrade head
+
+      - name: Run Pytest
+        run: |
+          pytest tests/ \
+            --asyncio-mode=auto \
+            --cov=app \
+            --cov-report=xml:coverage.xml \
+            --cov-report=term-missing \
+            --tb=short \
+            -q \
+            -v
+        # Target: 252/252 passing (unit/ + integration/)
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: backend-coverage
+          path: backend/coverage.xml
+          retention-days: 7
+
+# ─────────────────────────────────────────────────────────────────────────────
+# JOB 5 — ML lint (Ruff on ml/ scripts)
+# ─────────────────────────────────────────────────────────────────────────────
+  lint-ml:
+    name: Lint · ML (Ruff)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install Ruff
+        run: pip install ruff --quiet
+
+      - name: Ruff — ml/
+        run: ruff check ml/ --ignore=E501,W503 --output-format=github || true
+        # Non-blocking — notebooks generate long lines
+
+# ─────────────────────────────────────────────────────────────────────────────
+# JOB 6 — Security scanning
+# ─────────────────────────────────────────────────────────────────────────────
+  security:
+    name: Security · Trivy + pip-audit + npm-audit
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write   # Upload SARIF to GitHub Security tab
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: npm audit (frontend)
+        working-directory: frontend
+        run: |
+          npm ci --prefer-offline --no-audit
+          npm audit --audit-level=high --json > npm-audit.json || true
+
+      - name: pip-audit (backend)
+        working-directory: backend
+        run: |
+          pip install pip-audit --quiet
+          pip install -r requirements.txt --quiet
+          pip-audit --format=json --output pip-audit.json || true
+
+      - name: Trivy filesystem scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: fs
+          scan-ref: .
+          format: sarif
+          output: trivy-results.sarif
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+
+      - name: Upload Trivy SARIF
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: trivy-results.sarif
+
+      - name: Upload audit reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: security-reports
+          path: |
+            frontend/npm-audit.json
+            backend/pip-audit.json
+            trivy-results.sarif
+          retention-days: 14
+
+# ─────────────────────────────────────────────────────────────────────────────
+# JOB 7 — CI gate (all jobs must pass before merge is allowed)
+# ─────────────────────────────────────────────────────────────────────────────
+  ci-status:
+    name: CI Gate — All checks passed
+    runs-on: ubuntu-latest
+    needs:
+      - lint-frontend
+      - test-frontend
+      - lint-backend
+      - test-backend
+      - lint-ml
+      - security
+    if: always()
+
+    steps:
+      - name: Check all jobs
+        run: |
+          if [[ "${{ contains(needs.*.result, 'failure') }}" == "true" ]]; then
+            echo "CI FAILED — one or more required jobs failed"
+            exit 1
+          fi
+          echo "CI PASSED — all jobs succeeded"
+          echo ""
+          echo "Summary:"
+          echo "  lint-frontend  : ${{ needs.lint-frontend.result }}"
+          echo "  test-frontend  : ${{ needs.test-frontend.result }}"
+          echo "  lint-backend   : ${{ needs.lint-backend.result }}"
+          echo "  test-backend   : ${{ needs.test-backend.result }}"
+          echo "  lint-ml        : ${{ needs.lint-ml.result }}"
+          echo "  security       : ${{ needs.security.result }}"

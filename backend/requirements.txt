@@ -1,0 +1,113 @@
+# ═══════════════════════════════════════════════════════════════
+#  LumindAd Enterprise · backend/requirements.txt
+#  Python 3.12 · PostgreSQL 16 · Redis 7
+# ═══════════════════════════════════════════════════════════════
+#
+#  Install all:
+#    pip install -r requirements.txt
+#
+#  Install without ML stack (lighter API-only deploy):
+#    pip install -r requirements.txt --no-deps
+#    pip install -r requirements-api.txt  (if extracted)
+#
+#  Production install (no test deps):
+#    pip install -r requirements.txt
+#    # omit the [dev] section at the bottom
+#
+# ═══════════════════════════════════════════════════════════════
+
+
+# ───────────────────────────────────────────────────────────────
+# WEB FRAMEWORK
+# FastAPI + Starlette + ASGI server
+# ───────────────────────────────────────────────────────────────
+fastapi==0.133.1
+starlette==0.52.1
+uvicorn[standard]==0.41.0          # ASGI server — standard pulls in watchfiles + httptools
+gunicorn==23.0.0                   # process manager in production (uvicorn workers)
+python-multipart==0.0.22           # multipart/form-data (file uploads)
+
+
+# ───────────────────────────────────────────────────────────────
+# DATA VALIDATION & SETTINGS
+# Pydantic v2 + pydantic-settings
+# ───────────────────────────────────────────────────────────────
+pydantic==2.12.5
+pydantic-settings==2.13.1
+email-validator==2.3.0             # EmailStr validation in Pydantic models
+python-dotenv==1.2.1               # .env file loading (used by pydantic-settings)
+
+
+# ───────────────────────────────────────────────────────────────
+# DATABASE
+# SQLAlchemy 2.0 async ORM · asyncpg (prod) · aiosqlite (dev)
+# psycopg2-binary for Alembic sync migrations
+# ───────────────────────────────────────────────────────────────
+SQLAlchemy==2.0.47
+alembic==1.18.4                    # schema migrations (alembic.ini at backend/)
+asyncpg==0.30.0                    # async PostgreSQL driver (runtime)
+psycopg2-binary==2.9.10            # sync PostgreSQL driver (Alembic migrations only)
+aiosqlite==0.21.0                  # async SQLite driver (local dev / tests)
+
+
+# ───────────────────────────────────────────────────────────────
+# AUTHENTICATION & SECURITY
+# JWT · bcrypt · passlib
+# ───────────────────────────────────────────────────────────────
+python-jose[cryptography]==3.5.0   # JWT encode/decode (HS256)
+passlib[bcrypt]==1.7.4             # password hashing context
+bcrypt==4.0.1                      # bcrypt backend for passlib
+
+
+# ───────────────────────────────────────────────────────────────
+# CACHE & MESSAGE BROKER
+# Redis (async client + Celery)
+# ───────────────────────────────────────────────────────────────
+redis[hiredis]==5.2.1              # redis-py with C parser (sync + asyncio)
+celery[redis]==5.4.0               # distributed task queue
+kombu==5.4.2                       # celery messaging library (explicit pin — compatible with celery 5.4)
+flower==2.0.1                      # celery monitoring dashboard (optional)
+
+
+# ───────────────────────────────────────────────────────────────
+# MACHINE LEARNING
+# TensorFlow · XGBoost · scikit-learn · NumPy
+# ───────────────────────────────────────────────────────────────
+numpy==2.4.2
+scikit-learn==1.8.0
+xgboost==3.2.0
+tensorflow==2.20.0                 # LSTM · CNN-1D · Autoencoder models
+# NOTE: tensorflow pulls in keras 3.x and many transitive deps (~1 GB)
+#       For CPU-only deploys, use: tensorflow-cpu==2.20.0
+
+
+# ───────────────────────────────────────────────────────────────
+# BI / EXPORT
+# Excel · PDF report generation
+# ───────────────────────────────────────────────────────────────
+openpyxl==3.1.5                    # Excel (.xlsx) generation (bi_export.py)
+reportlab==4.4.1                   # PDF generation (bi_export.py)
+pandas==3.0.1                      # data manipulation in export tasks
+
+
+# ───────────────────────────────────────────────────────────────
+# HTTP CLIENT
+# Used for internal service calls and testing
+# ───────────────────────────────────────────────────────────────
+httpx==0.28.1                      # async HTTP client (health checks, callbacks)
+
+
+# ───────────────────────────────────────────────────────────────
+# UTILITIES
+# ───────────────────────────────────────────────────────────────
+anyio==4.12.1                      # async I/O compatibility layer
+
+
+# ───────────────────────────────────────────────────────────────
+# DEVELOPMENT & TESTING
+# Not required in production — exclude with:
+#   pip install -r requirements.txt --ignore-requires-python
+#   (or maintain a separate requirements-dev.txt)
+# ───────────────────────────────────────────────────────────────
+pytest==9.0.2
+pytest-asyncio==1.3.0              # async test support

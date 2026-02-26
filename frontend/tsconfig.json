@@ -1,0 +1,123 @@
+{
+  /**
+   * LumindAd · TypeScript Configuration
+   * frontend/tsconfig.json
+   *
+   * TypeScript 5.4 — strict mode enabled
+   *
+   * Key decisions
+   * ─────────────
+   * moduleResolution: "bundler"  — Vite 5 native, resolves .ts without extensions
+   * verbatimModuleSyntax: true   — type-only imports use `import type`
+   * useDefineForClassFields: true— aligns with ECMAScript spec
+   * strictNullChecks: true       — no accidental undefined access
+   * noUncheckedIndexedAccess: true — array[idx] returns T | undefined
+   * paths @/*                   — maps to ./src/* (matches vite.config.ts alias)
+   *
+   * Author : Elizabeth Díaz Familia
+   *          AI Data Scientist · Sustainable Intelligence & BI
+   */
+  "compilerOptions": {
+
+    /* ─── Target & Module ───────────────────────────────────────────────── */
+    "target":                    "ES2020",
+    "useDefineForClassFields":   true,
+    "lib":                       ["ES2020", "DOM", "DOM.Iterable"],
+    "module":                    "ESNext",
+
+    /* ─── Module Resolution ─────────────────────────────────────────────── */
+    /*
+     * "bundler" — Vite 5 native resolution:
+     *   - Allows imports without file extensions (e.g. './App' → './App.tsx')
+     *   - Supports package.json "exports" field
+     *   - Does NOT emit any files (Vite handles transpilation)
+     */
+    "moduleResolution":          "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule":          true,
+    "isolatedModules":            true,    // Required for Vite's transpile-only mode
+    "noEmit":                    true,    // Vite handles output — tsc is type-check only
+
+    /* ─── JSX ────────────────────────────────────────────────────────────── */
+    "jsx":                       "react-jsx",   // React 18 automatic runtime
+
+    /* ─── Type checking — STRICT ────────────────────────────────────────── */
+    "strict":                    true,          // Enables all strict flags below
+    "noImplicitAny":             true,
+    "strictNullChecks":          true,
+    "strictFunctionTypes":       true,
+    "strictBindCallApply":       true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis":            true,
+    "alwaysStrict":              true,
+
+    /* Extra strictness beyond --strict */
+    "noUncheckedIndexedAccess":  true,   // array[idx] → T | undefined
+    "noImplicitOverride":        true,   // require `override` keyword
+    "noPropertyAccessFromIndexSignature": true,
+    "exactOptionalPropertyTypes": true,  // optional props ≠ prop: T | undefined
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns":         true,
+
+    /* ─── Interop ────────────────────────────────────────────────────────── */
+    "esModuleInterop":           true,
+    "allowSyntheticDefaultImports": true,
+    "verbatimModuleSyntax":      true,   // Enforce `import type` for type-only imports
+    "forceConsistentCasingInFileNames": true,
+
+    /* ─── Source maps ────────────────────────────────────────────────────── */
+    "sourceMap":                 true,
+    "inlineSources":             false,
+
+    /* ─── Path aliases ───────────────────────────────────────────────────── */
+    /*
+     * @/ → src/ — matches vite.config.ts resolve.alias['@']
+     * All source imports use '@/components/…' not '../../components/…'
+     */
+    "baseUrl":                   ".",
+    "paths": {
+      "@/*":                     ["./src/*"],
+      "@/components/*":          ["./src/components/*"],
+      "@/pages/*":               ["./src/pages/*"],
+      "@/hooks/*":               ["./src/hooks/*"],
+      "@/store/*":               ["./src/store/*"],
+      "@/services/*":            ["./src/services/*"],
+      "@/utils/*":               ["./src/utils/*"],
+      "@/types/*":               ["./src/types/*"],
+      "@/workers/*":             ["./src/workers/*"],
+      "@/i18n/*":                ["./src/i18n/*"],
+      "@/styles/*":              ["./src/styles/*"]
+    },
+
+    /* ─── Decorators (for future Zustand middleware) ─────────────────────── */
+    "experimentalDecorators":    true,
+    "emitDecoratorMetadata":     false,
+
+    /* ─── Project references (composite) ────────────────────────────────── */
+    "composite":                 true,   // Required for project references
+    "incremental":               true,
+    "tsBuildInfoFile":           ".tsbuildinfo",
+
+    /* ─── Skips ──────────────────────────────────────────────────────────── */
+    "skipLibCheck":              true    // Skip type-checking of node_modules .d.ts
+  },
+
+  /* ─── Files included ──────────────────────────────────────────────────── */
+  "include": [
+    "src",
+    "vite.config.ts",
+    "tailwind.config.ts"
+  ],
+
+  /* ─── Files excluded ──────────────────────────────────────────────────── */
+  "exclude": [
+    "node_modules",
+    "dist",
+    ".tsbuildinfo"
+  ],
+
+  /* ─── Project references ─────────────────────────────────────────────── */
+  "references": [
+    { "path": "./tsconfig.node.json" }
+  ]
+}

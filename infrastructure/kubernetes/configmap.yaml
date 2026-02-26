@@ -1,0 +1,334 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# configmap.yaml
+# LumindAd · Ad Performance Intelligence Platform v1.0
+# Non-secret environment variables · PersistentVolumeClaims · HPA
+# Author: Elizabeth Díaz Familia · AI Data Scientist · Sustainable Intelligence & BI
+#
+# Contents:
+#   lumindad-config       ConfigMap — shared env vars (all pods)
+#   lumindad-ml-config    ConfigMap — ML-specific env vars
+#   *-pvc                 PersistentVolumeClaims (uploads · models · redis · postgres)
+#   lumindad-*-hpa        HorizontalPodAutoscaler (backend · ml)
+#
+# Secrets (NOT here — use k8s Secrets or Vault):
+#   DATABASE_URL · REDIS_URL · SECRET_KEY · JWT_SECRET
+#   POSTGRES_PASSWORD · AWS_ACCESS_KEY · SMTP credentials
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SHARED CONFIGMAP — consumed by frontend · backend · worker · ml pods
+# ─────────────────────────────────────────────────────────────────────────────
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lumindad-config
+  namespace: lumindad
+  labels:
+    app: lumindad
+    version: "1.0.0"
+  annotations:
+    lumindad.ai/author: "Elizabeth Díaz Familia · AI Data Scientist · Sustainable Intelligence & BI"
+    lumindad.ai/updated: "2025-01-15"
+data:
+  # ── Application ────────────────────────────────────────────────────────────
+  APP_NAME:               "LumindAd"
+  APP_VERSION:            "1.0.0"
+  APP_ENV:                "production"
+  LOG_LEVEL:              "info"
+  DEBUG:                  "false"
+  ALLOWED_HOSTS:          "lumindad.ai,www.lumindad.ai"
+
+  # ── Frontend (Vite build-time + runtime) ───────────────────────────────────
+  VITE_APP_VERSION:       "1.0.0"
+  VITE_APP_ENV:           "production"
+  VITE_API_URL:           "https://lumindad.ai/api"
+  VITE_ML_URL:            "https://lumindad.ai/ml"
+  VITE_ENABLE_GREEN_AI:   "true"
+  VITE_I18N_DEFAULT_LANG: "en"
+  VITE_UPLOAD_MAX_SIZE_MB: "100"
+  VITE_UPLOAD_CHUNK_SIZE: "50000"
+
+  # ── Backend (FastAPI) ──────────────────────────────────────────────────────
+  API_PORT:               "8000"
+  API_V1_PREFIX:          "/api/v1"
+  WORKERS:                "4"
+  BACKEND_CORS_ORIGINS:   '["https://lumindad.ai","https://www.lumindad.ai"]'
+
+  # Auth
+  JWT_ALGORITHM:          "HS256"
+  ACCESS_TOKEN_EXPIRE_MINUTES:  "60"
+  REFRESH_TOKEN_EXPIRE_DAYS:    "30"
+
+  # Upload pipeline
+  MAX_UPLOAD_SIZE_MB:     "100"
+  CHUNK_SIZE:             "50000"
+  ALLOWED_EXTENSIONS:     "csv,xlsx,xls,json,tsv,txt,parquet"
+  UPLOAD_DIR:             "/app/uploads"
+
+  # ── ML Inference ───────────────────────────────────────────────────────────
+  ML_PORT:                "8001"
+  ML_SERVICE_URL:         "http://lumindad-ml-svc:8001"
+  MODEL_DIR:              "/app/models"
+  DEFAULT_MODEL:          "XGBoost"
+  BATCH_SIZE_MAX:         "10000"
+  SHAP_SAMPLE_SIZE:       "200"
+  INFERENCE_TIMEOUT_S:    "30"
+
+  # Optimal thresholds (calibrated via ROC F1-maximisation — see lumindad_model_meta.json)
+  THRESHOLD_XGBOOST:      "0.3155"
+  THRESHOLD_MLP:          "0.3637"
+  THRESHOLD_LSTM:         "0.4435"
+  THRESHOLD_CNN1D:        "0.4950"
+  THRESHOLD_AUTOENCODER:  "0.1852"
+
+  # ── Green AI — GHG Protocol Scope 2 ───────────────────────────────────────
+  GREEN_AI_ENABLED:              "true"
+  GREEN_AI_CPU_W:                "95"
+  GREEN_AI_GPU_W:                "250"
+  GREEN_AI_PUE:                  "1.57"
+  GREEN_AI_CARBON_INTENSITY:     "0.475"
+  GREEN_AI_STANDARD:             "GHG_Protocol_Scope_2"
+  GREEN_AI_REPORT_PATH:          "/app/reports/green_ai_report_v3.json"
+
+  # ── Celery Worker ──────────────────────────────────────────────────────────
+  CELERY_BROKER_URL:      "redis://lumindad-redis-svc:6379/0"
+  CELERY_RESULT_BACKEND:  "redis://lumindad-redis-svc:6379/1"
+  CELERY_CONCURRENCY:     "4"
+  CELERY_LOGLEVEL:        "info"
+  CELERY_TASK_SOFT_LIMIT: "300"    # 5 min soft limit per task
+  CELERY_TASK_HARD_LIMIT: "600"    # 10 min hard kill
+
+  # ── Redis ──────────────────────────────────────────────────────────────────
+  REDIS_HOST:             "lumindad-redis-svc"
+  REDIS_PORT:             "6379"
+  REDIS_DB:               "0"
+  REDIS_TTL_SECONDS:      "21600"   # 6h — matches OfflineCache TTL
+
+  # ── PostgreSQL ─────────────────────────────────────────────────────────────
+  POSTGRES_HOST:          "lumindad-postgres-svc"
+  POSTGRES_PORT:          "5432"
+  POSTGRES_DB:            "lumindad"
+  POSTGRES_USER:          "lumindad"
+
+  # ── i18n — 11 languages ────────────────────────────────────────────────────
+  I18N_LANGUAGES:         "en,es,pt,fr,ar,he,zh,ru,tr,ko,ja"
+  I18N_DEFAULT:           "en"
+  I18N_FALLBACK:          "en"
+
+  # ── Observability ──────────────────────────────────────────────────────────
+  ENABLE_METRICS:         "true"
+  METRICS_PATH:           "/metrics"
+  SENTRY_TRACES_RATE:     "0.1"
+
+---
+# ─────────────────────────────────────────────────────────────────────────────
+# ML-SPECIFIC CONFIGMAP — TensorFlow tuning + model metadata
+# ─────────────────────────────────────────────────────────────────────────────
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lumindad-ml-config
+  namespace: lumindad
+  labels:
+    app: lumindad
+    tier: ml
+data:
+  # TensorFlow
+  TF_CPP_MIN_LOG_LEVEL:       "3"
+  TF_ENABLE_ONEDNN_OPTS:      "0"
+  TF_NUM_INTEROP_THREADS:     "2"
+  TF_NUM_INTRAOP_THREADS:     "4"
+
+  # Model registry
+  MODEL_REGISTRY: |
+    {
+      "XGBoost":     { "file": "best_ml_XGBoost.pkl",         "type": "classical", "f1": 0.6171, "auc": 0.8252, "threshold": 0.3155 },
+      "MLP":         { "file": "LumindAd_MLP.keras",           "type": "deep",      "f1": 0.6067, "auc": 0.8215, "threshold": 0.3637 },
+      "LSTM":        { "file": "LumindAd_LSTM.keras",          "type": "deep",      "f1": 0.5596, "auc": 0.7321, "threshold": 0.4435 },
+      "CNN1D":       { "file": "LumindAd_CNN1D.keras",         "type": "deep",      "f1": 0.5519, "auc": 0.7758, "threshold": 0.4950 },
+      "Autoencoder": { "file": "LumindAd_Autoencoder.keras",   "type": "anomaly",   "f1": 0.4338, "auc": 0.5228, "threshold": 0.1852 }
+    }
+
+  # Feature pipeline (must match training order — see lumindad_model_meta.json)
+  FEATURE_COUNT:   "26"
+  SCALER_FILE:     "scaler_robust.pkl"
+  META_FILE:       "lumindad_model_meta.json"
+
+  # Green AI — per-model CO₂ benchmarks (grams, GHG Scope 2)
+  GREEN_AI_CO2_BENCHMARK: |
+    {
+      "XGBoost":     0.039359,
+      "MLP":         0.761846,
+      "LSTM":        2.903733,
+      "CNN1D":       1.047717,
+      "Autoencoder": 1.186364,
+      "total":       5.939019,
+      "rating":      "YELLOW",
+      "standard":    "GHG Protocol Scope 2"
+    }
+
+---
+# ─────────────────────────────────────────────────────────────────────────────
+# PERSISTENTVOLUMECLAIMS
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Uploaded files — shared between backend API and Celery worker
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: lumindad-uploads-pvc
+  namespace: lumindad
+  labels:
+    app: lumindad
+spec:
+  accessModes:
+    - ReadWriteMany          # Multiple pods (backend + worker) must read/write
+  storageClassName: standard
+  resources:
+    requests:
+      storage: 20Gi
+
+---
+# ML model binaries — read-only for backend + ml + worker
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: lumindad-models-pvc
+  namespace: lumindad
+  labels:
+    app: lumindad
+spec:
+  accessModes:
+    - ReadOnlyMany           # All pods read; only CI/CD pipeline writes
+  storageClassName: standard
+  resources:
+    requests:
+      storage: 5Gi
+
+---
+# Redis persistence
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: lumindad-redis-pvc
+  namespace: lumindad
+  labels:
+    app: lumindad
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: standard
+  resources:
+    requests:
+      storage: 2Gi
+
+---
+# PostgreSQL data
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: lumindad-postgres-pvc
+  namespace: lumindad
+  labels:
+    app: lumindad
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: standard
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+# ─────────────────────────────────────────────────────────────────────────────
+# HORIZONTALPODAUTOSCALER — Backend
+# Scales 2–8 replicas based on CPU + memory
+# ─────────────────────────────────────────────────────────────────────────────
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: lumindad-backend-hpa
+  namespace: lumindad
+  labels:
+    app: lumindad
+    tier: backend
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: lumindad-backend
+  minReplicas: 2
+  maxReplicas: 8
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 60
+      policies:
+        - type: Pods
+          value: 2
+          periodSeconds: 60
+    scaleDown:
+      stabilizationWindowSeconds: 300   # Prevent flapping
+      policies:
+        - type: Pods
+          value: 1
+          periodSeconds: 120
+
+---
+# ─────────────────────────────────────────────────────────────────────────────
+# HORIZONTALPODAUTOSCALER — ML Inference
+# Scales 1–4 replicas (ML pods are heavy — conservative scale-up)
+# ─────────────────────────────────────────────────────────────────────────────
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: lumindad-ml-hpa
+  namespace: lumindad
+  labels:
+    app: lumindad
+    tier: ml
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: lumindad-ml
+  minReplicas: 1
+  maxReplicas: 4
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 75
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 85
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 120   # TF models take ~45s to warm
+      policies:
+        - type: Pods
+          value: 1
+          periodSeconds: 120
+    scaleDown:
+      stabilizationWindowSeconds: 600   # Keep warm replicas for 10min
+      policies:
+        - type: Pods
+          value: 1
+          periodSeconds: 300

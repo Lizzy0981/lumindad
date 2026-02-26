@@ -1,0 +1,305 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# deploy-staging.yml — Auto-deploy to Staging
+# LumindAd · Ad Performance Intelligence Platform v1.0
+# Author: Elizabeth Díaz Familia · AI Data Scientist · Sustainable Intelligence & BI
+#
+# Trigger   : Push / merge to develop branch (auto — no manual approval)
+#
+# Pipeline:
+#   1. build-images    Build frontend + backend + ml Docker images
+#   2. push-ecr        Tag & push to AWS ECR
+#   3. deploy-k8s      kubectl apply → lumindad-staging namespace
+#   4. smoke-tests     Health checks on staging URLs
+#   5. notify          Slack notification (success or failure)
+#
+# Staging URLs:
+#   Frontend : https://staging.lumindad.ai
+#   API      : https://staging.lumindad.ai/api
+#   ML       : https://staging.lumindad.ai/ml
+#
+# Secrets required (GitHub → Settings → Secrets):
+#   AWS_ACCESS_KEY_ID       AWS credentials for ECR + EKS
+#   AWS_SECRET_ACCESS_KEY
+#   AWS_REGION              e.g. us-east-1
+#   AWS_ECR_REGISTRY        e.g. 123456789.dkr.ecr.us-east-1.amazonaws.com
+#   KUBE_CONFIG_STAGING     Base64-encoded kubeconfig for staging cluster
+#   SLACK_WEBHOOK_URL       Slack webhook for deploy notifications
+# ══════════════════════════════════════════════════════════════════════════════
+
+name: Deploy — Staging
+
+on:
+  push:
+    branches:
+      - develop
+
+concurrency:
+  group: deploy-staging
+  cancel-in-progress: false        # Never cancel an in-progress staging deploy
+
+env:
+  NODE_VERSION:   "20"
+  PYTHON_VERSION: "3.11"
+  AWS_REGION:     ${{ secrets.AWS_REGION }}
+  ECR_REGISTRY:   ${{ secrets.AWS_ECR_REGISTRY }}
+  K8S_NAMESPACE:  lumindad-staging
+  APP_ENV:        staging
+  APP_VERSION:    "1.0.0"
+
+jobs:
+# ─────────────────────────────────────────────────────────────────────────────
+# JOB 1 — Build all Docker images
+# ─────────────────────────────────────────────────────────────────────────────
+  build-images:
+    name: Build · Docker Images (frontend · backend · ml)
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.meta.outputs.tag }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set image tag
+        id: meta
+        run: |
+          SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-8)
+          TAG="${APP_VERSION}-staging-${SHORT_SHA}"
+          echo "tag=${TAG}" >> $GITHUB_OUTPUT
+          echo "Image tag: ${TAG}"
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id:     ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region:            ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: ecr-login
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # ── Frontend ────────────────────────────────────────────────────────────
+      - name: Build & push — Frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: infrastructure/docker/Dockerfile.frontend
+          push: true
+          tags: |
+            ${{ env.ECR_REGISTRY }}/lumindad-frontend:${{ steps.meta.outputs.tag }}
+            ${{ env.ECR_REGISTRY }}/lumindad-frontend:staging-latest
+          build-args: |
+            VITE_API_URL=https://staging.lumindad.ai/api
+            VITE_ML_URL=https://staging.lumindad.ai/ml
+            VITE_APP_VERSION=${{ env.APP_VERSION }}
+            VITE_APP_ENV=staging
+            VITE_ENABLE_GREEN_AI=true
+          cache-from: type=gha,scope=frontend
+          cache-to:   type=gha,scope=frontend,mode=max
+
+      # ── Backend ─────────────────────────────────────────────────────────────
+      - name: Build & push — Backend
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: infrastructure/docker/Dockerfile.backend
+          push: true
+          tags: |
+            ${{ env.ECR_REGISTRY }}/lumindad-backend:${{ steps.meta.outputs.tag }}
+            ${{ env.ECR_REGISTRY }}/lumindad-backend:staging-latest
+          cache-from: type=gha,scope=backend
+          cache-to:   type=gha,scope=backend,mode=max
+
+      # ── ML Inference ────────────────────────────────────────────────────────
+      - name: Build & push — ML
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: infrastructure/docker/Dockerfile.ml
+          push: true
+          tags: |
+            ${{ env.ECR_REGISTRY }}/lumindad-ml:${{ steps.meta.outputs.tag }}
+            ${{ env.ECR_REGISTRY }}/lumindad-ml:staging-latest
+          cache-from: type=gha,scope=ml
+          cache-to:   type=gha,scope=ml,mode=max
+
+# ─────────────────────────────────────────────────────────────────────────────
+# JOB 2 — Deploy to Kubernetes staging namespace
+# ─────────────────────────────────────────────────────────────────────────────
+  deploy-k8s:
+    name: Deploy · Kubernetes (staging namespace)
+    runs-on: ubuntu-latest
+    needs: build-images
+    environment: staging              # GitHub Environment with optional reviewers
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id:     ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region:            ${{ env.AWS_REGION }}
+
+      - name: Configure kubectl
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBE_CONFIG_STAGING }}" | base64 -d > ~/.kube/config
+          chmod 600 ~/.kube/config
+          kubectl config current-context
+
+      - name: Create / ensure namespace
+        run: |
+          kubectl get namespace ${{ env.K8S_NAMESPACE }} \
+            || kubectl create namespace ${{ env.K8S_NAMESPACE }}
+
+      - name: Apply ConfigMap & PVCs
+        run: |
+          # Apply configmap with staging overrides
+          sed \
+            -e 's|APP_ENV:.*production|APP_ENV: staging|g' \
+            -e 's|ALLOWED_HOSTS:.*|ALLOWED_HOSTS: "staging.lumindad.ai"|g' \
+            -e 's|VITE_API_URL:.*|VITE_API_URL: "https://staging.lumindad.ai/api"|g' \
+            infrastructure/kubernetes/configmap.yaml \
+            | kubectl apply -n ${{ env.K8S_NAMESPACE }} -f -
+
+      - name: Update image tags in manifests
+        run: |
+          IMAGE_TAG=${{ needs.build-images.outputs.image_tag }}
+          sed -i \
+            -e "s|lumindad/frontend:1.0.0|${{ env.ECR_REGISTRY }}/lumindad-frontend:${IMAGE_TAG}|g" \
+            -e "s|lumindad/backend:1.0.0|${{ env.ECR_REGISTRY }}/lumindad-backend:${IMAGE_TAG}|g" \
+            -e "s|lumindad/ml:1.0.0|${{ env.ECR_REGISTRY }}/lumindad-ml:${IMAGE_TAG}|g" \
+            infrastructure/kubernetes/deployment.yaml
+
+      - name: Apply Kubernetes manifests
+        run: |
+          kubectl apply -n ${{ env.K8S_NAMESPACE }} \
+            -f infrastructure/kubernetes/service.yaml
+          kubectl apply -n ${{ env.K8S_NAMESPACE }} \
+            -f infrastructure/kubernetes/deployment.yaml
+          kubectl apply -n ${{ env.K8S_NAMESPACE }} \
+            -f infrastructure/kubernetes/ingress.yaml
+
+      - name: Wait for rollout
+        run: |
+          echo "Waiting for deployments to roll out..."
+          kubectl rollout status deployment/lumindad-frontend \
+            -n ${{ env.K8S_NAMESPACE }} --timeout=180s
+          kubectl rollout status deployment/lumindad-backend \
+            -n ${{ env.K8S_NAMESPACE }} --timeout=180s
+          kubectl rollout status deployment/lumindad-ml \
+            -n ${{ env.K8S_NAMESPACE }} --timeout=240s
+          kubectl rollout status deployment/lumindad-worker \
+            -n ${{ env.K8S_NAMESPACE }} --timeout=180s
+          echo "All deployments rolled out successfully."
+
+      - name: Print pod status
+        if: always()
+        run: kubectl get pods -n ${{ env.K8S_NAMESPACE }} -o wide
+
+# ─────────────────────────────────────────────────────────────────────────────
+# JOB 3 — Smoke tests on staging
+# ─────────────────────────────────────────────────────────────────────────────
+  smoke-tests:
+    name: Smoke Tests · Staging
+    runs-on: ubuntu-latest
+    needs: deploy-k8s
+
+    steps:
+      - name: Wait for services to be ready
+        run: sleep 20
+
+      - name: Health — Frontend
+        run: |
+          curl -sf --max-time 15 \
+            https://staging.lumindad.ai/health \
+            | jq '.status' | grep -q "ok"
+          echo "Frontend health: OK"
+
+      - name: Health — Backend API
+        run: |
+          curl -sf --max-time 15 \
+            https://staging.lumindad.ai/api/health \
+            | jq '.status' | grep -q "ok"
+          echo "Backend health: OK"
+
+      - name: Health — ML Inference
+        run: |
+          curl -sf --max-time 30 \
+            https://staging.lumindad.ai/ml/health \
+            | jq '.status' | grep -q "ok"
+          echo "ML inference health: OK"
+
+      - name: Smoke — Auth endpoint reachable
+        run: |
+          STATUS=$(curl -o /dev/null -sw "%{http_code}" \
+            --max-time 10 \
+            -X POST https://staging.lumindad.ai/api/v1/auth/login \
+            -H "Content-Type: application/json" \
+            -d '{"email":"smoke@test.com","password":"invalid"}')
+          # Expect 401 (wrong creds) — proves endpoint is alive
+          [[ "$STATUS" == "401" || "$STATUS" == "422" ]] && echo "Auth endpoint: OK (${STATUS})"
+
+      - name: Smoke — ML predict endpoint reachable
+        run: |
+          STATUS=$(curl -o /dev/null -sw "%{http_code}" \
+            --max-time 15 \
+            https://staging.lumindad.ai/ml/health)
+          [[ "$STATUS" == "200" ]] && echo "ML endpoint: OK"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# JOB 4 — Slack notification
+# ─────────────────────────────────────────────────────────────────────────────
+  notify:
+    name: Notify · Slack
+    runs-on: ubuntu-latest
+    needs: [build-images, deploy-k8s, smoke-tests]
+    if: always()
+
+    steps:
+      - name: Notify success
+        if: ${{ !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') }}
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "text": "✅ *LumindAd Staging Deploy — SUCCESS*",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "✅ *LumindAd v1.0 — Staging deployed successfully*\n*Branch:* `develop` → `${{ github.sha }}`\n*Image tag:* `${{ needs.build-images.outputs.image_tag }}`\n*By:* ${{ github.actor }}\n*URL:* https://staging.lumindad.ai"
+                  }
+                }
+              ]
+            }
+
+      - name: Notify failure
+        if: ${{ contains(needs.*.result, 'failure') }}
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "text": "❌ *LumindAd Staging Deploy — FAILED*",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "❌ *LumindAd v1.0 — Staging deploy FAILED*\n*Branch:* `develop` → `${{ github.sha }}`\n*By:* ${{ github.actor }}\n*Run:* ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                  }
+                }
+              ]
+            }

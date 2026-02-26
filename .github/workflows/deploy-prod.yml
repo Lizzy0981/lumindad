@@ -1,0 +1,439 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# deploy-prod.yml — Manual Deploy to Production
+# LumindAd · Ad Performance Intelligence Platform v1.0
+# Author: Elizabeth Díaz Familia · AI Data Scientist · Sustainable Intelligence & BI
+#
+# Trigger   : workflow_dispatch ONLY (manual — never automatic)
+#             Can also be triggered on push to main (tag-based release)
+#
+# Pipeline:
+#   1. pre-checks       Verify staging is healthy before promoting
+#   2. build-images     Build & tag production Docker images (immutable tag)
+#   3. push-ecr         Push to AWS ECR with :latest + :1.0.0-<sha>
+#   4. deploy-k8s       kubectl apply → lumindad (production) namespace
+#                       Requires GitHub Environment approval
+#   5. db-migrate       Alembic upgrade head (production DB via k8s job)
+#   6. smoke-tests      Health checks on production URLs
+#   7. tag-release      Create GitHub Release tag
+#   8. notify           Slack notification
+#
+# Production URLs:
+#   Frontend : https://lumindad.ai         (Vercel CDN)
+#   API      : https://lumindad.ai/api     (AWS EC2 t3.medium + Nginx)
+#   ML       : https://lumindad.ai/ml      (AWS EC2 c5.xlarge)
+#
+# Secrets required (GitHub → Settings → Secrets):
+#   AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION
+#   AWS_ECR_REGISTRY
+#   KUBE_CONFIG_PROD         Base64-encoded kubeconfig for production cluster
+#   SLACK_WEBHOOK_URL
+#   GITHUB_TOKEN             Auto-injected by GitHub Actions
+# ══════════════════════════════════════════════════════════════════════════════
+
+name: Deploy — Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_tag:
+        description: "Release version tag (e.g. v1.0.1) — leave blank for auto"
+        required: false
+        type: string
+      skip_staging_check:
+        description: "Skip staging health pre-check (emergency only)"
+        required: false
+        type: boolean
+        default: false
+      reason:
+        description: "Reason for this deployment"
+        required: true
+        type: string
+
+  # Also trigger on semver tags (e.g. git tag v1.0.1 && git push --tags)
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false        # NEVER cancel a production deploy
+
+env:
+  NODE_VERSION:   "20"
+  PYTHON_VERSION: "3.11"
+  AWS_REGION:     ${{ secrets.AWS_REGION }}
+  ECR_REGISTRY:   ${{ secrets.AWS_ECR_REGISTRY }}
+  K8S_NAMESPACE:  lumindad
+  APP_ENV:        production
+  APP_VERSION:    "1.0.0"
+
+jobs:
+# ─────────────────────────────────────────────────────────────────────────────
+# JOB 0 — Pre-flight checks (staging health + input validation)
+# ─────────────────────────────────────────────────────────────────────────────
+  pre-checks:
+    name: Pre-flight · Staging health + validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Log deployment intent
+        run: |
+          echo "====================================="
+          echo "  LumindAd PRODUCTION DEPLOY"
+          echo "====================================="
+          echo "  Triggered by : ${{ github.actor }}"
+          echo "  Reason       : ${{ github.event.inputs.reason || 'Tag-triggered release' }}"
+          echo "  Commit SHA   : ${{ github.sha }}"
+          echo "  Ref          : ${{ github.ref }}"
+          echo "====================================="
+
+      - name: Check staging is healthy (pre-promote)
+        if: ${{ github.event.inputs.skip_staging_check != 'true' }}
+        run: |
+          echo "Verifying staging is healthy before promoting to production..."
+          curl -sf --max-time 15 https://staging.lumindad.ai/health \
+            | jq '.status' | grep -q "ok" \
+            && echo "Staging frontend: OK" \
+            || (echo "Staging frontend unhealthy — aborting production deploy" && exit 1)
+
+          curl -sf --max-time 15 https://staging.lumindad.ai/api/health \
+            | jq '.status' | grep -q "ok" \
+            && echo "Staging API: OK" \
+            || (echo "Staging API unhealthy — aborting production deploy" && exit 1)
+
+          echo "All staging pre-checks passed."
+
+      - name: Validate version tag format
+        if: ${{ github.event.inputs.version_tag != '' }}
+        run: |
+          TAG="${{ github.event.inputs.version_tag }}"
+          if ! echo "$TAG" | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "Invalid version tag format: ${TAG} — expected vX.Y.Z"
+            exit 1
+          fi
+          echo "Version tag valid: ${TAG}"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# JOB 1 — Build production Docker images
+# ─────────────────────────────────────────────────────────────────────────────
+  build-images:
+    name: Build · Production Images
+    runs-on: ubuntu-latest
+    needs: pre-checks
+    outputs:
+      image_tag:    ${{ steps.meta.outputs.tag }}
+      release_tag:  ${{ steps.meta.outputs.release }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set image tags
+        id: meta
+        run: |
+          SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-8)
+          # Use provided tag, git tag, or auto-generate
+          if [[ -n "${{ github.event.inputs.version_tag }}" ]]; then
+            RELEASE="${{ github.event.inputs.version_tag }}"
+          elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            RELEASE="${{ github.ref_name }}"
+          else
+            RELEASE="v${APP_VERSION}"
+          fi
+          TAG="${RELEASE}-${SHORT_SHA}"
+          echo "tag=${TAG}"       >> $GITHUB_OUTPUT
+          echo "release=${RELEASE}" >> $GITHUB_OUTPUT
+          echo "Image tag: ${TAG} | Release: ${RELEASE}"
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id:     ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region:            ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # ── Frontend ─────────────────────────────────────────────────────────────
+      - name: Build & push — Frontend (production)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: infrastructure/docker/Dockerfile.frontend
+          push: true
+          tags: |
+            ${{ env.ECR_REGISTRY }}/lumindad-frontend:${{ steps.meta.outputs.tag }}
+            ${{ env.ECR_REGISTRY }}/lumindad-frontend:latest
+          build-args: |
+            VITE_API_URL=https://lumindad.ai/api
+            VITE_ML_URL=https://lumindad.ai/ml
+            VITE_APP_VERSION=${{ env.APP_VERSION }}
+            VITE_APP_ENV=production
+            VITE_ENABLE_GREEN_AI=true
+          cache-from: type=gha,scope=frontend-prod
+          cache-to:   type=gha,scope=frontend-prod,mode=max
+
+      # ── Backend ──────────────────────────────────────────────────────────────
+      - name: Build & push — Backend (production)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: infrastructure/docker/Dockerfile.backend
+          push: true
+          tags: |
+            ${{ env.ECR_REGISTRY }}/lumindad-backend:${{ steps.meta.outputs.tag }}
+            ${{ env.ECR_REGISTRY }}/lumindad-backend:latest
+          cache-from: type=gha,scope=backend-prod
+          cache-to:   type=gha,scope=backend-prod,mode=max
+
+      # ── ML Inference ─────────────────────────────────────────────────────────
+      - name: Build & push — ML (production)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: infrastructure/docker/Dockerfile.ml
+          push: true
+          tags: |
+            ${{ env.ECR_REGISTRY }}/lumindad-ml:${{ steps.meta.outputs.tag }}
+            ${{ env.ECR_REGISTRY }}/lumindad-ml:latest
+          cache-from: type=gha,scope=ml-prod
+          cache-to:   type=gha,scope=ml-prod,mode=max
+
+# ─────────────────────────────────────────────────────────────────────────────
+# JOB 2 — Deploy to Kubernetes production (requires environment approval)
+# ─────────────────────────────────────────────────────────────────────────────
+  deploy-k8s:
+    name: Deploy · Kubernetes (production) — REQUIRES APPROVAL
+    runs-on: ubuntu-latest
+    needs: build-images
+    environment: production          # GitHub Environment — configure required reviewers here
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id:     ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region:            ${{ env.AWS_REGION }}
+
+      - name: Configure kubectl (production cluster)
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBE_CONFIG_PROD }}" | base64 -d > ~/.kube/config
+          chmod 600 ~/.kube/config
+          kubectl config current-context
+          kubectl get nodes
+
+      - name: Apply ConfigMap (production values)
+        run: |
+          kubectl apply -n ${{ env.K8S_NAMESPACE }} \
+            -f infrastructure/kubernetes/configmap.yaml
+
+      - name: Update image tags in manifests
+        run: |
+          IMAGE_TAG=${{ needs.build-images.outputs.image_tag }}
+          sed -i \
+            -e "s|lumindad/frontend:1.0.0|${{ env.ECR_REGISTRY }}/lumindad-frontend:${IMAGE_TAG}|g" \
+            -e "s|lumindad/backend:1.0.0|${{ env.ECR_REGISTRY }}/lumindad-backend:${IMAGE_TAG}|g" \
+            -e "s|lumindad/ml:1.0.0|${{ env.ECR_REGISTRY }}/lumindad-ml:${IMAGE_TAG}|g" \
+            infrastructure/kubernetes/deployment.yaml
+
+      - name: Apply services & ingress
+        run: |
+          kubectl apply -n ${{ env.K8S_NAMESPACE }} \
+            -f infrastructure/kubernetes/service.yaml
+          kubectl apply -n ${{ env.K8S_NAMESPACE }} \
+            -f infrastructure/kubernetes/ingress.yaml
+
+      - name: Rolling deploy — Backend first (migrations pending)
+        run: |
+          kubectl apply -n ${{ env.K8S_NAMESPACE }} \
+            -f infrastructure/kubernetes/deployment.yaml
+          # Wait for backend before deploying worker (depends on DB schema)
+          kubectl rollout status deployment/lumindad-backend \
+            -n ${{ env.K8S_NAMESPACE }} --timeout=180s
+          echo "Backend rolled out — safe to run migrations"
+
+      - name: Run Alembic migrations (production DB)
+        run: |
+          # One-shot k8s Job for migrations — cleaner than initContainer in prod
+          kubectl run alembic-migrate \
+            --image=${{ env.ECR_REGISTRY }}/lumindad-backend:${{ needs.build-images.outputs.image_tag }} \
+            --restart=Never \
+            --namespace=${{ env.K8S_NAMESPACE }} \
+            --env="DATABASE_URL=$(kubectl get secret lumindad-secrets \
+              -n ${{ env.K8S_NAMESPACE }} \
+              -o jsonpath='{.data.DATABASE_URL}' | base64 -d)" \
+            -- alembic upgrade head
+          # Wait up to 2min for migration to complete
+          kubectl wait pod/alembic-migrate \
+            -n ${{ env.K8S_NAMESPACE }} \
+            --for=condition=Succeeded --timeout=120s
+          kubectl logs pod/alembic-migrate -n ${{ env.K8S_NAMESPACE }}
+          kubectl delete pod/alembic-migrate -n ${{ env.K8S_NAMESPACE }}
+
+      - name: Wait for all deployments
+        run: |
+          echo "Waiting for full production rollout..."
+          for deployment in lumindad-frontend lumindad-worker lumindad-ml; do
+            kubectl rollout status deployment/${deployment} \
+              -n ${{ env.K8S_NAMESPACE }} --timeout=300s
+            echo "${deployment} rolled out OK"
+          done
+          echo "All production deployments completed."
+
+      - name: Print final pod status
+        if: always()
+        run: |
+          kubectl get pods     -n ${{ env.K8S_NAMESPACE }} -o wide
+          kubectl get services -n ${{ env.K8S_NAMESPACE }}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# JOB 3 — Production smoke tests
+# ─────────────────────────────────────────────────────────────────────────────
+  smoke-tests:
+    name: Smoke Tests · Production
+    runs-on: ubuntu-latest
+    needs: deploy-k8s
+
+    steps:
+      - name: Wait for DNS / LB propagation
+        run: sleep 30
+
+      - name: Health — Frontend
+        run: |
+          curl -sf --max-time 15 https://lumindad.ai/health \
+            | jq '.status' | grep -q "ok"
+          echo "Production frontend: OK"
+
+      - name: Health — API
+        run: |
+          curl -sf --max-time 15 https://lumindad.ai/api/health \
+            | jq '.status' | grep -q "ok"
+          echo "Production API: OK"
+
+      - name: Health — ML Inference
+        run: |
+          curl -sf --max-time 30 https://lumindad.ai/ml/health \
+            | jq '.status' | grep -q "ok"
+          echo "Production ML inference: OK"
+
+      - name: Verify version in response
+        run: |
+          VERSION=$(curl -sf --max-time 10 https://lumindad.ai/api/health \
+            | jq -r '.version')
+          echo "Deployed version: ${VERSION}"
+          [[ "${VERSION}" == "1.0.0" ]] && echo "Version check: OK"
+
+      - name: Rate limit header present
+        run: |
+          HEADERS=$(curl -sI https://lumindad.ai/api/health)
+          echo "${HEADERS}" | grep -qi "x-ratelimit" \
+            && echo "Rate limit headers: OK" \
+            || echo "Rate limit headers: not present (check nginx config)"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# JOB 4 — Create GitHub Release
+# ─────────────────────────────────────────────────────────────────────────────
+  tag-release:
+    name: GitHub Release
+    runs-on: ubuntu-latest
+    needs: [build-images, smoke-tests]
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name:   ${{ needs.build-images.outputs.release_tag }}
+          name:       "LumindAd ${{ needs.build-images.outputs.release_tag }}"
+          draft:      false
+          prerelease: false
+          generate_release_notes: true
+          body: |
+            ## LumindAd ${{ needs.build-images.outputs.release_tag }}
+
+            **Deployed by:** ${{ github.actor }}
+            **Reason:** ${{ github.event.inputs.reason || 'Tag-triggered release' }}
+            **Image tag:** `${{ needs.build-images.outputs.image_tag }}`
+            **Commit:** `${{ github.sha }}`
+
+            ### Services Deployed
+            - Frontend : React 18 + TypeScript + Vite + i18n (11 langs)
+            - Backend  : FastAPI + Python 3.11 + SQLAlchemy + Celery
+            - ML       : TF · XGBoost · SHAP · MLP · LSTM · CNN-1D · Autoencoder
+
+            ### Production URLs
+            - App      : https://lumindad.ai
+            - API Docs : https://lumindad.ai/docs
+            - ML Health: https://lumindad.ai/ml/health
+
+            ### Green AI
+            - Carbon footprint: 5.94 gCO₂ total training (GHG Protocol Scope 2)
+            - Rating: YELLOW — equivalent to ~30 Google searches
+
+            ---
+            *Elizabeth Díaz Familia · AI Data Scientist · Sustainable Intelligence & BI*
+
+# ─────────────────────────────────────────────────────────────────────────────
+# JOB 5 — Slack notification
+# ─────────────────────────────────────────────────────────────────────────────
+  notify:
+    name: Notify · Slack
+    runs-on: ubuntu-latest
+    needs: [build-images, deploy-k8s, smoke-tests, tag-release]
+    if: always()
+
+    steps:
+      - name: Notify success
+        if: ${{ !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') }}
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "text": "🚀 *LumindAd Production Deploy — SUCCESS*",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "🚀 *LumindAd v1.0 — Production deployed successfully*\n*Release:* `${{ needs.build-images.outputs.release_tag }}`\n*Image:* `${{ needs.build-images.outputs.image_tag }}`\n*By:* ${{ github.actor }}\n*Reason:* ${{ github.event.inputs.reason || 'Tag-triggered' }}\n*URL:* https://lumindad.ai"
+                  }
+                }
+              ]
+            }
+
+      - name: Notify failure
+        if: ${{ contains(needs.*.result, 'failure') }}
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "text": "🔴 *LumindAd Production Deploy — FAILED*",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "🔴 *LumindAd v1.0 — Production deploy FAILED*\n*By:* ${{ github.actor }}\n*Reason:* ${{ github.event.inputs.reason || 'Tag-triggered' }}\n*Commit:* `${{ github.sha }}`\n*Run:* ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                  }
+                }
+              ]
+            }
