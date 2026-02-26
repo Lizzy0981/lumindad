@@ -1,0 +1,89 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# Dockerfile.backend
+# LumindAd · Ad Performance Intelligence Platform v1.0
+# Stack : FastAPI · Python 3.11 · SQLAlchemy · Alembic · Celery · Redis
+# Author: Elizabeth Díaz Familia · AI Data Scientist · Sustainable Intelligence & BI
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ─────────────────────────────────────────────────────────────────────────────
+# STAGE 1 — base
+# Python 3.11 slim — security-patched base shared by all stages
+# ─────────────────────────────────────────────────────────────────────────────
+FROM python:3.11-slim-bookworm AS base
+
+LABEL maintainer="Elizabeth Díaz Familia <elizabeth@lumindad.ai>" \
+      version="1.0.0" \
+      description="LumindAd Backend — FastAPI + Celery"
+
+# System deps for psycopg2, Pillow, lxml (report generation)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        build-essential \
+        libpq-dev \
+        curl \
+        wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user
+RUN groupadd -g 1001 lumindad && \
+    useradd  -u 1001 -g lumindad -m -s /bin/bash lumindad
+
+WORKDIR /app
+
+# ─────────────────────────────────────────────────────────────────────────────
+# STAGE 2 — deps
+# Install Python packages with pip cache mount
+# ─────────────────────────────────────────────────────────────────────────────
+FROM base AS deps
+
+COPY backend/requirements.txt .
+
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install --upgrade pip && \
+    pip install --no-deps -r requirements.txt
+
+# ─────────────────────────────────────────────────────────────────────────────
+# STAGE 3 — runner (API + Worker share same image, entrypoint differs)
+# ─────────────────────────────────────────────────────────────────────────────
+FROM base AS runner
+
+# Copy installed packages from deps stage
+COPY --from=deps /usr/local/lib/python3.11 /usr/local/lib/python3.11
+COPY --from=deps /usr/local/bin            /usr/local/bin
+
+# Copy application source
+COPY --chown=lumindad:lumindad backend/app        ./app
+COPY --chown=lumindad:lumindad backend/migrations ./migrations
+COPY --chown=lumindad:lumindad backend/alembic.ini .
+
+# Copy ML models (read-only mount in production via k8s PVC)
+COPY --chown=lumindad:lumindad ml/models ./ml/models
+
+# Entrypoint script handles: api | worker | beat | migrate
+COPY --chown=lumindad:lumindad infrastructure/docker/entrypoint.backend.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Runtime environment defaults (overridden by ConfigMap / Secrets in k8s)
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONPATH=/app \
+    APP_ENV=production \
+    API_PORT=8000 \
+    LOG_LEVEL=info \
+    WORKERS=4 \
+    MAX_UPLOAD_SIZE_MB=100 \
+    CHUNK_SIZE=50000 \
+    JWT_ALGORITHM=HS256 \
+    ACCESS_TOKEN_EXPIRE_MINUTES=60 \
+    CELERY_CONCURRENCY=4
+
+# Health check — FastAPI /health endpoint
+HEALTHCHECK --interval=30s --timeout=10s --start-period=20s --retries=3 \
+    CMD curl -fs http://localhost:${API_PORT}/health || exit 1
+
+EXPOSE 8000
+
+USER lumindad
+
+ENTRYPOINT ["/entrypoint.sh"]
+# Default: start FastAPI. Override CMD in k8s for worker/beat.
+CMD ["api"]

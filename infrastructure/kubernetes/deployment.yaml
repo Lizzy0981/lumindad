@@ -1,0 +1,500 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# deployment.yaml
+# LumindAd · Ad Performance Intelligence Platform v1.0
+# Kubernetes Deployments — Frontend · Backend · ML · Worker · Redis · PostgreSQL
+# Author: Elizabeth Díaz Familia · AI Data Scientist · Sustainable Intelligence & BI
+# ══════════════════════════════════════════════════════════════════════════════
+#
+# Deployments:
+#   lumindad-frontend    React 18 + nginx          :80    replicas: 2
+#   lumindad-backend     FastAPI                   :8000  replicas: 3
+#   lumindad-ml          ML Inference (TF+XGBoost) :8001  replicas: 2
+#   lumindad-worker      Celery Worker             —      replicas: 2
+#   lumindad-redis       Redis 7 (cache + broker)  :6379  replicas: 1
+#   lumindad-postgres    PostgreSQL 15             :5432  replicas: 1
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 1. FRONTEND — React 18 + Vite + nginx
+# ─────────────────────────────────────────────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lumindad-frontend
+  namespace: lumindad
+  labels:
+    app: lumindad
+    tier: frontend
+    version: "1.0.0"
+  annotations:
+    lumindad.ai/author: "Elizabeth Díaz Familia"
+    lumindad.ai/component: "React 18 + TypeScript + Vite"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: lumindad
+      tier: frontend
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0          # Zero-downtime deploy
+  template:
+    metadata:
+      labels:
+        app: lumindad
+        tier: frontend
+        version: "1.0.0"
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    tier: frontend
+                topologyKey: kubernetes.io/hostname
+      containers:
+        - name: frontend
+          image: lumindad/frontend:1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              name: http
+          envFrom:
+            - configMapRef:
+                name: lumindad-config
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1001
+            capabilities:
+              drop: ["ALL"]
+      restartPolicy: Always
+
+---
+# ─────────────────────────────────────────────────────────────────────────────
+# 2. BACKEND — FastAPI + Python 3.11
+# ─────────────────────────────────────────────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lumindad-backend
+  namespace: lumindad
+  labels:
+    app: lumindad
+    tier: backend
+    version: "1.0.0"
+  annotations:
+    lumindad.ai/component: "FastAPI + SQLAlchemy + Alembic"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: lumindad
+      tier: backend
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: lumindad
+        tier: backend
+        version: "1.0.0"
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    tier: backend
+                topologyKey: kubernetes.io/hostname
+      initContainers:
+        # Run Alembic migrations before the API starts
+        - name: migrate
+          image: lumindad/backend:1.0.0
+          command: ["alembic", "upgrade", "head"]
+          envFrom:
+            - configMapRef:
+                name: lumindad-config
+            - secretRef:
+                name: lumindad-secrets
+      containers:
+        - name: backend
+          image: lumindad/backend:1.0.0
+          imagePullPolicy: IfNotPresent
+          command: ["/entrypoint.sh", "api"]
+          ports:
+            - containerPort: 8000
+              name: http
+          envFrom:
+            - configMapRef:
+                name: lumindad-config
+            - secretRef:
+                name: lumindad-secrets
+          env:
+            - name: WORKERS
+              value: "4"
+            - name: LOG_LEVEL
+              value: "info"
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 20
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+          volumeMounts:
+            - name: uploads
+              mountPath: /app/uploads
+            - name: ml-models
+              mountPath: /app/ml/models
+              readOnly: true
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 1001
+      volumes:
+        - name: uploads
+          persistentVolumeClaim:
+            claimName: lumindad-uploads-pvc
+        - name: ml-models
+          persistentVolumeClaim:
+            claimName: lumindad-models-pvc
+      restartPolicy: Always
+
+---
+# ─────────────────────────────────────────────────────────────────────────────
+# 3. ML INFERENCE — TensorFlow · XGBoost · SHAP · Green AI
+# ─────────────────────────────────────────────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lumindad-ml
+  namespace: lumindad
+  labels:
+    app: lumindad
+    tier: ml
+    version: "1.0.0"
+  annotations:
+    lumindad.ai/component: "TF · XGBoost · SHAP · MLP · LSTM · CNN-1D · Autoencoder"
+    lumindad.ai/green-ai: "GHG Protocol Scope 2 | PUE=1.57 | CI=0.475 kgCO2/kWh"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: lumindad
+      tier: ml
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0          # No downtime — models heavy to reload
+  template:
+    metadata:
+      labels:
+        app: lumindad
+        tier: ml
+        version: "1.0.0"
+    spec:
+      containers:
+        - name: ml
+          image: lumindad/ml:1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8001
+              name: http
+          envFrom:
+            - configMapRef:
+                name: lumindad-config
+          env:
+            - name: DEFAULT_MODEL
+              value: "XGBoost"
+            - name: GREEN_AI_ENABLED
+              value: "true"
+            - name: TF_CPP_MIN_LOG_LEVEL
+              value: "3"
+            - name: SHAP_SAMPLE_SIZE
+              value: "200"
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "2Gi"       # TF models + SHAP in-memory
+            limits:
+              cpu: "2000m"
+              memory: "4Gi"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8001
+            initialDelaySeconds: 45   # TF model warmup takes time
+            periodSeconds: 30
+            timeoutSeconds: 15
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8001
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            timeoutSeconds: 10
+          volumeMounts:
+            - name: ml-models
+              mountPath: /app/models
+              readOnly: true
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 1002
+      volumes:
+        - name: ml-models
+          persistentVolumeClaim:
+            claimName: lumindad-models-pvc
+      restartPolicy: Always
+
+---
+# ─────────────────────────────────────────────────────────────────────────────
+# 4. CELERY WORKER — Background tasks (upload processing · ML batch inference)
+# ─────────────────────────────────────────────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lumindad-worker
+  namespace: lumindad
+  labels:
+    app: lumindad
+    tier: worker
+    version: "1.0.0"
+  annotations:
+    lumindad.ai/component: "Celery Worker — upload_tasks · ml_tasks · report_tasks"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: lumindad
+      tier: worker
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: lumindad
+        tier: worker
+    spec:
+      containers:
+        - name: worker
+          image: lumindad/backend:1.0.0   # Same image as backend; CMD differs
+          command: ["/entrypoint.sh", "worker"]
+          envFrom:
+            - configMapRef:
+                name: lumindad-config
+            - secretRef:
+                name: lumindad-secrets
+          env:
+            - name: CELERY_CONCURRENCY
+              value: "4"
+            - name: CELERY_LOGLEVEL
+              value: "info"
+            - name: CHUNK_SIZE
+              value: "50000"
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "1000m"
+              memory: "2Gi"       # Large CSV uploads can be memory-intensive
+          volumeMounts:
+            - name: uploads
+              mountPath: /app/uploads
+            - name: ml-models
+              mountPath: /app/ml/models
+              readOnly: true
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 1001
+      volumes:
+        - name: uploads
+          persistentVolumeClaim:
+            claimName: lumindad-uploads-pvc
+        - name: ml-models
+          persistentVolumeClaim:
+            claimName: lumindad-models-pvc
+
+---
+# ─────────────────────────────────────────────────────────────────────────────
+# 5. REDIS — Cache + Celery broker
+# ─────────────────────────────────────────────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lumindad-redis
+  namespace: lumindad
+  labels:
+    app: lumindad
+    tier: cache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lumindad
+      tier: cache
+  template:
+    metadata:
+      labels:
+        app: lumindad
+        tier: cache
+    spec:
+      containers:
+        - name: redis
+          image: redis:7.2-alpine
+          command:
+            - redis-server
+            - "--maxmemory"
+            - "512mb"
+            - "--maxmemory-policy"
+            - "allkeys-lru"
+            - "--save"
+            - "60"
+            - "1000"
+          ports:
+            - containerPort: 6379
+              name: redis
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          livenessProbe:
+            exec:
+              command: ["redis-cli", "ping"]
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          readinessProbe:
+            exec:
+              command: ["redis-cli", "ping"]
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          volumeMounts:
+            - name: redis-data
+              mountPath: /data
+      volumes:
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: lumindad-redis-pvc
+
+---
+# ─────────────────────────────────────────────────────────────────────────────
+# 6. POSTGRESQL 15 — Primary database
+# ─────────────────────────────────────────────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lumindad-postgres
+  namespace: lumindad
+  labels:
+    app: lumindad
+    tier: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lumindad
+      tier: database
+  strategy:
+    type: Recreate                 # Required for StatefulSet-like PVC binding
+  template:
+    metadata:
+      labels:
+        app: lumindad
+        tier: database
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15-alpine
+          ports:
+            - containerPort: 5432
+              name: postgres
+          envFrom:
+            - secretRef:
+                name: lumindad-secrets
+          env:
+            - name: POSTGRES_DB
+              value: "lumindad"
+            - name: PGDATA
+              value: "/var/lib/postgresql/data/pgdata"
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "1000m"
+              memory: "2Gi"
+          livenessProbe:
+            exec:
+              command: ["pg_isready", "-U", "lumindad", "-d", "lumindad"]
+            initialDelaySeconds: 30
+            periodSeconds: 20
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-U", "lumindad", "-d", "lumindad"]
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: lumindad-postgres-pvc
