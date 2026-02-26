@@ -1,0 +1,235 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# ingress.yaml
+# LumindAd · Ad Performance Intelligence Platform v1.0
+# Kubernetes Ingress — TLS termination · Path routing · Rate limiting
+# Author: Elizabeth Díaz Familia · AI Data Scientist · Sustainable Intelligence & BI
+#
+# Controller : ingress-nginx (kubernetes/ingress-nginx)
+# TLS        : cert-manager (Let's Encrypt) — replace with your issuer
+#
+# Routing:
+#   lumindad.ai/             → lumindad-frontend-svc:80
+#   lumindad.ai/api/*        → lumindad-backend-svc:8000
+#   lumindad.ai/ml/*         → lumindad-ml-svc:8001
+#   lumindad.ai/docs         → lumindad-backend-svc:8000/docs  (dev only)
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ─────────────────────────────────────────────────────────────────────────────
+# NAMESPACE (create once)
+# ─────────────────────────────────────────────────────────────────────────────
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lumindad
+  labels:
+    app: lumindad
+    managed-by: kubectl
+
+---
+# ─────────────────────────────────────────────────────────────────────────────
+# MAIN INGRESS
+# ─────────────────────────────────────────────────────────────────────────────
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lumindad-ingress
+  namespace: lumindad
+  labels:
+    app: lumindad
+    version: "1.0.0"
+  annotations:
+    # ── Controller ───────────────────────────────────────────────────────────
+    kubernetes.io/ingress.class: "nginx"
+
+    # ── TLS / cert-manager ───────────────────────────────────────────────────
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+
+    # ── CORS (frontend calls backend + ml on same domain) ────────────────────
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "https://lumindad.ai"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, PUT, DELETE, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "Authorization, Content-Type, X-Request-ID"
+    nginx.ingress.kubernetes.io/cors-max-age: "3600"
+
+    # ── Security headers ──────────────────────────────────────────────────────
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      add_header X-Frame-Options "DENY" always;
+      add_header X-Content-Type-Options "nosniff" always;
+      add_header X-XSS-Protection "1; mode=block" always;
+      add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+      add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:;" always;
+      add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+    # ── Rate limiting ─────────────────────────────────────────────────────────
+    # API: 60 req/min per IP (generous for dashboard usage)
+    nginx.ingress.kubernetes.io/limit-rps: "60"
+    nginx.ingress.kubernetes.io/limit-connections: "20"
+
+    # ── Upload size — supports large CSV/XLSX (up to 100MB) ───────────────────
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"   # Long-running ML inference
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "10"
+
+    # ── Compression ───────────────────────────────────────────────────────────
+    nginx.ingress.kubernetes.io/enable-gzip: "true"
+    nginx.ingress.kubernetes.io/gzip-types: "text/plain text/css application/json application/javascript text/xml application/xml"
+
+    # ── WebSocket support (SSE upload progress + real-time updates) ───────────
+    nginx.ingress.kubernetes.io/proxy-http-version: "1.1"
+    nginx.ingress.kubernetes.io/proxy-set-headers: "lumindad/nginx-custom-headers"
+
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - lumindad.ai
+        - www.lumindad.ai
+      secretName: lumindad-tls-secret       # cert-manager populates this
+
+  rules:
+    # ── Production domain ─────────────────────────────────────────────────────
+    - host: lumindad.ai
+      http:
+        paths:
+          # ML Inference API — routed first (more specific path)
+          - path: /ml
+            pathType: Prefix
+            backend:
+              service:
+                name: lumindad-ml-svc
+                port:
+                  number: 8001
+
+          # Backend REST API
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: lumindad-backend-svc
+                port:
+                  number: 8000
+
+          # FastAPI auto-docs (disable in prod via configmap APP_ENV=production)
+          - path: /docs
+            pathType: Prefix
+            backend:
+              service:
+                name: lumindad-backend-svc
+                port:
+                  number: 8000
+
+          - path: /redoc
+            pathType: Prefix
+            backend:
+              service:
+                name: lumindad-backend-svc
+                port:
+                  number: 8000
+
+          # OpenAPI schema (used by frontend codegen)
+          - path: /openapi.json
+            pathType: Exact
+            backend:
+              service:
+                name: lumindad-backend-svc
+                port:
+                  number: 8000
+
+          # Health endpoints (not rate-limited — used by load balancer probes)
+          - path: /health
+            pathType: Exact
+            backend:
+              service:
+                name: lumindad-backend-svc
+                port:
+                  number: 8000
+
+          # Frontend SPA — catch-all (must be last)
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: lumindad-frontend-svc
+                port:
+                  number: 80
+
+    # ── www redirect handled at DNS level; duplicate rule as fallback ─────────
+    - host: www.lumindad.ai
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: lumindad-frontend-svc
+                port:
+                  number: 80
+
+---
+# ─────────────────────────────────────────────────────────────────────────────
+# CUSTOM NGINX HEADERS ConfigMap (referenced in ingress annotation)
+# Adds Upgrade + Connection headers for WebSocket / SSE passthrough
+# ─────────────────────────────────────────────────────────────────────────────
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-custom-headers
+  namespace: lumindad
+  labels:
+    app: lumindad
+data:
+  Upgrade: "$http_upgrade"
+  Connection: "$connection_upgrade"
+  X-Real-IP: "$remote_addr"
+  X-Forwarded-For: "$proxy_add_x_forwarded_for"
+  X-Forwarded-Proto: "$scheme"
+  X-Request-ID: "$request_id"
+
+---
+# ─────────────────────────────────────────────────────────────────────────────
+# ML INFERENCE INGRESS — Stricter rate limit for /ml/* endpoints
+# Separate ingress object allows different annotations per path group
+# ─────────────────────────────────────────────────────────────────────────────
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lumindad-ingress-ml
+  namespace: lumindad
+  labels:
+    app: lumindad
+    tier: ml
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+
+    # ML inference is compute-heavy — tighter rate limit
+    nginx.ingress.kubernetes.io/limit-rps: "10"
+    nginx.ingress.kubernetes.io/limit-connections: "5"
+
+    # Allow longer timeout for SHAP computation
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "120"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+
+    # Green AI header — tracks CO₂ per request in response headers
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      add_header X-LumindAd-GreenAI "GHG-Scope2-enabled" always;
+      add_header X-LumindAd-Version "1.0.0" always;
+
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - lumindad.ai
+      secretName: lumindad-tls-secret
+  rules:
+    - host: lumindad.ai
+      http:
+        paths:
+          - path: /ml
+            pathType: Prefix
+            backend:
+              service:
+                name: lumindad-ml-svc
+                port:
+                  number: 8001
