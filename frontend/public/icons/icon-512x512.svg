@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="bg512" cx="35%" cy="30%" r="75%">
+      <stop offset="0%"   stop-color="#1a0f3a"/>
+      <stop offset="55%"  stop-color="#0d0820"/>
+      <stop offset="100%" stop-color="#060610"/>
+    </radialGradient>
+    <linearGradient id="sp512" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#c4b5fd"/>
+      <stop offset="45%"  stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <filter id="gl512" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="15.4" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <linearGradient id="tg512" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#c4b5fd"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112.6" fill="url(#bg512)"/>
+  <rect width="512" height="512" rx="112.6" fill="none" stroke="#7c3aed" stroke-opacity="0.25" stroke-width="4.1"/>
+  <circle cx="256.0" cy="256.0" r="238.1" fill="none" stroke="#7c3aed" stroke-opacity="0.12" stroke-width="3.1"/>
+  <circle cx="256.0" cy="256.0" r="284.2" fill="none" stroke="#06b6d4" stroke-opacity="0.07" stroke-width="2.0"/>
+  <circle cx="256.0" cy="256.0" r="176.6" fill="#7c3aed" fill-opacity="0.18" filter="url(#gl512)"/>
+  <path d="M 256.00,102.40 L 270.12,241.88 L 409.60,256.00 L 270.12,270.12 L 256.00,409.60 L 241.88,270.12 L 102.40,256.00 L 241.88,241.88 Z" fill="url(#sp512)" filter="url(#gl512)"/>
+  <path d="M 256.00,194.56 L 264.69,247.31 L 317.44,256.00 L 264.69,264.69 L 256.00,317.44 L 247.31,264.69 L 194.56,256.00 L 247.31,247.31 Z" fill="#ffffff" fill-opacity="0.92"/>
+  <circle cx="471.0" cy="117.8" r="9.2" fill="#c4b5fd" fill-opacity="0.7"/>
+  <circle cx="56.3" cy="363.5" r="9.2" fill="#06b6d4" fill-opacity="0.5"/>
+  <circle cx="378.9" cy="486.4" r="9.2" fill="#a78bfa" fill-opacity="0.4"/>
+  <circle cx="102.4" cy="56.3" r="9.2" fill="#7c3aed" fill-opacity="0.6"/>
+  <text x="256.0" y="471.0" font-family="Outfit, Inter, system-ui, sans-serif" font-weight="800" font-size="58.9" fill="url(#tg512)" text-anchor="middle" letter-spacing="0.5">LumindAd</text>
+  <text x="256.0" y="512.0" font-family="Outfit, Inter, system-ui, sans-serif" font-weight="500" font-size="25.6" fill="#4c1d95" text-anchor="middle" letter-spacing="1.5">v1.0.0 · ENTERPRISE</text>
+</svg>

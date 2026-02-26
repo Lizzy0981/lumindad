@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Safari pinned tab: solo paths sólidos en negro, fondo transparente -->
+  <!-- Safari aplica el color definido en el HTML <link> -->
+  <path d="M 256.00,96.00 L 270.71,241.29 L 416.00,256.00 L 270.71,270.71 L 256.00,416.00 L 241.29,270.71 L 96.00,256.00 L 241.29,241.29 Z" fill="#000000"/>
+  <path d="M 256.00,195.20 L 265.46,246.54 L 316.80,256.00 L 265.46,265.46 L 256.00,316.80 L 246.54,265.46 L 195.20,256.00 L 246.54,246.54 Z" fill="#ffffff"/>
+</svg>

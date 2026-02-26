@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <!-- Fondo -->
+    <radialGradient id="ogbg" cx="25%" cy="40%" r="70%">
+      <stop offset="0%"   stop-color="#1a0f3a"/>
+      <stop offset="60%"  stop-color="#0d0820"/>
+      <stop offset="100%" stop-color="#060610"/>
+    </radialGradient>
+
+    <!-- Gradiente logo -->
+    <linearGradient id="ogsp" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#c4b5fd"/>
+      <stop offset="45%"  stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+
+    <!-- Gradiente texto principal -->
+    <linearGradient id="ogtxt" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#c4b5fd"/>
+      <stop offset="55%"  stop-color="#a78bfa"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+
+    <!-- Glow filter -->
+    <filter id="oggl" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="18" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="oggl2" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="35"/>
+    </filter>
+  </defs>
+
+  <!-- Fondo principal -->
+  <rect width="1200" height="630" fill="url(#ogbg)"/>
+
+  <!-- Glow orbs decorativos -->
+  <circle cx="200" cy="315" r="280" fill="#7c3aed" fill-opacity="0.08" filter="url(#oggl2)"/>
+  <circle cx="1050" cy="200" r="200" fill="#06b6d4" fill-opacity="0.06" filter="url(#oggl2)"/>
+  <circle cx="950"  cy="520" r="150" fill="#7c3aed" fill-opacity="0.05" filter="url(#oggl2)"/>
+
+  <!-- Grid lines decorativas sutiles -->
+  <line x1="0" y1="210" x2="1200" y2="210" stroke="#7c3aed" stroke-opacity="0.06" stroke-width="1"/>
+  <line x1="0" y1="420" x2="1200" y2="420" stroke="#7c3aed" stroke-opacity="0.06" stroke-width="1"/>
+  <line x1="400" y1="0" x2="400" y2="630" stroke="#7c3aed" stroke-opacity="0.04" stroke-width="1"/>
+  <line x1="800" y1="0" x2="800" y2="630" stroke="#7c3aed" stroke-opacity="0.04" stroke-width="1"/>
+
+  <!-- ── LOGO MARK (izquierda) ── -->
+  <!-- Fondo logo -->
+  <rect x="88" y="215" width="110" height="110" rx="26"
+    fill="#1a0f3a" stroke="#7c3aed" stroke-opacity="0.35" stroke-width="1.5"/>
+  <!-- Glow logo -->
+  <circle cx="143" cy="270" r="52" fill="#7c3aed" fill-opacity="0.20" filter="url(#oggl)"/>
+  <!-- Sparkle grande -->
+  <path d="M 143.00,234.00 L 146.31,266.69 L 179.00,270.00 L 146.31,273.31 L 143.00,306.00 L 139.69,273.31 L 107.00,270.00 L 139.69,266.69 Z" fill="url(#ogsp)" filter="url(#oggl)"/>
+  <!-- Sparkle centro -->
+  <path d="M 143.00,256.32 L 145.13,267.87 L 156.68,270.00 L 145.13,272.13 L 143.00,283.68 L 140.87,272.13 L 129.32,270.00 L 140.87,267.87 Z" fill="#ffffff" fill-opacity="0.95"/>
+
+  <!-- Anillos decorativos logo -->
+  <circle cx="143" cy="270" r="58" fill="none" stroke="#7c3aed" stroke-opacity="0.15" stroke-width="1"/>
+  <circle cx="143" cy="270" r="68" fill="none" stroke="#06b6d4" stroke-opacity="0.08" stroke-width="1"/>
+
+  <!-- ── TEXTO PRINCIPAL ── -->
+  <!-- "LumindAd" -->
+  <text x="220" y="278"
+    font-family="Outfit, Inter, system-ui, sans-serif"
+    font-weight="800" font-size="82" fill="url(#ogtxt)"
+    letter-spacing="-1">LumindAd</text>
+
+  <!-- Versión -->
+  <text x="222" y="308"
+    font-family="Outfit, Inter, system-ui, sans-serif"
+    font-weight="500" font-size="18" fill="#4c1d95"
+    letter-spacing="2.5">v1.0.0  ·  ENTERPRISE EDITION</text>
+
+  <!-- Separador -->
+  <rect x="88" y="335" width="1024" height="1"
+    fill="url(#ogsp)" fill-opacity="0.3"/>
+
+  <!-- ── TAGLINE ── -->
+  <text x="88" y="380"
+    font-family="Outfit, Inter, system-ui, sans-serif"
+    font-weight="300" font-size="28" fill="#94a3b8"
+    letter-spacing="0.3">AI-Powered Global Advertising Intelligence Platform</text>
+
+  <!-- ── TECH BADGES ── -->
+  <!-- Badge helper: rect + text -->
+  <!-- React -->
+  <rect x="88"  y="418" width="98"  height="34" rx="8" fill="#1a0f3a" stroke="#7c3aed" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="137" y="440" font-family="Outfit,sans-serif" font-size="13" font-weight="600"
+    fill="#a78bfa" text-anchor="middle" letter-spacing="0.3">React 18</text>
+
+  <rect x="198" y="418" width="118" height="34" rx="8" fill="#1a0f3a" stroke="#06b6d4" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="257" y="440" font-family="Outfit,sans-serif" font-size="13" font-weight="600"
+    fill="#06b6d4" text-anchor="middle" letter-spacing="0.3">TensorFlow</text>
+
+  <rect x="328" y="418" width="100" height="34" rx="8" fill="#1a0f3a" stroke="#7c3aed" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="378" y="440" font-family="Outfit,sans-serif" font-size="13" font-weight="600"
+    fill="#a78bfa" text-anchor="middle" letter-spacing="0.3">FastAPI</text>
+
+  <rect x="440" y="418" width="104" height="34" rx="8" fill="#1a0f3a" stroke="#06b6d4" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="492" y="440" font-family="Outfit,sans-serif" font-size="13" font-weight="600"
+    fill="#06b6d4" text-anchor="middle" letter-spacing="0.3">XGBoost</text>
+
+  <rect x="556" y="418" width="82"  height="34" rx="8" fill="#1a0f3a" stroke="#10b981" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="597" y="440" font-family="Outfit,sans-serif" font-size="13" font-weight="600"
+    fill="#10b981" text-anchor="middle" letter-spacing="0.3">SHAP</text>
+
+  <rect x="650" y="418" width="110" height="34" rx="8" fill="#1a0f3a" stroke="#f59e0b" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="705" y="440" font-family="Outfit,sans-serif" font-size="13" font-weight="600"
+    fill="#f59e0b" text-anchor="middle" letter-spacing="0.3">Green AI</text>
+
+  <!-- ── STATS PANEL (derecha) ── -->
+  <rect x="850" y="180" width="262" height="270" rx="18"
+    fill="#0f0a1e" fill-opacity="0.9"
+    stroke="#7c3aed" stroke-opacity="0.25" stroke-width="1"/>
+
+  <!-- Stats -->
+  <!-- 50+ Countries -->
+  <text x="981" y="232" font-family="Outfit,sans-serif" font-size="38" font-weight="800"
+    fill="#c4b5fd" text-anchor="middle">50+</text>
+  <text x="981" y="256" font-family="Outfit,sans-serif" font-size="13" font-weight="400"
+    fill="#64748b" text-anchor="middle" letter-spacing="0.5">Countries</text>
+
+  <line x1="870" y1="272" x2="1092" y2="272" stroke="#7c3aed" stroke-opacity="0.15" stroke-width="1"/>
+
+  <!-- 11 Languages -->
+  <text x="981" y="318" font-family="Outfit,sans-serif" font-size="38" font-weight="800"
+    fill="#06b6d4" text-anchor="middle">11</text>
+  <text x="981" y="342" font-family="Outfit,sans-serif" font-size="13" font-weight="400"
+    fill="#64748b" text-anchor="middle" letter-spacing="0.5">Languages</text>
+
+  <line x1="870" y1="358" x2="1092" y2="358" stroke="#7c3aed" stroke-opacity="0.15" stroke-width="1"/>
+
+  <!-- 8 AI Models -->
+  <text x="981" y="404" font-family="Outfit,sans-serif" font-size="38" font-weight="800"
+    fill="#a78bfa" text-anchor="middle">8</text>
+  <text x="981" y="428" font-family="Outfit,sans-serif" font-size="13" font-weight="400"
+    fill="#64748b" text-anchor="middle" letter-spacing="0.5">AI Models</text>
+
+  <!-- ── FOOTER ── -->
+  <text x="600" y="590"
+    font-family="Outfit, Inter, system-ui, sans-serif"
+    font-weight="400" font-size="15" fill="#2d2d55"
+    text-anchor="middle" letter-spacing="0.5">
+    Elizabeth Díaz Familia · AI Data Scientist · Sustainable Intelligence &amp; BI · Alura LATAM · Oracle AdTech
+  </text>
+
+  <!-- Pequeños sparkles decorativos -->
+  <path d="M 1148.00,68.00 L 1149.27,78.73 L 1160.00,80.00 L 1149.27,81.27 L 1148.00,92.00 L 1146.73,81.27 L 1136.00,80.00 L 1146.73,78.73 Z" fill="#7c3aed" fill-opacity="0.5"/>
+  <path d="M 62.00,87.00 L 62.85,94.15 L 70.00,95.00 L 62.85,95.85 L 62.00,103.00 L 61.15,95.85 L 54.00,95.00 L 61.15,94.15 Z"  fill="#06b6d4" fill-opacity="0.4"/>
+  <path d="M 1130.00,543.00 L 1130.74,549.26 L 1137.00,550.00 L 1130.74,550.74 L 1130.00,557.00 L 1129.26,550.74 L 1123.00,550.00 L 1129.26,549.26 Z" fill="#a78bfa" fill-opacity="0.35"/>
+  <path d="M 75.00,531.00 L 75.95,539.05 L 84.00,540.00 L 75.95,540.95 L 75.00,549.00 L 74.05,540.95 L 66.00,540.00 L 74.05,539.05 Z"  fill="#7c3aed" fill-opacity="0.3"/>
+</svg>
