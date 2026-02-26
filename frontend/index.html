@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- ═══════════════════════════════════════════════════════
+         PRIMARY META TAGS
+    ══════════════════════════════════════════════════════════ -->
+    <title>LumindAd — Enterprise Advertising Intelligence Platform</title>
+    <meta name="title"       content="LumindAd — Enterprise Advertising Intelligence Platform" />
+    <meta name="description" content="AI-powered campaign management, ML-driven predictions, real-time analytics, and 10M-row data processing. Built for performance marketers." />
+    <meta name="keywords"    content="advertising intelligence, AI marketing, campaign management, ROAS optimization, ML predictions, Green AI, adtech, LumindAd" />
+    <meta name="author"      content="Elizabeth Díaz Familia · AI Data Scientist · Sustainable Intelligence &amp; BI" />
+    <meta name="robots"      content="index, follow" />
+    <meta name="theme-color" content="#7c3aed" />
+
+    <!-- ═══════════════════════════════════════════════════════
+         OPEN GRAPH / FACEBOOK
+    ══════════════════════════════════════════════════════════ -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:url"         content="https://lumindad.app/" />
+    <meta property="og:title"       content="LumindAd — Enterprise Advertising Intelligence" />
+    <meta property="og:description" content="AI-powered campaign management with real-time ML predictions, SHAP explainability, and Green AI compliance." />
+    <meta property="og:image"       content="/og-image.png" />
+    <meta property="og:image:width"  content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name"   content="LumindAd" />
+    <meta property="og:locale"      content="en_US" />
+
+    <!-- ═══════════════════════════════════════════════════════
+         TWITTER / X CARD
+    ══════════════════════════════════════════════════════════ -->
+    <meta property="twitter:card"        content="summary_large_image" />
+    <meta property="twitter:url"         content="https://lumindad.app/" />
+    <meta property="twitter:title"       content="LumindAd — Enterprise Advertising Intelligence" />
+    <meta property="twitter:description" content="AI-powered campaign management with real-time ML predictions and Green AI compliance." />
+    <meta property="twitter:image"       content="/og-image.png" />
+    <meta property="twitter:creator"     content="@LizzyFamilia" />
+
+    <!-- ═══════════════════════════════════════════════════════
+         FAVICON SUITE
+    ══════════════════════════════════════════════════════════ -->
+    <link rel="icon"             type="image/svg+xml"    href="/logo.svg" />
+    <link rel="icon"             type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
+    <link rel="icon"             type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
+    <link rel="icon"             type="image/x-icon"     href="/favicon.ico" />
+    <link rel="shortcut icon"    href="/favicon.ico" />
+
+    <!-- ═══════════════════════════════════════════════════════
+         PWA — MANIFEST + APPLE
+    ══════════════════════════════════════════════════════════ -->
+    <link rel="manifest"                            href="/manifest.json" />
+    <meta name="mobile-web-app-capable"             content="yes" />
+    <meta name="apple-mobile-web-app-capable"       content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title"         content="LumindAd" />
+    <link rel="apple-touch-icon"                    href="/icons/icon-192x192.png" />
+    <link rel="apple-touch-icon" sizes="180x180"    href="/icons/apple-touch-icon.png" />
+    <link rel="mask-icon"        color="#7c3aed"     href="/icons/safari-pinned-tab.svg" />
+    <meta name="msapplication-TileColor"            content="#7c3aed" />
+    <meta name="msapplication-TileImage"            content="/icons/icon-144x144.png" />
+
+    <!-- ═══════════════════════════════════════════════════════
+         FONTS — Outfit + DM Mono
+         LumindAd.jsx line 17: exact weights replicated here.
+         preconnect before href for optimal DNS resolution.
+    ══════════════════════════════════════════════════════════ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!--
+      Outfit      → primary UI typeface (LumindAd.jsx: 'Outfit', sans-serif)
+      DM Mono     → monospace for code/data values
+      Weights loaded: 300 (light) · 400 (regular) · 500 (medium) ·
+                      600 (semibold) · 700 (bold) · 800 (extrabold) · 900 (black)
+    -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ═══════════════════════════════════════════════════════
+         SECURITY HEADERS
+    ══════════════════════════════════════════════════════════ -->
+    <meta http-equiv="X-UA-Compatible"          content="IE=edge" />
+    <meta http-equiv="X-Content-Type-Options"   content="nosniff" />
+    <!--
+      CSP: upgrade-insecure-requests ensures all http:// sub-resources
+      are fetched over https:// automatically.
+      Full CSP header should be set at the server/CDN layer for
+      production (see vercel.json / nginx config).
+    -->
+    <meta http-equiv="Content-Security-Policy"  content="upgrade-insecure-requests" />
+
+    <!-- ═══════════════════════════════════════════════════════
+         SPA ROUTING RESTORE — GitHub Pages / static hosting fix
+         Works together with public/404.html redirect script.
+
+         When GitHub Pages serves 404.html for a deep route
+         (e.g. /dashboard), that page stores the original path in
+         sessionStorage and redirects to /.  This inline script
+         runs BEFORE React loads and silently restores the URL
+         so React Router renders the correct page.
+
+         Without this script: every direct URL or browser refresh
+         on a sub-route shows a real 404.
+    ══════════════════════════════════════════════════════════ -->
+    <script>
+      (function () {
+        var redirect = sessionStorage.getItem('lumindad_redirect');
+        if (redirect) {
+          sessionStorage.removeItem('lumindad_redirect');
+          if (redirect !== location.href) {
+            history.replaceState(null, null, redirect);
+          }
+        }
+      })();
+    </script>
+
+    <!-- ═══════════════════════════════════════════════════════
+         CRITICAL INLINE STYLE
+         Sets body background immediately (before CSS loads)
+         to prevent flash of white/unstyled content (FOUC).
+         LumindAd.jsx line 19: background:#060610
+    ══════════════════════════════════════════════════════════ -->
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: #060610;
+        color: #e8e8f8;
+        font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+        /* overflow:hidden set in globals.css — prevent double scrollbar */
+      }
+      /* Prevent FOUC flash during font load */
+      body { opacity: 0; transition: opacity 0.15s ease; }
+      body.fonts-loaded { opacity: 1; }
+    </style>
+    <script>
+      /* Reveal body once fonts are loaded (or after 300ms fallback) */
+      document.fonts.ready.then(function () {
+        document.body.classList.add('fonts-loaded');
+      });
+      setTimeout(function () {
+        document.body.classList.add('fonts-loaded');
+      }, 300);
+    </script>
+
+  </head>
+
+  <body>
+
+    <!-- ═══════════════════════════════════════════════════════
+         REACT ROOT
+         main.tsx mounts the React app here via ReactDOM.createRoot
+    ══════════════════════════════════════════════════════════ -->
+    <div id="root"></div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         NO-SCRIPT FALLBACK
+         Shown when JavaScript is disabled.
+    ══════════════════════════════════════════════════════════ -->
+    <noscript>
+      <div style="
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background: #060610;
+        color: #e8e8f8;
+        font-family: system-ui, -apple-system, sans-serif;
+        text-align: center;
+        padding: 2rem;
+        gap: 1rem;
+      ">
+        <div style="font-size: 3rem;">⚡</div>
+        <h1 style="font-size: 1.75rem; font-weight: 700; color: #a78bfa;">
+          LumindAd requires JavaScript
+        </h1>
+        <p style="color: #64748b; max-width: 400px; line-height: 1.6;">
+          Please enable JavaScript in your browser to use the LumindAd
+          Enterprise Advertising Intelligence Platform.
+        </p>
+      </div>
+    </noscript>
+
+    <!-- ═══════════════════════════════════════════════════════
+         VITE ENTRY POINT
+         Vite replaces this <script> tag at build time with the
+         hashed bundle. Do NOT add other scripts below this line.
+    ══════════════════════════════════════════════════════════ -->
+    <script type="module" src="/src/main.tsx"></script>
+
+  </body>
+</html>
