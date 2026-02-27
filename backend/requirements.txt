@@ -76,7 +76,7 @@ flower==2.0.1                      # celery monitoring dashboard (optional)
 numpy==2.4.2
 scikit-learn==1.8.0
 xgboost==3.2.0
-tensorflow==2.20.0                 # LSTM · CNN-1D · Autoencoder models
+tensorflow-cpu==2.16.1              # LSTM · CNN-1D · Autoencoder models
 # NOTE: tensorflow pulls in keras 3.x and many transitive deps (~1 GB)
 #       For CPU-only deploys, use: tensorflow-cpu==2.20.0
 
