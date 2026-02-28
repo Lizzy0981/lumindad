@@ -65,7 +65,7 @@ import uuid
 from pathlib import Path
 from typing import AsyncGenerator, List, Literal, Optional
 
-from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, status
+from fastapi import APIRouter, Depends, File, Form, HTTPException, Response, UploadFile, status
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 
@@ -566,13 +566,14 @@ async def get_job_result(
 
 @router.delete(
     "/jobs/{job_id}",
-    status_code=204,
+    status_code=status.HTTP_204_NO_CONTENT,
+    response_class=Response,
     summary="Cancel or delete a job",
 )
 async def delete_job(
     job_id:       str,
     current_user: AuthUser = Depends(get_current_user),
-) -> None:
+):
     """
     Cancel a queued/running job or delete a completed one.
 
