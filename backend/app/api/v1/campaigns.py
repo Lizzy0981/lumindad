@@ -43,7 +43,7 @@ from copy import deepcopy
 from datetime import datetime, timezone
 from typing import List, Literal, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
 from pydantic import BaseModel, Field
 
 from app.dependencies import AuthUser, PaginationParams, get_current_user, get_pagination
@@ -388,13 +388,14 @@ async def update_campaign(
 
 @router.delete(
     "/{campaign_id}",
-    status_code=204,
+    status_code=status.HTTP_204_NO_CONTENT,
+    response_class=Response,
     summary="Soft delete campaign",
 )
 async def delete_campaign(
     campaign_id:  str,
     current_user: AuthUser = Depends(get_current_user),
-) -> None:
+):
     """
     Soft delete — marks campaign as deleted without removing data.
 
