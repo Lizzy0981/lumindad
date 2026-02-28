@@ -1,21 +1,25 @@
 # ═══════════════════════════════════════════════════════════════
 #  LumindAd Enterprise · backend/requirements.txt
-#  Python 3.11 · PostgreSQL 15 · Redis 7
+#  Python 3.11 · PostgreSQL 17 · Redis 7
 # ═══════════════════════════════════════════════════════════════
 
 
 # ───────────────────────────────────────────────────────────────
 # WEB FRAMEWORK
+# FastAPI + Starlette + ASGI server
 # ───────────────────────────────────────────────────────────────
 fastapi==0.115.0
-starlette==0.40.0
+# starlette installed automatically by fastapi (compatible version)
 uvicorn[standard]==0.30.6
 gunicorn==22.0.0
-python-multipart==0.0.9
+python-multipart==0.0.9            # multipart/form-data (file uploads)
+websockets==12.0                   # WebSocket support (real-time KPI stream)
+aiofiles==23.2.1                   # async file I/O
 
 
 # ───────────────────────────────────────────────────────────────
 # DATA VALIDATION & SETTINGS
+# Pydantic v2 + pydantic-settings
 # ───────────────────────────────────────────────────────────────
 pydantic==2.7.4
 pydantic-settings==2.3.4
@@ -25,62 +29,92 @@ python-dotenv==1.0.1
 
 # ───────────────────────────────────────────────────────────────
 # DATABASE
+# SQLAlchemy 2.0 async ORM · asyncpg (prod) · aiosqlite (dev)
 # ───────────────────────────────────────────────────────────────
 SQLAlchemy==2.0.35
 alembic==1.13.2
-asyncpg==0.29.0
-psycopg2-binary==2.9.9
-aiosqlite==0.20.0
+asyncpg==0.29.0                    # async PostgreSQL driver (runtime)
+psycopg2-binary==2.9.9             # sync PostgreSQL driver (Alembic migrations)
+aiosqlite==0.20.0                  # async SQLite driver (local dev / tests)
 
 
 # ───────────────────────────────────────────────────────────────
 # AUTHENTICATION & SECURITY
+# JWT · bcrypt · passlib · rate limiting
 # ───────────────────────────────────────────────────────────────
-python-jose[cryptography]==3.3.0
-PyJWT==2.8.0
-passlib[bcrypt]==1.7.4
-bcrypt==4.1.3
+python-jose[cryptography]==3.3.0   # JWT encode/decode (HS256)
+PyJWT==2.8.0                       # jwt import in dependencies.py
+passlib[bcrypt]==1.7.4             # password hashing context
+bcrypt==4.1.3                      # bcrypt backend for passlib
+slowapi==0.1.9                     # rate limiting (100 req/min on upload endpoints)
+cryptography==42.0.8               # cryptography backend for python-jose
 
 
 # ───────────────────────────────────────────────────────────────
 # CACHE & MESSAGE BROKER
+# Redis (async client + Celery)
 # ───────────────────────────────────────────────────────────────
-redis[hiredis]==5.0.8
-celery[redis]==5.4.0
-kombu==5.3.4
-flower==2.0.1
+redis[hiredis]==5.0.8              # redis-py with C parser (sync + asyncio)
+celery[redis]==5.4.0               # distributed task queue
+kombu==5.3.4                       # celery messaging library
+flower==2.0.1                      # celery monitoring dashboard
 
 
 # ───────────────────────────────────────────────────────────────
-# MACHINE LEARNING (Classical only — no TensorFlow in backend)
+# FILE PROCESSING — Up to 10 Million Rows
+# CSV · Excel · JSON · PDF · XML · Parquet · Avro · JSONL
 # ───────────────────────────────────────────────────────────────
-numpy==1.24.4
-scikit-learn==1.5.1
-xgboost==2.1.1
+pandas==2.1.4                      # data manipulation · chunked processing
+numpy==1.26.4                      # numerical computing
+openpyxl==3.1.2                    # Excel .xlsx read/write
+xlrd==2.0.1                        # Excel .xls (legacy) reader
+pdfplumber==0.11.0                 # PDF page-by-page extraction
+lxml==5.2.2                        # XML SAX streaming parser
+fastavro==1.9.4                    # Avro binary schema-aware reader
+pyarrow==16.1.0                    # Parquet columnar memory mapping
+jsonlines==4.0.0                   # JSONL line-by-line iterator
+
+
+# ───────────────────────────────────────────────────────────────
+# MACHINE LEARNING — Classical Models
+# XGBoost · scikit-learn · SHAP · imbalanced-learn
+# (TensorFlow is in the ML service only — not here)
+# ───────────────────────────────────────────────────────────────
+scikit-learn==1.5.1                # Logistic Regression · Random Forest · KNN · scalers
+xgboost==2.1.1                     # XGBoost — best model (F1=0.6171 · AUC=0.8252)
+shap==0.45.1                       # SHAP TreeExplainer · beeswarm · feature importance
+imbalanced-learn==0.12.3           # SMOTE k=5 · class imbalance handling
+scipy==1.13.1                      # required by scikit-learn + imbalanced-learn
+joblib==1.4.2                      # model serialization (.pkl files)
 
 
 # ───────────────────────────────────────────────────────────────
 # BI / EXPORT
+# Excel · PDF · Folium map
 # ───────────────────────────────────────────────────────────────
-openpyxl==3.1.2
-reportlab==4.2.2
-pandas==2.1.4
+reportlab==4.2.2                   # PDF generation (bi_export.py)
+fpdf2==2.7.9                       # FPDF2 PDF report (LumindAd_TelecomX_Global_Report)
+folium==0.17.0                     # interactive Folium world map (54 countries)
+Pillow==10.3.0                     # image processing for reports
 
 
 # ───────────────────────────────────────────────────────────────
 # HTTP CLIENT
 # ───────────────────────────────────────────────────────────────
-httpx==0.27.0
+httpx==0.27.0                      # async HTTP client (health checks · ML service calls)
+aiohttp==3.9.5                     # async HTTP (alternative client for callbacks)
 
 
 # ───────────────────────────────────────────────────────────────
 # UTILITIES
 # ───────────────────────────────────────────────────────────────
-anyio==4.4.0
+anyio==4.4.0                       # async I/O compatibility layer
+python-slugify==8.0.4              # slug generation for file names
+orjson==3.10.5                     # fast JSON serialization
 
 
 # ───────────────────────────────────────────────────────────────
 # DEVELOPMENT & TESTING
 # ───────────────────────────────────────────────────────────────
 pytest==8.3.2
-pytest-asyncio==0.23.8
+pytest-asyncio==0.23.8             # async test support
