@@ -51,7 +51,7 @@ import logging
 from datetime import datetime, timezone
 from typing import Optional
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 from pydantic import BaseModel, EmailStr, Field
 
 from app.config import settings
@@ -303,10 +303,11 @@ async def refresh_token(body: RefreshRequest) -> TokenResponse:
 
 @router.post(
     "/logout",
-    status_code=204,
+    status_code=status.HTTP_204_NO_CONTENT,
+    response_class=Response,
     summary="Logout — invalidate session",
 )
-async def logout(current_user: AuthUser = Depends(get_current_user)) -> None:
+async def logout(current_user: AuthUser = Depends(get_current_user)):
     """
     Logout endpoint.
 
@@ -403,13 +404,14 @@ async def register(
 
 @router.post(
     "/change-password",
-    status_code=204,
+    status_code=status.HTTP_204_NO_CONTENT,
+    response_class=Response,
     summary="Change current user password",
 )
 async def change_password(
     body:         ChangePasswordRequest,
     current_user: AuthUser = Depends(get_current_user),
-) -> None:
+):
     """
     Change the password of the currently authenticated user.
 
