@@ -54,7 +54,7 @@ aiosqlite==0.21.0                  # async SQLite driver (local dev / tests)
 # AUTHENTICATION & SECURITY
 # JWT · bcrypt · passlib
 # ───────────────────────────────────────────────────────────────
-python-jose[cryptography]==3.5.0   # JWT encode/decode (HS256)
+python-jose[cryptography]==3.3.0   # JWT encode/decode (HS256)
 passlib[bcrypt]==1.7.4             # password hashing context
 bcrypt==4.0.1                      # bcrypt backend for passlib
 
