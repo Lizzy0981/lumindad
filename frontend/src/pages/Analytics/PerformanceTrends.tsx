@@ -194,7 +194,7 @@ export function PerformanceTrends({
         </div>
 
         <LumindAreaChart
-          data={data as Record<string, unknown>[]}
+          data={data as unknown as Record<string, unknown>[]}
           xDataKey="date"
           series={AREA_SERIES}
           height={220}
@@ -249,7 +249,7 @@ export function PerformanceTrends({
         </div>
 
         <LumindLineChart
-          data={data as Record<string, unknown>[]}
+          data={data as unknown as Record<string, unknown>[]}
           xDataKey="date"
           series={LINE_SERIES}
           height={220}
