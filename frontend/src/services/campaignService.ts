@@ -39,13 +39,13 @@
  */
 
 import { api } from './api';
-import {
+import type {
   Campaign,
   CampaignStatus,
   CampaignKPIs,
   CampaignFilter,
-  SEED_CAMPAIGNS,
 } from '../store/campaignStore';
+import { SEED_CAMPAIGNS } from '../store/campaignStore';
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 

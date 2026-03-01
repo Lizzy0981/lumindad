@@ -57,8 +57,8 @@
  */
 
 import { uploadApi, api } from './api';
+import type { UploadFileItem } from '../store/uploadStore';
 import {
-  UploadFileItem,
   MAX_UPLOAD_FILES,
   CHUNK_ROWS,
 } from '../store/uploadStore';
@@ -204,7 +204,7 @@ async function gzipCompress(data: Uint8Array): Promise<{ data: Uint8Array; compr
     const writer = cs.writable.getWriter();
     const reader = cs.readable.getReader();
 
-    writer.write(data);
+    writer.write(data as unknown as ArrayBufferView);
     writer.close();
 
     const chunks: Uint8Array[] = [];
@@ -378,7 +378,7 @@ const uploadService = {
     const formData = new FormData();
     formData.append('sessionId', sessionId);
     formData.append('chunkIdx',  String(chunkIdx));
-    formData.append('chunk',     new Blob([compressed]));
+    formData.append('chunk',     new Blob([compressed.buffer as ArrayBuffer]));
 
     const headers: Record<string, string> = {};
     if (isGzip) headers['Content-Encoding'] = 'gzip';

@@ -35,10 +35,12 @@
  */
 
 import { api } from './api';
-import {
+import type {
   DailyBudgetEntry,
   PlatformAllocation,
   AIRecommendation,
+} from '../store/budgetStore';
+import {
   SEED_DAILY_ENTRIES,
   SEED_ALLOCATIONS,
 } from '../store/budgetStore';
