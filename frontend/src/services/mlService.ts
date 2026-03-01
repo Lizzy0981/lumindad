@@ -47,7 +47,8 @@
  */
 
 import { api } from './api';
-import { MLModel, MLModelStatus, SEED_ML_MODELS } from '../store/analyticsStore';
+import type { MLModel, MLModelStatus } from '../store/analyticsStore';
+import { SEED_ML_MODELS } from '../store/analyticsStore';
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 
