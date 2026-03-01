@@ -263,12 +263,11 @@ export function SpendChart({ data = BUDGET_DATA_DEFAULT }: SpendChartProps) {
       {/* ── Bar chart ────────────────────────────────────────── */}
       {/* barGap={4} matches JSX line 518 exactly */}
       <LumindBarChart
-        data={data as Record<string, unknown>[]}
+        data={data as unknown as Record<string, unknown>[]}
         xDataKey="day"
         series={SERIES}
         height={240}
         barGap={4}
-        tickFontSize={11}
         formatter={fmtDollar}
         labelFormatter={(label) => `${label}`}
         showLegend={false}
