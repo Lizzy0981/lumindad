@@ -236,7 +236,7 @@ async function gzipChunk(
     const writer = cs.writable.getWriter();
     const reader = cs.readable.getReader();
 
-    writer.write(encoded as unknown as ArrayBufferView);
+    writer.write(encoded as unknown as Uint8Array<ArrayBuffer>);
     writer.close();
 
     const chunks: Uint8Array[] = [];
