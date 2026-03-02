@@ -129,7 +129,7 @@ export default class ErrorBoundary extends Component<Props, State> {
    * Called after the error is captured and the boundary has re-rendered.
    * Use this for side-effects: logging, analytics, error reporting.
    */
-  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
+  override componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     // Store the component stack for the dev panel
     this.setState({ errorInfo });
 
@@ -162,7 +162,7 @@ export default class ErrorBoundary extends Component<Props, State> {
 
   // ─── Render ────────────────────────────────────────────────────────────────
 
-  render(): ReactNode {
+  override render(): ReactNode {
     // ── Happy path: render children normally ─────────────────────
     if (!this.state.hasError) return this.props.children;
 

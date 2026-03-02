@@ -204,7 +204,7 @@ async function gzipCompress(data: Uint8Array): Promise<{ data: Uint8Array; compr
     const writer = cs.writable.getWriter();
     const reader = cs.readable.getReader();
 
-    writer.write(data as unknown as ArrayBufferView);
+    writer.write(data as unknown as Uint8Array<ArrayBuffer>);
     writer.close();
 
     const chunks: Uint8Array[] = [];
