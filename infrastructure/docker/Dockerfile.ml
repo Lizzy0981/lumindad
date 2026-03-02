@@ -122,7 +122,7 @@ EXPOSE 8001
 USER mluser
 
 # Start inference API; models warm on first request via lifespan event
-CMD ["uvicorn", "ml.inference.predictor:app", \
+CMD ["uvicorn", "ml.inference.main:app", \
      "--host", "0.0.0.0", \
      "--port", "8001", \
      "--workers", "2", \
