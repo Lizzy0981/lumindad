@@ -226,11 +226,10 @@ export function WeeklyChart({ data = WEEKLY_PERF_DEFAULT }: WeeklyChartProps) {
 
       {/* ── Chart ────────────────────────────────────────────────── */}
       <LumindLineChart
-        data={data as Record<string, unknown>[]}
+        data={data as unknown as Record<string, unknown>[]}
         xDataKey="day"
         series={SERIES as unknown as Parameters<typeof LumindLineChart>[0]['series']}
         height={240}
-        tickFontSize={11}
         formatter={fmt}
         ariaLabel="Weekly impressions and clicks from Monday to Sunday"
         summary="Impressions peaked on Friday at 25,800. Clicks peaked on Friday at 2,100."
