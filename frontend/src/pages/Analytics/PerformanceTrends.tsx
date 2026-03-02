@@ -77,14 +77,9 @@ const AREA_SERIES: AreaSeries[] = [
   {
     dataKey:         'impressions',
     name:            'Impressions',
-    stroke:          '#7c3aed',
+    color:           '#7c3aed',
     strokeWidth:      2.5,
-    fill:            'url(#gradA)',          // gradient defined in LumindAreaChart
-    gradientId:      'gradA',
-    gradientColor:   '#7c3aed',
-    gradientOpacity: [0.4, 0],              // stopOpacity 5% → 95%
-    activeDot:       { r: 6 },
-    type:            'monotone',
+    activeDotRadius:  6,
   },
 ];
 
@@ -93,18 +88,16 @@ const LINE_SERIES: LineSeries[] = [
   {
     dataKey:     'clicks',
     name:        'Clicks',
-    stroke:      '#06b6d4',
+    color:       '#06b6d4',
     strokeWidth:  2.5,
-    dot:         { r: 3 },
-    type:        'monotone',
+    dotRadius:    3,
   },
   {
     dataKey:     'conversions',
     name:        'Conversions',
-    stroke:      '#10b981',
+    color:       '#10b981',
     strokeWidth:  2.5,
-    dot:         { r: 3 },
-    type:        'monotone',
+    dotRadius:    3,
   },
 ];
 
@@ -198,7 +191,6 @@ export function PerformanceTrends({
           xDataKey="date"
           series={AREA_SERIES}
           height={220}
-          tickFontSize={10}
           showLegend={false}
           ariaLabel="Area chart: weekly impressions Jan 1 through Feb 12"
           summary={`Impressions rose ${pctChange > 0 ? `${pctChange}%` : 'over the period'} from ${first?.impressions?.toLocaleString() ?? '—'} to ${last?.impressions?.toLocaleString() ?? '—'}.`}
@@ -240,7 +232,7 @@ export function PerformanceTrends({
                 aria-hidden="true"
                 style={{
                   display: 'inline-block', width: '20px', height: '2px',
-                  background: s.stroke, borderRadius: '1px', flexShrink: 0,
+                  background: s.color, borderRadius: '1px', flexShrink: 0,
                 }}
               />
               {s.name}
