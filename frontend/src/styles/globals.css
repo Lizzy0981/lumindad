@@ -1,0 +1,1102 @@
+/**
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ *  LumindAd · Global Stylesheet
+ *  src/styles/globals.css
+ *
+ *  Contents (in order)
+ *   1. Google Fonts — Outfit + DM Mono
+ *   2. CSS custom properties (design tokens)
+ *   3. Reset & base
+ *   4. Custom scrollbar
+ *   5. Keyframe animations
+ *   6. Utility animation classes
+ *   7. Button variants
+ *   8. Card component
+ *   9. Navigation items
+ *   10. Tags / badges / status indicators
+ *   11. Form elements
+ *   12. Table rows
+ *   13. Drop zone (Upload page)
+ *   14. Progress bar
+ *   15. Gradient text
+ *   16. Glow utility
+ *   17. Social icon animation helpers
+ *   18. Accessibility
+ *
+ *  Design source
+ *   All tokens, colours, radii, and keyframes are extracted
+ *   verbatim from the GLOBAL_CSS constant in LumindAd.jsx
+ *   (lines 16–82) and extended with full property values for
+ *   the component-based React architecture.
+ *
+ *  Fonts
+ *   Outfit   : 300 400 500 600 700 800 900
+ *   DM Mono  : 300 400 500
+ *   Both served by Google Fonts with display=swap for FOUT
+ *   prevention. A local fallback stack is provided for
+ *   offline-capable PWA mode.
+ *
+ *  Colour palette (CSS variables)
+ *   --col-bg          #060610   deep navy   (body background)
+ *   --col-surface     #0f0a1e   card surface
+ *   --col-border      rgba(124,58,237,.15)   default border
+ *   --col-purple      #7c3aed   primary brand
+ *   --col-purple-dark #5b21b6   gradient end
+ *   --col-purple-mid  #4c1d95   muted purple
+ *   --col-purple-lite #a78bfa   light purple (labels)
+ *   --col-purple-pale #c4b5fd   pale purple (nav active)
+ *   --col-cyan        #06b6d4   secondary accent
+ *   --col-green       #10b981   success / positive
+ *   --col-amber       #f59e0b   warning / neutral
+ *   --col-red         #ef4444   danger / negative
+ *   --col-text        #e8e8f8   primary text
+ *   --col-text-body   #f0f0ff   KPI values (slightly brighter)
+ *   --col-muted       #64748b   secondary text / labels
+ *   --col-subtle      #475569   chart subtitles / descriptions
+ *   --col-dim         #3d3d60   very muted (hint text)
+ *   --col-ghost       #334155   axis strokes
+ *   --col-slate       #94a3b8   nav items / series names
+ *
+ *  Accessibility (WCAG 2.1 AA)
+ *   – Focus rings use a high-contrast purple outline for
+ *     keyboard navigation visibility
+ *   – Reduced-motion media query disables all animations for
+ *     users who prefer reduced motion
+ *   – Visually hidden utility class provided for screen-reader
+ *     only content
+ *
+ *  Author : Elizabeth Díaz Familia
+ *           AI Data Scientist · Sustainable Intelligence & BI
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ */
+
+/* ─── 1. Google Fonts ─────────────────────────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap');
+
+/* ─── 2. CSS Design Tokens ────────────────────────────────────────────────── */
+
+:root {
+  /* Colours */
+  --col-bg:           #060610;
+  --col-surface:      #0f0a1e;
+  --col-surface-deep: rgba(15, 10, 30, 0.85);
+  --col-surface-card: rgba(15, 10, 30, 0.97);
+
+  --col-border:       rgba(124, 58, 237, 0.15);
+  --col-border-hover: rgba(124, 58, 237, 0.40);
+  --col-border-focus: rgba(124, 58, 237, 0.60);
+  --col-border-input: rgba(124, 58, 237, 0.20);
+
+  --col-purple:       #7c3aed;
+  --col-purple-dark:  #5b21b6;
+  --col-purple-mid:   #4c1d95;
+  --col-purple-lite:  #a78bfa;
+  --col-purple-pale:  #c4b5fd;
+
+  --col-cyan:         #06b6d4;
+  --col-cyan-dark:    #0891b2;
+  --col-green:        #10b981;
+  --col-green-dark:   #059669;
+  --col-amber:        #f59e0b;
+  --col-red:          #ef4444;
+  --col-red-dark:     #dc2626;
+
+  --col-text:         #e8e8f8;
+  --col-text-body:    #f0f0ff;
+  --col-muted:        #64748b;
+  --col-subtle:       #475569;
+  --col-dim:          #3d3d60;
+  --col-ghost:        #334155;
+  --col-slate:        #94a3b8;
+  --col-ink:          #2d2050;   /* footer text, btn-secondary border */
+
+  /* Typography */
+  --font-sans:  'Outfit', system-ui, -apple-system, sans-serif;
+  --font-mono:  'DM Mono', 'Courier New', monospace;
+
+  /* Spacing */
+  --radius-sm:  7px;
+  --radius-md:  10px;
+  --radius-lg:  12px;
+  --radius-xl:  16px;
+  --radius-2xl: 20px;
+
+  /* Shadows */
+  --shadow-glow:    0 0 24px rgba(124, 58, 237, 0.30);
+  --shadow-glow-lg: 0 0 48px rgba(124, 58, 237, 0.40);
+  --shadow-card:    0 8px 32px rgba(0, 0, 0, 0.40);
+  --shadow-modal:   0 24px 80px rgba(0, 0, 0, 0.60), 0 0 0 1px rgba(124, 58, 237, 0.10);
+
+  /* Transitions */
+  --transition-fast:   all 0.15s ease;
+  --transition-base:   all 0.20s ease;
+  --transition-slow:   all 0.25s ease;
+}
+
+/* ─── 3. Reset & Base ─────────────────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin:     0;
+  padding:    0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  tab-size: 2;
+}
+
+body {
+  font-family:              var(--font-sans);
+  background:               var(--col-bg);
+  color:                    var(--col-text);
+  overflow-x:               hidden;
+  -webkit-font-smoothing:   antialiased;
+  -moz-osx-font-smoothing:  grayscale;
+  line-height:              1.5;
+}
+
+/* Typography base */
+h1, h2, h3, h4, h5, h6 {
+  font-family:   var(--font-sans);
+  font-weight:   700;
+  line-height:   1.2;
+  color:         var(--col-text);
+}
+
+p {
+  line-height: 1.6;
+}
+
+a {
+  color:           var(--col-purple-lite);
+  text-decoration: none;
+  transition:      color 0.15s ease;
+}
+
+a:hover {
+  color: var(--col-purple-pale);
+}
+
+/* Form elements inherit font */
+input,
+select,
+textarea,
+button {
+  font-family: var(--font-sans);
+}
+
+/* ─── 4. Custom Scrollbar ─────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width:  4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0c0c1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background:    var(--col-purple-mid);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--col-purple);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--col-purple-mid) #0c0c1a;
+}
+
+/* ─── 5. Keyframe Animations ──────────────────────────────────────────────── */
+
+/* Social icon bounce — sidebar/landing icons */
+@keyframes bounce-social {
+  0%, 100% { transform: translateY(0);     }
+  50%       { transform: translateY(-10px); }
+}
+
+/* Pulse ring — live / active indicators */
+@keyframes pulse-ring {
+  0%   { transform: scale(1);   opacity: 0.8; }
+  100% { transform: scale(1.6); opacity: 0;   }
+}
+
+/* Animated gradient background (gradient-shift divs) */
+@keyframes gradient-shift {
+  0%   { background-position: 0%   50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0%   50%; }
+}
+
+/* Page / card entrance */
+@keyframes float-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* KPI counter entrance */
+@keyframes counter-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+/* Skeleton / loading shimmer */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+/* Slow-spinning loader ring */
+@keyframes spin-slow {
+  from { transform: rotate(0deg);   }
+  to   { transform: rotate(360deg); }
+}
+
+/* Bar chart entrance (scaleY from bottom) */
+@keyframes bar-fill {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+
+/* Glow pulse — AI engine status dot */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0  8px rgba(124, 58, 237, 0.40); }
+  50%       { box-shadow: 0 0 24px rgba(124, 58, 237, 0.80); }
+}
+
+/* Modal entrance */
+@keyframes lad-modal-backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes lad-modal-slide-in {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+/* Spinner (PageLoader) */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Fade in simple */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ─── 6. Utility Animation Classes ───────────────────────────────────────── */
+
+.page-enter {
+  animation: float-in 0.35s ease forwards;
+}
+
+.kpi-val {
+  animation: counter-up 0.40s ease forwards;
+}
+
+/* Social icon bounce — sidebar icons */
+.social-icon {
+  display:    inline-flex;
+  animation:  bounce-social 1.4s ease-in-out infinite;
+  cursor:     pointer;
+}
+
+/* Staggered animation delays for icon rows */
+.s1 { animation-delay: 0.00s; }
+.s2 { animation-delay: 0.18s; }
+.s3 { animation-delay: 0.36s; }
+.s4 { animation-delay: 0.54s; }
+.s5 { animation-delay: 0.72s; }
+
+/* Shimmer skeleton placeholder */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(124, 58, 237, 0.04) 25%,
+    rgba(124, 58, 237, 0.10) 50%,
+    rgba(124, 58, 237, 0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite;
+}
+
+/* Fade in */
+.fade-in {
+  animation: fade-in 0.3s ease forwards;
+}
+
+/* ─── 7. Button Variants ──────────────────────────────────────────────────── */
+
+/* Primary — purple gradient */
+.btn-primary {
+  background:     linear-gradient(135deg, #7c3aed, #5b21b6);
+  border:         none;
+  color:          #fff;
+  padding:        10px 22px;
+  border-radius:  10px;
+  font-family:    var(--font-sans);
+  font-weight:    600;
+  font-size:      13px;
+  cursor:         pointer;
+  transition:     var(--transition-base);
+  letter-spacing: 0.3px;
+  line-height:    1;
+  display:        inline-flex;
+  align-items:    center;
+  gap:            8px;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform:  translateY(-2px);
+  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.45);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform:  translateY(0);
+  box-shadow: none;
+}
+
+/* Secondary — transparent with purple border */
+.btn-secondary {
+  background:     transparent;
+  border:         1px solid #2d2050;
+  color:          var(--col-purple-lite);
+  padding:        10px 22px;
+  border-radius:  10px;
+  font-family:    var(--font-sans);
+  font-weight:    600;
+  font-size:      13px;
+  cursor:         pointer;
+  transition:     var(--transition-base);
+  letter-spacing: 0.3px;
+  display:        inline-flex;
+  align-items:    center;
+  gap:            8px;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background:    #1a0f3a;
+  border-color:  var(--col-purple);
+}
+
+/* Danger — red gradient */
+.btn-danger {
+  background:     linear-gradient(135deg, #dc2626, #991b1b);
+  border:         none;
+  color:          #fff;
+  padding:        10px 22px;
+  border-radius:  10px;
+  font-family:    var(--font-sans);
+  font-weight:    600;
+  font-size:      13px;
+  cursor:         pointer;
+  transition:     var(--transition-base);
+  letter-spacing: 0.3px;
+  display:        inline-flex;
+  align-items:    center;
+  gap:            8px;
+}
+
+.btn-danger:hover:not(:disabled) {
+  transform:  translateY(-2px);
+  box-shadow: 0 8px 24px rgba(220, 38, 38, 0.40);
+}
+
+/* Success — green gradient */
+.btn-success {
+  background:     linear-gradient(135deg, #059669, #065f46);
+  border:         none;
+  color:          #fff;
+  padding:        10px 22px;
+  border-radius:  10px;
+  font-family:    var(--font-sans);
+  font-weight:    600;
+  font-size:      13px;
+  cursor:         pointer;
+  transition:     var(--transition-base);
+  letter-spacing: 0.3px;
+  display:        inline-flex;
+  align-items:    center;
+  gap:            8px;
+}
+
+.btn-success:hover:not(:disabled) {
+  transform:  translateY(-2px);
+  box-shadow: 0 8px 24px rgba(5, 150, 105, 0.40);
+}
+
+/* Disabled state (all buttons) */
+.btn-primary:disabled,
+.btn-secondary:disabled,
+.btn-danger:disabled,
+.btn-success:disabled {
+  opacity: 0.50;
+  cursor:  not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* ─── 8. Card ─────────────────────────────────────────────────────────────── */
+
+.card {
+  background:     rgba(15, 10, 30, 0.85);
+  border:         1px solid rgba(124, 58, 237, 0.15);
+  border-radius:  16px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition:     border-color 0.25s ease, transform 0.25s ease;
+}
+
+.card:hover {
+  border-color: rgba(124, 58, 237, 0.40);
+  transform:    translateY(-2px);
+}
+
+/* Card that should not lift on hover */
+.card-static {
+  background:     rgba(15, 10, 30, 0.85);
+  border:         1px solid rgba(124, 58, 237, 0.15);
+  border-radius:  16px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ─── 9. Navigation Items ─────────────────────────────────────────────────── */
+
+.nav-item {
+  display:       flex;
+  align-items:   center;
+  gap:           10px;
+  padding:       11px 16px;
+  border-radius: 10px;
+  cursor:        pointer;
+  transition:    var(--transition-base);
+  font-size:     14px;
+  font-weight:   500;
+  color:         var(--col-slate);
+  border:        1px solid transparent;
+  user-select:   none;
+}
+
+.nav-item:hover {
+  background: rgba(124, 58, 237, 0.12);
+  color:      var(--col-purple-lite);
+}
+
+.nav-item.active {
+  background:   linear-gradient(135deg, rgba(124, 58, 237, 0.25), rgba(91, 33, 182, 0.15));
+  color:        var(--col-purple-pale);
+  border-color: rgba(124, 58, 237, 0.30);
+}
+
+/* ─── 10. Tags / Badges / Status ──────────────────────────────────────────── */
+
+/* Tag base */
+.tag {
+  display:        inline-flex;
+  align-items:    center;
+  gap:            4px;
+  padding:        3px 10px;
+  border-radius:  20px;
+  font-size:      11px;
+  font-weight:    600;
+  letter-spacing: 0.4px;
+}
+
+/* Positive change — green */
+.tag-up {
+  background: rgba(16, 185, 129, 0.12);
+  color:      #10b981;
+  border:     1px solid rgba(16, 185, 129, 0.25);
+}
+
+/* Negative change — red */
+.tag-down {
+  background: rgba(239, 68, 68, 0.12);
+  color:      #ef4444;
+  border:     1px solid rgba(239, 68, 68, 0.25);
+}
+
+/* Neutral / warning — amber */
+.tag-neutral {
+  background: rgba(245, 158, 11, 0.12);
+  color:      #f59e0b;
+  border:     1px solid rgba(245, 158, 11, 0.25);
+}
+
+/* Badge (campaign status chip) */
+.badge {
+  padding:        4px 12px;
+  border-radius:  20px;
+  font-size:      11px;
+  font-weight:    700;
+  letter-spacing: 0.5px;
+  display:        inline-flex;
+  align-items:    center;
+}
+
+/* Status dot (●) — used inside .badge and standalone */
+.status-dot {
+  width:         7px;
+  height:        7px;
+  border-radius: 50%;
+  display:       inline-block;
+  flex-shrink:   0;
+}
+
+/* Pulsing status dot — AI Engine active indicator */
+.status-dot-pulse {
+  width:         7px;
+  height:        7px;
+  border-radius: 50%;
+  display:       inline-block;
+  animation:     glow-pulse 2s infinite;
+}
+
+/* ─── 11. Form Elements ───────────────────────────────────────────────────── */
+
+.input {
+  width:         100%;
+  background:    rgba(124, 58, 237, 0.08);
+  border:        1px solid rgba(124, 58, 237, 0.20);
+  border-radius: 10px;
+  padding:       10px 14px;
+  color:         var(--col-text);
+  font-family:   var(--font-sans);
+  font-size:     13px;
+  outline:       none;
+  transition:    border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.input:focus {
+  border-color: rgba(124, 58, 237, 0.60);
+  box-shadow:   0 0 0 3px rgba(124, 58, 237, 0.12);
+}
+
+.input::placeholder {
+  color: var(--col-dim);
+}
+
+.select {
+  width:         100%;
+  background:    rgba(124, 58, 237, 0.08);
+  border:        1px solid rgba(124, 58, 237, 0.20);
+  border-radius: 10px;
+  padding:       10px 14px;
+  color:         var(--col-purple-lite);
+  font-family:   var(--font-sans);
+  font-size:     13px;
+  outline:       none;
+  cursor:        pointer;
+  appearance:    none;
+  transition:    border-color 0.15s ease;
+}
+
+.select:focus {
+  border-color: rgba(124, 58, 237, 0.60);
+  box-shadow:   0 0 0 3px rgba(124, 58, 237, 0.12);
+}
+
+/* Select option background — overrides browser default white */
+option {
+  background: #0f0f1a;
+  color:      var(--col-text);
+}
+
+/* Label */
+.label {
+  display:        block;
+  font-size:      12px;
+  font-weight:    600;
+  color:          var(--col-subtle);
+  margin-bottom:  6px;
+  letter-spacing: 0.2px;
+}
+
+/* ─── 12. Table ───────────────────────────────────────────────────────────── */
+
+.table-row {
+  border-bottom: 1px solid rgba(124, 58, 237, 0.08);
+  transition:    background 0.15s ease;
+}
+
+.table-row:hover {
+  background: rgba(124, 58, 237, 0.06);
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.th {
+  padding:        14px 18px;
+  text-align:     left;
+  font-size:      11px;
+  font-weight:    700;
+  color:          var(--col-subtle);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  white-space:    nowrap;
+}
+
+.td {
+  padding: 14px 18px;
+}
+
+/* ─── 13. Drop Zone (Upload Page) ────────────────────────────────────────── */
+
+.drop-zone {
+  border:        2px dashed rgba(124, 58, 237, 0.35);
+  border-radius: 16px;
+  transition:    border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+  background:    rgba(124, 58, 237, 0.04);
+  cursor:        pointer;
+}
+
+.drop-zone:hover {
+  border-color: rgba(124, 58, 237, 0.60);
+  background:   rgba(124, 58, 237, 0.06);
+}
+
+.drop-zone.dragging {
+  border-color: var(--col-purple);
+  background:   rgba(124, 58, 237, 0.10);
+  transform:    scale(1.01);
+}
+
+/* ─── 14. Progress Bar ────────────────────────────────────────────────────── */
+
+.progress-bar {
+  height:        4px;
+  border-radius: 2px;
+  background:    #1e1e35;
+  overflow:      hidden;
+  position:      relative;
+}
+
+.progress-fill {
+  height:        100%;
+  border-radius: 2px;
+  transition:    width 0.30s ease;
+  background:    linear-gradient(90deg, #7c3aed, #06b6d4);
+}
+
+/* Success state — done uploading */
+.progress-fill.done {
+  background: linear-gradient(90deg, #10b981, #06b6d4);
+}
+
+/* ─── 15. Gradient Text ───────────────────────────────────────────────────── */
+
+.gradient-text {
+  background:              linear-gradient(135deg, #a78bfa, #7c3aed, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip:         text;
+}
+
+/* Page heading gradient (white → purple) */
+.gradient-heading {
+  background:              linear-gradient(135deg, #f0f0ff, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip:         text;
+}
+
+/* Logo gradient (pale purple → purple) */
+.gradient-logo {
+  background:              linear-gradient(135deg, #c4b5fd, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip:         text;
+}
+
+/* ─── 16. Glow Utility ────────────────────────────────────────────────────── */
+
+.glow {
+  box-shadow: 0 0 24px rgba(124, 58, 237, 0.30);
+}
+
+.glow-lg {
+  box-shadow: 0 0 48px rgba(124, 58, 237, 0.40);
+}
+
+.glow-cyan {
+  box-shadow: 0 0 24px rgba(6, 182, 212, 0.30);
+}
+
+.glow-green {
+  box-shadow: 0 0 24px rgba(16, 185, 129, 0.30);
+}
+
+/* ─── 17. Focus Ring (Keyboard Navigation) ────────────────────────────────── */
+
+:focus-visible {
+  outline:        2px solid rgba(124, 58, 237, 0.80);
+  outline-offset: 3px;
+  border-radius:  4px;
+}
+
+/* ─── 18. Accessibility — Visually Hidden ─────────────────────────────────── */
+
+.sr-only {
+  position:   absolute;
+  width:      1px;
+  height:     1px;
+  padding:    0;
+  margin:    -1px;
+  overflow:   hidden;
+  clip:       rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border:     0;
+}
+
+/* ─── 19. Reduced Motion ──────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration:   0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration:  0.01ms !important;
+    scroll-behavior:      auto !important;
+  }
+}
+
+/* ─── 20. Layout Helpers ──────────────────────────────────────────────────── */
+
+/* Main content area — offset for the fixed 230px sidebar */
+.main-content {
+  margin-left:   230px;
+  min-height:    100vh;
+  padding:       28px 28px 40px;
+  overflow-y:    auto;
+}
+
+/* Page scroll container */
+.page-scroll {
+  max-width:  1400px;
+  margin:     0 auto;
+}
+
+/* KPI grid — 4 columns */
+.kpi-grid {
+  display:               grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:                   16px;
+  margin-bottom:         24px;
+}
+
+/* Charts row — two equal columns */
+.charts-row {
+  display:               grid;
+  grid-template-columns: 1fr 1fr;
+  gap:                   16px;
+  margin-bottom:         24px;
+}
+
+/* Charts row — wide + narrow sidebar */
+.charts-row-wide {
+  display:               grid;
+  grid-template-columns: 1fr 320px;
+  gap:                   16px;
+  margin-bottom:         24px;
+}
+
+/* ─── 21. App Shell & Layout (extracted from LumindAd.jsx root render) ─────── */
+
+/* App shell — flex row, full viewport */
+.app-shell {
+  display:     flex;
+  height:      100vh;
+  background:  #060610;
+  font-family: 'Outfit', sans-serif;
+  overflow:    hidden;
+}
+
+/* Main column — to the right of the fixed sidebar */
+.app-main {
+  margin-left:    230px;
+  flex:           1;
+  display:        flex;
+  flex-direction: column;
+  height:         100vh;
+  overflow:       hidden;
+}
+
+/* ── Top Bar ── height:52 · borderBottom rgba(124,58,237,.1) · bg rgba(6,4,18,.97) */
+.topbar {
+  height:        52px;
+  border-bottom: 1px solid rgba(124, 58, 237, 0.10);
+  background:    rgba(6, 4, 18, 0.97);
+  display:       flex;
+  align-items:   center;
+  padding:       0 28px;
+  gap:           12px;
+  flex-shrink:   0;
+}
+
+.topbar-tab {
+  background:    none;
+  border:        none;
+  cursor:        pointer;
+  font-size:     13px;
+  font-weight:   600;
+  font-family:   'Outfit', sans-serif;
+  padding:       4px 10px;
+  border-radius: 6px;
+  color:         #334155;
+  border-bottom: 2px solid transparent;
+  transition:    color 0.15s ease, border-color 0.15s ease;
+}
+
+.topbar-tab.active {
+  color:         #a78bfa;
+  border-bottom: 2px solid #7c3aed;
+}
+
+/* ── Page Scroll Area ── radial-gradient from LumindAd.jsx line 1125 */
+.page-scroll-area {
+  flex:       1;
+  overflow-y: auto;
+  padding:    28px;
+  background: radial-gradient(ellipse at 20% 0%, rgba(124,58,237,0.06) 0%, transparent 60%);
+}
+
+/* ── Footer ── */
+.footer {
+  border-top:      1px solid rgba(124, 58, 237, 0.10);
+  padding:         16px 24px;
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  background:      rgba(6, 4, 18, 0.97);
+  flex-shrink:     0;
+}
+
+.footer-copy {
+  font-size: 11px;
+  color:     #2d2050;
+}
+
+.footer-copy strong {
+  color:       #7c3aed;
+  font-weight: 600;
+}
+
+/* Social icon footer buttons */
+.social-icon-btn {
+  width:           30px;
+  height:          30px;
+  border-radius:   8px;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  font-size:       13px;
+  font-weight:     800;
+  cursor:          pointer;
+  text-decoration: none;
+  transition:      transform 0.15s ease;
+}
+
+/* ─── 22. Sidebar ────────────────────────────────────────────────────────── */
+
+.sidebar {
+  width:          230px;
+  height:         100vh;
+  background:     rgba(6, 4, 18, 0.97);
+  border-right:   1px solid rgba(124, 58, 237, 0.12);
+  display:        flex;
+  flex-direction: column;
+  padding:        20px 12px;
+  position:       fixed;
+  left:           0;
+  top:            0;
+  z-index:        100;
+}
+
+.sidebar-section-label {
+  font-size:      10px;
+  color:          #3d3d60;
+  font-weight:    700;
+  letter-spacing: 1.5px;
+  padding:        0 10px;
+  margin-bottom:  10px;
+  text-transform: uppercase;
+}
+
+/* AI Engine badge */
+.sidebar-ai-badge {
+  margin:        20px 4px;
+  padding:       14px;
+  border-radius: 12px;
+  background:    linear-gradient(135deg, rgba(124,58,237,0.12), rgba(6,182,212,0.08));
+  border:        1px solid rgba(124, 58, 237, 0.20);
+}
+
+/* Green AI badge */
+.sidebar-green-badge {
+  margin:        0 4px 16px;
+  padding:       12px;
+  border-radius: 12px;
+  background:    rgba(16, 185, 129, 0.06);
+  border:        1px solid rgba(16, 185, 129, 0.15);
+}
+
+/* User slot at bottom */
+.sidebar-user {
+  margin-top:    auto;
+  display:       flex;
+  align-items:   center;
+  gap:           10px;
+  padding:       12px;
+  border-radius: 12px;
+  border:        1px solid rgba(124, 58, 237, 0.10);
+  cursor:        pointer;
+  background:    rgba(124, 58, 237, 0.05);
+  transition:    background 0.15s ease, border-color 0.15s ease;
+}
+
+.sidebar-user:hover {
+  background:   rgba(124, 58, 237, 0.10);
+  border-color: rgba(124, 58, 237, 0.25);
+}
+
+/* NEW badge on Upload nav item */
+.nav-badge-new {
+  margin-left:   auto;
+  background:    rgba(6, 182, 212, 0.15);
+  color:         #06b6d4;
+  padding:       2px 7px;
+  border-radius: 10px;
+  font-size:     10px;
+  font-weight:   700;
+}
+
+/* Topbar divider line */
+.divider-v {
+  width:      1px;
+  height:     16px;
+  background: rgba(124, 58, 237, 0.20);
+  flex-shrink: 0;
+}
+
+/* ─── 23. Upload Page Specific ────────────────────────────────────────────── */
+
+/* File item row */
+.file-row {
+  padding:       14px;
+  border-radius: 12px;
+  background:    rgba(124, 58, 237, 0.04);
+  border:        1px solid rgba(124, 58, 237, 0.10);
+  display:       flex;
+  align-items:   center;
+  gap:           14px;
+  transition:    border-color 0.15s ease;
+}
+
+.file-row:hover {
+  border-color: rgba(124, 58, 237, 0.25);
+}
+
+/* Processing benchmark mini-card */
+.benchmark-card {
+  padding:       12px;
+  border-radius: 10px;
+  background:    rgba(124, 58, 237, 0.05);
+  border:        1px solid rgba(124, 58, 237, 0.10);
+}
+
+/* ─── 24. Campaigns Page Search ───────────────────────────────────────────── */
+
+.search-input {
+  background:    rgba(124, 58, 237, 0.08);
+  border:        1px solid rgba(124, 58, 237, 0.20);
+  border-radius: 10px;
+  padding:       9px 16px;
+  color:         #e8e8f8;
+  font-size:     13px;
+  font-family:   'Outfit', sans-serif;
+  width:         220px;
+  outline:       none;
+  transition:    border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.search-input:focus {
+  border-color: rgba(124, 58, 237, 0.60);
+  box-shadow:   0 0 0 3px rgba(124, 58, 237, 0.12);
+}
+
+.search-input::placeholder {
+  color: #3d3d60;
+}
+
+/* ─── 25. CreateAd AI Score — progress fill variants ─────────────────────── */
+
+/* score > 85 — green */
+.progress-fill-success {
+  height:        100%;
+  border-radius: 2px;
+  background:    linear-gradient(90deg, #10b981, #06b6d4);
+  transition:    width 0.30s ease;
+}
+
+/* score 70–85 — amber → red */
+.progress-fill-warning {
+  height:        100%;
+  border-radius: 2px;
+  background:    linear-gradient(90deg, #f59e0b, #ef4444);
+  transition:    width 0.30s ease;
+}
+
+/* score < 70 — red */
+.progress-fill-danger {
+  height:        100%;
+  border-radius: 2px;
+  background:    #ef4444;
+  transition:    width 0.30s ease;
+}
+
+/* ─── 26. Charts Layout Grid ──────────────────────────────────────────────── */
+
+/* KPI grid — 4 columns */
+.kpi-grid {
+  display:               grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:                   16px;
+  margin-bottom:         24px;
+}
+
+/* Charts row — two equal columns (Analytics page) */
+.charts-row {
+  display:               grid;
+  grid-template-columns: 1fr 1fr;
+  gap:                   16px;
+  margin-bottom:         24px;
+}
+
+/* Charts row — wide left + 320px right (Dashboard) */
+.charts-row-wide {
+  display:               grid;
+  grid-template-columns: 1fr 320px;
+  gap:                   16px;
+  margin-bottom:         24px;
+}
+
+/* Charts row — wide left + 300px right (Budget) */
+.charts-row-budget {
+  display:               grid;
+  grid-template-columns: 1fr 300px;
+  gap:                   16px;
+}
