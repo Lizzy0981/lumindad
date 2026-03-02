@@ -236,7 +236,7 @@ async function gzipChunk(
     const writer = cs.writable.getWriter();
     const reader = cs.readable.getReader();
 
-    writer.write(encoded);
+    writer.write(encoded as unknown as ArrayBufferView);
     writer.close();
 
     const chunks: Uint8Array[] = [];
@@ -846,7 +846,6 @@ class AbortError extends Error {
 async function processFile(msg: WorkerParseMessage): Promise<void> {
   const { fileId, buffer, fileName, options = {} } = msg;
   const startMs = Date.now();
-  const format  = options as WorkerParseOptions & { format?: ParseFormat };
   const fmt     = detectFormat(fileName);
 
   let result: { totalRows: number; schema: ColumnSchema[]; preview: Record<string, unknown>[] };

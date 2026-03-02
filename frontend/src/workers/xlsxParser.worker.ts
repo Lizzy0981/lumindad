@@ -128,7 +128,7 @@ function xlsxCellTypeToSchemaType(t: XLSXCellType): ColumnSchema['type'] {
 function inferSchemaFromAOA(
   headers: string[],
   aoa:     unknown[][],
-  ws:      XLSXWorksheet,
+  _ws:     XLSXWorksheet,
 ): ColumnSchema[] {
   const sample = aoa.slice(0, SAMPLE_ROWS);
 
