@@ -203,7 +203,7 @@ export function PlatformSplit({ data = PLATFORM_DATA_DEFAULT }: PlatformSplitPro
       {/* ── Donut chart ──────────────────────────────────────────── */}
       {/* Matches: innerRadius={45} outerRadius={75} paddingAngle={3} */}
       <LumindPieChart
-        data={data as Record<string, unknown>[]}
+        data={data as unknown as Record<string, unknown>[]}
         dataKey="value"
         nameKey="name"
         colorKey="color"
