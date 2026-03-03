@@ -85,12 +85,10 @@
     <meta http-equiv="X-UA-Compatible"          content="IE=edge" />
     <meta http-equiv="X-Content-Type-Options"   content="nosniff" />
     <!--
-      CSP: upgrade-insecure-requests ensures all http:// sub-resources
-      are fetched over https:// automatically.
-      Full CSP header should be set at the server/CDN layer for
-      production (see vercel.json / nginx config).
+      CSP is set at the nginx layer (infrastructure/nginx/nginx.conf).
+      upgrade-insecure-requests removed — server runs on HTTP (no SSL yet).
+      Re-enable once HTTPS/TLS is configured with a valid certificate.
     -->
-    <meta http-equiv="Content-Security-Policy"  content="upgrade-insecure-requests" />
 
     <!-- ═══════════════════════════════════════════════════════
          SPA ROUTING RESTORE — GitHub Pages / static hosting fix
