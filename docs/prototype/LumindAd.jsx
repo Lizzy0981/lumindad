@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, createContext, useContext } from "react";
 import {
   AreaChart, Area, BarChart, Bar, LineChart, Line,
   PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid,
@@ -228,7 +228,6 @@ function useLang() {
 }
 
 // ── GLOBAL LANG CONTEXT ───────────────────────────────────────────────
-import { createContext, useContext } from "react";
 const LangContext = createContext(null);
 const useTr = () => useContext(LangContext);
 
@@ -926,14 +925,15 @@ function UploadPage() {
         ]}
       />
       <div className={`drop-zone ${dragging?'dragging':''}`}
-        style={{padding:'40px',textAlign:'center',marginBottom:20,cursor:'pointer'}}
+        style={{padding:'40px',textAlign:'center',marginBottom:20,cursor:'pointer',position:'relative'}}
         onDragOver={e=>{e.preventDefault();setDragging(true);}}
         onDragLeave={()=>setDragging(false)}
-        onDrop={onDrop}
-        onClick={()=>files.length < MAX_FILES && inputRef.current.click()}>
+        onDrop={onDrop}>
         <input ref={inputRef} type="file" multiple
           accept=".csv,.xlsx,.xls,.json,.pdf,.xml,.tsv,.txt,.parquet,.avro,.jsonl,.ndjson,.ipynb,.nb"
-          style={{display:'none'}} onChange={e=>addFiles(e.target.files)}/>
+          style={{position:'absolute',inset:0,width:'100%',height:'100%',opacity:0,cursor:'pointer',zIndex:2}}
+          onChange={e=>{if(e.target.files?.length) addFiles(e.target.files); e.target.value='';}}
+        />
         <div style={{fontSize:40,marginBottom:12}}>⤒</div>
         <div style={{fontWeight:700,fontSize:18,color:'#e8e8f8',marginBottom:6}}>
           {dragging ? t('upload.active') : t('upload.idle')}
