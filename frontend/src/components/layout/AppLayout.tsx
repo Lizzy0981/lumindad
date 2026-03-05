@@ -60,7 +60,9 @@
  */
 
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
-import { type CSSProperties }           from 'react';
+import { type CSSProperties, useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { SUPPORTED_LANGS, changeLanguage } from '../../i18n';
 
 import { Sidebar }     from './Sidebar';
 import { Footer }      from './Footer';
@@ -139,6 +141,105 @@ const SKIP_LINK_STYLE: CSSProperties = {
   textDecoration: 'none',
   transition: 'left 0s',
 };
+
+// ─── Language Selector ────────────────────────────────────────────────────────
+
+function LanguageSelector() {
+  const { i18n } = useTranslation();
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const current = SUPPORTED_LANGS.find((l) => l.code === i18n.language) ?? SUPPORTED_LANGS[0];
+
+  useEffect(() => {
+    const h = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener('mousedown', h);
+    return () => document.removeEventListener('mousedown', h);
+  }, []);
+
+  return (
+    <div ref={ref} style={{ position: 'relative' }}>
+      <button
+        onClick={() => setOpen((o) => !o)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-label={`Language: ${current.labelEn}. Click to change`}
+        style={{
+          background:   'rgba(124,58,237,0.08)',
+          border:       '1px solid rgba(124,58,237,0.2)',
+          borderRadius: '8px',
+          padding:      '5px 12px',
+          cursor:       'pointer',
+          display:      'flex',
+          alignItems:   'center',
+          gap:          '6px',
+          fontSize:     '12px',
+          color:        '#a78bfa',
+          fontFamily:  "'Outfit', system-ui, sans-serif",
+          fontWeight:   600,
+        }}
+      >
+        <span aria-hidden="true" style={{ fontSize: '16px' }}>{current.flag}</span>
+        <span>{current.code.toUpperCase()}</span>
+        <span aria-hidden="true" style={{ fontSize: '9px', opacity: 0.6 }}>{open ? '▲' : '▼'}</span>
+      </button>
+
+      {open && (
+        <div
+          role="listbox"
+          aria-label="Select language"
+          style={{
+            position:           'absolute',
+            right:               0,
+            top:                'calc(100% + 6px)',
+            background:         'rgba(8,6,18,0.98)',
+            border:             '1px solid rgba(124,58,237,0.3)',
+            borderRadius:       '14px',
+            padding:            '8px',
+            zIndex:              9999,
+            display:            'grid',
+            gridTemplateColumns:'1fr 1fr',
+            gap:                '3px',
+            minWidth:           '230px',
+            backdropFilter:     'blur(20px)',
+            boxShadow:          '0 24px 48px rgba(0,0,0,0.7)',
+          }}
+        >
+          {SUPPORTED_LANGS.map((l) => (
+            <button
+              key={l.code}
+              role="option"
+              aria-selected={l.code === i18n.language}
+              onClick={() => { changeLanguage(l.code); setOpen(false); }}
+              style={{
+                background:   l.code === i18n.language ? 'rgba(124,58,237,0.2)' : 'transparent',
+                border:       l.code === i18n.language ? '1px solid rgba(124,58,237,0.5)' : '1px solid transparent',
+                borderRadius: '9px',
+                padding:      '8px 10px',
+                cursor:       'pointer',
+                display:      'flex',
+                alignItems:   'center',
+                gap:          '8px',
+                fontFamily:  "'Outfit', system-ui, sans-serif",
+                transition:  'all 0.15s',
+                textAlign:   'left',
+              }}
+            >
+              <span aria-hidden="true" style={{ fontSize: '18px' }}>{l.flag}</span>
+              <div>
+                <div style={{ fontSize: '12px', fontWeight: 700, color: l.code === i18n.language ? '#a78bfa' : '#e8e8f8' }}>
+                  {l.label}
+                </div>
+                <div style={{ fontSize: '10px', color: '#475569' }}>{l.labelEn}</div>
+              </div>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -220,6 +321,8 @@ export default function AppLayout() {
             padding:       '0 28px',
             gap:           '12px',
             flexShrink:     0,
+            position:      'relative',
+            zIndex:         10,
           }}
         >
           {/* Tab navigation */}
@@ -313,16 +416,8 @@ export default function AppLayout() {
               }}
             />
 
-            {/* Language indicator */}
-            <div
-              style={{
-                fontSize:   '11px',
-                color:      '#334155',
-                fontFamily:"'Outfit', system-ui, sans-serif",
-              }}
-            >
-              🌍 EN · 11 langs
-            </div>
+            {/* Language selector */}
+            <LanguageSelector />
           </div>
         </header>
 

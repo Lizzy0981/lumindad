@@ -958,10 +958,11 @@ function UploadPage() {
         style={{padding:'40px',textAlign:'center',marginBottom:20,cursor:'pointer',position:'relative'}}
         onDragOver={e=>{e.preventDefault();setDragging(true);}}
         onDragLeave={()=>setDragging(false)}
-        onDrop={onDrop}>
+        onDrop={onDrop}
+        onClick={()=>inputRef.current?.click()}>
         <input ref={inputRef} type="file" multiple
           accept=".csv,.xlsx,.xls,.json,.pdf,.xml,.tsv,.txt,.parquet,.avro,.jsonl,.ndjson,.ipynb,.nb"
-          style={{position:'absolute',inset:0,width:'100%',height:'100%',opacity:0,cursor:'pointer',zIndex:2}}
+          style={{display:'none'}}
           onChange={e=>{if(e.target.files?.length) addFiles(e.target.files); e.target.value='';}}
         />
         <div style={{fontSize:40,marginBottom:12}}>⤒</div>
@@ -1271,7 +1272,7 @@ function LumindAd() {
           {/* Topbar */}
           <div style={{height:52,borderBottom:'1px solid rgba(124,58,237,.1)',
             background:'rgba(6,4,18,.97)',display:'flex',alignItems:'center',
-            padding:'0 28px',gap:12,flexShrink:0}}>
+            padding:'0 28px',gap:12,flexShrink:0,position:'relative',zIndex:10}}>
             <div style={{flex:1,display:'flex',gap:10}}>
               {topLabels.map(({id,label}) => (
                 <button key={id} onClick={()=>setPage(id)}
