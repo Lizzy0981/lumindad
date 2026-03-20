@@ -66,23 +66,24 @@ import { useRef, useState, useCallback, useId } from 'react';
 // ─── Format definitions (LumindAd.jsx line 127) ───────────────────────────────
 
 export interface AcceptedFormat {
-  ext:   string;
-  icon:  string;
+  ext: string;
+  icon: string;
   color: string;
 }
 
-/** 10 accepted formats — mirrors ACCEPTED_FORMATS in LumindAd.jsx exactly. */
+/** 11 accepted formats — mirrors ACCEPTED_FORMATS in LumindAd.jsx + IPYNB support. */
 export const ACCEPTED_FORMATS: AcceptedFormat[] = [
-  { ext: 'CSV',     icon: '📊', color: '#10b981' },
-  { ext: 'Excel',   icon: '📗', color: '#22c55e' },
-  { ext: 'JSON',    icon: '🔵', color: '#3b82f6' },
-  { ext: 'PDF',     icon: '🔴', color: '#ef4444' },
-  { ext: 'XML',     icon: '🟠', color: '#f97316' },
-  { ext: 'TSV',     icon: '🟣', color: '#a855f7' },
-  { ext: 'TXT',     icon: '⬜', color: '#94a3b8' },
+  { ext: 'CSV', icon: '📊', color: '#10b981' },
+  { ext: 'Excel', icon: '📗', color: '#22c55e' },
+  { ext: 'JSON', icon: '🔵', color: '#3b82f6' },
+  { ext: 'PDF', icon: '🔴', color: '#ef4444' },
+  { ext: 'XML', icon: '🟠', color: '#f97316' },
+  { ext: 'TSV', icon: '🟣', color: '#a855f7' },
+  { ext: 'TXT', icon: '⬜', color: '#94a3b8' },
   { ext: 'Parquet', icon: '🟡', color: '#eab308' },
-  { ext: 'Avro',    icon: '🩵', color: '#06b6d4' },
-  { ext: 'JSONL',   icon: '💙', color: '#60a5fa' },
+  { ext: 'Avro', icon: '🩵', color: '#06b6d4' },
+  { ext: 'JSONL', icon: '💙', color: '#60a5fa' },
+  { ext: 'IPYNB', icon: '📓', color: '#f97316' },
 ];
 
 /** Maps an uppercase file extension to its brand colour. */
@@ -94,15 +95,15 @@ export function typeColor(ext: string): string {
 
 /** File accept string for the hidden <input type="file"> */
 export const ACCEPT_ATTR =
-  '.csv,.xlsx,.xls,.json,.pdf,.xml,.tsv,.txt,.parquet,.avro,.jsonl';
+  '.csv,.xlsx,.xls,.json,.pdf,.xml,.tsv,.txt,.parquet,.avro,.jsonl,.ipynb';
 
 // ─── Public API ───────────────────────────────────────────────────────────────
 
 export interface DropZoneProps {
   /** Current number of files in the queue */
-  fileCount:  number;
+  fileCount: number;
   /** Maximum files allowed (default: 10) */
-  maxFiles?:  number;
+  maxFiles?: number;
   /** Called with the FileList when files are dropped or selected */
   onFilesAdded: (files: FileList | File[]) => void;
 }
@@ -127,16 +128,16 @@ export interface DropZoneProps {
  */
 export function DropZone({
   fileCount,
-  maxFiles     = 10,
+  maxFiles = 10,
   onFilesAdded,
 }: DropZoneProps) {
-  const id       = useId();
+  const id = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
 
   const disabled = fileCount >= maxFiles;
 
-  const handleDragOver  = useCallback((e: React.DragEvent) => {
+  const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     if (!disabled) setDragging(true);
   }, [disabled]);
@@ -163,8 +164,8 @@ export function DropZone({
     }
   }, [onFilesAdded]);
 
-  const captionId  = `${id}-caption`;
-  const formatsId  = `${id}-formats`;
+  const captionId = `${id}-caption`;
+  const formatsId = `${id}-formats`;
 
   return (
     <div
@@ -181,11 +182,11 @@ export function DropZone({
       aria-describedby={`${captionId} ${formatsId}`}
       aria-disabled={disabled}
       style={{
-        padding:    '40px',
-        textAlign:  'center',
-        marginBottom:'20px',
-        cursor:      disabled ? 'not-allowed' : 'pointer',
-        opacity:     disabled ? 0.55 : 1,
+        padding: '40px',
+        textAlign: 'center',
+        marginBottom: '20px',
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        opacity: disabled ? 0.55 : 1,
         transition: 'opacity 0.2s ease',
       }}
       onDragOver={handleDragOver}
@@ -204,7 +205,6 @@ export function DropZone({
         ref={inputRef}
         type="file"
         multiple
-        accept={ACCEPT_ATTR}
         aria-hidden="true"
         tabIndex={-1}
         style={{ display: 'none' }}
@@ -222,12 +222,12 @@ export function DropZone({
       {/* Primary text — changes when dragging */}
       <div
         style={{
-          fontWeight:   700,
-          fontSize:     '18px',
-          color:        '#e8e8f8',
+          fontWeight: 700,
+          fontSize: '18px',
+          color: '#e8e8f8',
           marginBottom: '6px',
-          fontFamily:  "'Outfit', system-ui, sans-serif",
-          transition:  'color 0.15s ease',
+          fontFamily: "'Outfit', system-ui, sans-serif",
+          transition: 'color 0.15s ease',
         }}
       >
         {dragging ? 'Drop your files here!' : 'Drag & drop your files here'}
@@ -236,10 +236,10 @@ export function DropZone({
       {/* Secondary text */}
       <div
         style={{
-          color:        '#475569',
-          fontSize:     '13px',
+          color: '#475569',
+          fontSize: '13px',
           marginBottom: '16px',
-          fontFamily:  "'Outfit', system-ui, sans-serif",
+          fontFamily: "'Outfit', system-ui, sans-serif",
         }}
       >
         or{' '}
@@ -255,10 +255,10 @@ export function DropZone({
         role="list"
         aria-label="Accepted file formats"
         style={{
-          display:        'flex',
-          flexWrap:       'wrap',
+          display: 'flex',
+          flexWrap: 'wrap',
           justifyContent: 'center',
-          gap:            '8px',
+          gap: '8px',
         }}
       >
         {ACCEPTED_FORMATS.map((f) => (
@@ -268,16 +268,16 @@ export function DropZone({
             style={{
               // background ${color}15 · border 1px solid ${color}30
               // Exact match to LumindAd.jsx line 744
-              background:   `${f.color}15`,
-              border:       `1px solid ${f.color}30`,
-              color:         f.color,
-              padding:      '4px 10px',
+              background: `${f.color}15`,
+              border: `1px solid ${f.color}30`,
+              color: f.color,
+              padding: '4px 10px',
               borderRadius: '8px',
-              fontSize:     '11px',
-              fontWeight:    700,
-              fontFamily:  "'Outfit', system-ui, sans-serif",
-              letterSpacing:'0.2px',
-              userSelect:   'none',
+              fontSize: '11px',
+              fontWeight: 700,
+              fontFamily: "'Outfit', system-ui, sans-serif",
+              letterSpacing: '0.2px',
+              userSelect: 'none',
             }}
           >
             {f.icon} {f.ext}
@@ -289,10 +289,10 @@ export function DropZone({
       <div
         id={captionId}
         style={{
-          marginTop:  '12px',
-          fontSize:   '11px',
-          color:      '#3d3d60',
-          fontFamily:"'Outfit', system-ui, sans-serif",
+          marginTop: '12px',
+          fontSize: '11px',
+          color: '#3d3d60',
+          fontFamily: "'Outfit', system-ui, sans-serif",
         }}
       >
         Max {maxFiles} files · Supports files up to 2GB · Parallel chunked processing (50K rows/chunk)

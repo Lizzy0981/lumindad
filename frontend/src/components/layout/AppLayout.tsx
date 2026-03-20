@@ -150,17 +150,33 @@ function LanguageSelector() {
   const ref = useRef<HTMLDivElement>(null);
   const current = SUPPORTED_LANGS.find((l) => l.code === i18n.language) ?? SUPPORTED_LANGS[0];
 
+  // Close dropdown on outside click
   useEffect(() => {
-    const h = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
     };
-    document.addEventListener('mousedown', h);
-    return () => document.removeEventListener('mousedown', h);
-  }, []);
+    if (open) {
+      document.addEventListener('mousedown', handleOutsideClick);
+      return () => document.removeEventListener('mousedown', handleOutsideClick);
+    }
+  }, [open]);
+
+  const handleSelectLanguage = async (code: string) => {
+    try {
+      await changeLanguage(code);
+    } catch (err) {
+      console.error('[i18n] Error changing language:', err);
+    } finally {
+      setOpen(false);
+    }
+  };
 
   return (
     <div ref={ref} style={{ position: 'relative' }}>
       <button
+        type="button"
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="listbox"
         aria-expanded={open}
@@ -206,35 +222,52 @@ function LanguageSelector() {
             boxShadow:          '0 24px 48px rgba(0,0,0,0.7)',
           }}
         >
-          {SUPPORTED_LANGS.map((l) => (
-            <button
-              key={l.code}
-              role="option"
-              aria-selected={l.code === i18n.language}
-              onClick={() => { changeLanguage(l.code); setOpen(false); }}
-              style={{
-                background:   l.code === i18n.language ? 'rgba(124,58,237,0.2)' : 'transparent',
-                border:       l.code === i18n.language ? '1px solid rgba(124,58,237,0.5)' : '1px solid transparent',
-                borderRadius: '9px',
-                padding:      '8px 10px',
-                cursor:       'pointer',
-                display:      'flex',
-                alignItems:   'center',
-                gap:          '8px',
-                fontFamily:  "'Outfit', system-ui, sans-serif",
-                transition:  'all 0.15s',
-                textAlign:   'left',
-              }}
-            >
-              <span aria-hidden="true" style={{ fontSize: '18px' }}>{l.flag}</span>
-              <div>
-                <div style={{ fontSize: '12px', fontWeight: 700, color: l.code === i18n.language ? '#a78bfa' : '#e8e8f8' }}>
-                  {l.label}
+          {SUPPORTED_LANGS.map((l) => {
+            const isActive = l.code === i18n.language;
+            return (
+              <button
+                key={l.code}
+                type="button"
+                role="option"
+                aria-selected={isActive}
+                onClick={() => handleSelectLanguage(l.code)}
+                style={{
+                  background:   isActive ? 'rgba(124,58,237,0.2)' : 'transparent',
+                  border:       isActive ? '1px solid rgba(124,58,237,0.5)' : '1px solid transparent',
+                  borderRadius: '9px',
+                  padding:      '8px 10px',
+                  cursor:       'pointer',
+                  display:      'flex',
+                  alignItems:   'center',
+                  gap:          '8px',
+                  fontFamily:  "'Outfit', system-ui, sans-serif",
+                  transition:  'all 0.15s',
+                  textAlign:   'left',
+                  color:        'inherit',
+                }}
+                onMouseEnter={(e) => {
+                  if (!isActive) {
+                    e.currentTarget.style.background = 'rgba(124,58,237,0.12)';
+                    e.currentTarget.style.borderColor = 'rgba(124,58,237,0.3)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isActive) {
+                    e.currentTarget.style.background = 'transparent';
+                    e.currentTarget.style.borderColor = 'transparent';
+                  }
+                }}
+              >
+                <span aria-hidden="true" style={{ fontSize: '18px' }}>{l.flag}</span>
+                <div>
+                  <div style={{ fontSize: '12px', fontWeight: 700, color: isActive ? '#a78bfa' : '#e8e8f8' }}>
+                    {l.label}
+                  </div>
+                  <div style={{ fontSize: '10px', color: '#475569' }}>{l.labelEn}</div>
                 </div>
-                <div style={{ fontSize: '10px', color: '#475569' }}>{l.labelEn}</div>
-              </div>
-            </button>
-          ))}
+              </button>
+            );
+          })}
         </div>
       )}
     </div>
