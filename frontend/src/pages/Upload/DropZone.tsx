@@ -71,7 +71,7 @@ export interface AcceptedFormat {
   color: string;
 }
 
-/** 11 accepted formats — mirrors ACCEPTED_FORMATS in LumindAd.jsx + IPYNB support. */
+/** 11 accepted formats — mirrors ACCEPTED_FORMATS in LumindAd.jsx + Notebook support. */
 export const ACCEPTED_FORMATS: AcceptedFormat[] = [
   { ext: 'CSV', icon: '📊', color: '#10b981' },
   { ext: 'Excel', icon: '📗', color: '#22c55e' },
@@ -83,13 +83,15 @@ export const ACCEPTED_FORMATS: AcceptedFormat[] = [
   { ext: 'Parquet', icon: '🟡', color: '#eab308' },
   { ext: 'Avro', icon: '🩵', color: '#06b6d4' },
   { ext: 'JSONL', icon: '💙', color: '#60a5fa' },
-  { ext: 'IPYNB', icon: '📓', color: '#f97316' },
+  { ext: 'Notebook', icon: '📓', color: '#ff6f00' },
 ];
 
 /** Maps an uppercase file extension to its brand colour. */
 export function typeColor(ext: string): string {
-  // Normalise XLSX/XLS → Excel
-  const key = (ext === 'XLSX' || ext === 'XLS') ? 'Excel' : ext;
+  // Normalise XLSX/XLS → Excel, IPYNB → Notebook
+  const key = (ext === 'XLSX' || ext === 'XLS') ? 'Excel'
+    : ext === 'IPYNB' ? 'Notebook'
+      : ext;
   return ACCEPTED_FORMATS.find((f) => f.ext === key)?.color ?? '#94a3b8';
 }
 
@@ -205,6 +207,7 @@ export function DropZone({
         ref={inputRef}
         type="file"
         multiple
+        accept={ACCEPT_ATTR}
         aria-hidden="true"
         tabIndex={-1}
         style={{ display: 'none' }}

@@ -85,21 +85,22 @@ export interface AcceptedFormat {
 }
 
 export const ACCEPTED_FORMATS: AcceptedFormat[] = [
-  { ext: 'CSV',     icon: '📊', color: '#10b981', mime: ['text/csv', 'application/csv'] },
-  { ext: 'Excel',   icon: '📗', color: '#22c55e', mime: ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel'] },
-  { ext: 'JSON',    icon: '🔵', color: '#3b82f6', mime: ['application/json'] },
-  { ext: 'PDF',     icon: '🔴', color: '#ef4444', mime: ['application/pdf'] },
-  { ext: 'XML',     icon: '🟠', color: '#f97316', mime: ['text/xml', 'application/xml'] },
-  { ext: 'TSV',     icon: '🟣', color: '#a855f7', mime: ['text/tab-separated-values'] },
-  { ext: 'TXT',     icon: '⬜', color: '#94a3b8', mime: ['text/plain'] },
-  { ext: 'Parquet', icon: '🟡', color: '#eab308', mime: ['application/octet-stream'] },
-  { ext: 'Avro',    icon: '🩵', color: '#06b6d4', mime: ['application/octet-stream'] },
-  { ext: 'JSONL',   icon: '💙', color: '#60a5fa', mime: ['application/jsonlines', 'application/x-ndjson'] },
+  { ext: 'CSV',      icon: '📊', color: '#10b981', mime: ['text/csv', 'application/csv'] },
+  { ext: 'Excel',    icon: '📗', color: '#22c55e', mime: ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel'] },
+  { ext: 'JSON',     icon: '🔵', color: '#3b82f6', mime: ['application/json'] },
+  { ext: 'PDF',      icon: '🔴', color: '#ef4444', mime: ['application/pdf'] },
+  { ext: 'XML',      icon: '🟠', color: '#f97316', mime: ['text/xml', 'application/xml'] },
+  { ext: 'TSV',      icon: '🟣', color: '#a855f7', mime: ['text/tab-separated-values'] },
+  { ext: 'TXT',      icon: '⬜', color: '#94a3b8', mime: ['text/plain'] },
+  { ext: 'Parquet',  icon: '🟡', color: '#eab308', mime: ['application/octet-stream'] },
+  { ext: 'Avro',     icon: '🩵', color: '#06b6d4', mime: ['application/octet-stream'] },
+  { ext: 'JSONL',    icon: '💙', color: '#60a5fa', mime: ['application/jsonlines', 'application/x-ndjson'] },
+  { ext: 'Notebook', icon: '📓', color: '#ff6f00', mime: ['application/x-ipynb+json'] },
 ];
 
 /** HTML accept attribute string for the hidden file input */
 export const FILE_INPUT_ACCEPT =
-  '.csv,.xlsx,.xls,.json,.pdf,.xml,.tsv,.txt,.parquet,.avro,.jsonl';
+  '.csv,.xlsx,.xls,.json,.pdf,.xml,.tsv,.txt,.parquet,.avro,.jsonl,.ipynb';
 
 // ─── Benchmark targets (LumindAd.jsx lines 851–854) ──────────────────────────
 
@@ -260,10 +261,12 @@ export function validateFiles(
     }
 
     const ext = f.name.split('.').pop()?.toLowerCase() ?? '';
+    // Normalise extension aliases to their ACCEPTED_FORMATS label
+    const normalised = (ext === 'xlsx' || ext === 'xls') ? 'Excel'
+                     : ext === 'ipynb' ? 'Notebook'
+                     : ext.toUpperCase();
     const supported = ACCEPTED_FORMATS.some(
-      (af) =>
-        af.ext.toLowerCase() === ext ||
-        (ext === 'xlsx' || ext === 'xls' ? af.ext === 'Excel' : false),
+      (af) => af.ext.toUpperCase() === normalised.toUpperCase(),
     );
     if (!supported) {
       errors.push(`"${f.name}" has unsupported format ".${ext}".`);
@@ -299,6 +302,7 @@ export function fmtSize(bytes: number): string {
 export function typeLabel(fileName: string): string {
   const ext = fileName.split('.').pop()?.toUpperCase() ?? '';
   if (ext === 'XLSX' || ext === 'XLS') return 'Excel';
+  if (ext === 'IPYNB') return 'Notebook';
   const match = ACCEPTED_FORMATS.find((f) => f.ext.toUpperCase() === ext);
   return match ? match.ext : ext;
 }
